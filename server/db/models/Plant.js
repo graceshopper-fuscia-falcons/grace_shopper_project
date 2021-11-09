@@ -22,6 +22,10 @@ const Plant = db.define('plant', {
         validate: {
             notEmpty: true
         }
+    },
+    imageUrl: {
+        type: Sequelize.TEXT,
+        defaultValue: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png',
     }
 })
 
