@@ -6,6 +6,7 @@ import {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn}) => (
   <div>
     <h1>FS-App-Template</h1>
+    <Link to = "/flowers">View Our Flowers!</Link>
     <nav>
       {isLoggedIn ? (
         <div>
