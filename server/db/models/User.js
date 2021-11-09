@@ -14,7 +14,23 @@ const User = db.define('user', {
   },
   password: {
     type: Sequelize.STRING,
+  },
+  isAdmin: {
+    type: Sequelize.BOOLEAN,
+    defaultValue: false
+  },
+  cart: {
+    type: Sequelize.ARRAY(Sequelize.INTEGER),
+    defaultValue: []
+  },
+  email: {
+    type: Sequelize.STRING,
+    defaultValue: '',
+    validate: {
+     isEmail: true
+    }
   }
+
 })
 
 module.exports = User
@@ -49,11 +65,11 @@ User.findByToken = async function(token) {
     const {id} = await jwt.verify(token, process.env.JWT)
     const user = User.findByPk(id)
     if (!user) {
-      throw 'nooo'
+      throw 'bad credentials'
     }
     return user
   } catch (ex) {
-    const error = Error('bad token')
+    const error = Error('bad credentials')
     error.status = 401
     throw error
   }
