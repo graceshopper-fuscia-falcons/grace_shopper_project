@@ -20,14 +20,15 @@ export class AllFlowers extends React.Component{
             )
         }
         return (
-            <div>
+            <div className="all-flowers-container">
                 {
                     this.state.flowers.map(flowerObj => {
                         return (
-                            <div>
+                            <div key ={flowerObj.id}>
                                 <div>{flowerObj.name}</div>
                                 <div>{flowerObj.flowerType}</div>
                                 <div>{flowerObj.flowerColor}</div>
+                                <img src ={flowerObj.imageUrl}></img>
                             </div>
                         )
                     })

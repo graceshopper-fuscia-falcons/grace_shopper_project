@@ -15,21 +15,21 @@ async function seed() {
     name: 'Blooming Love™',
     flowerColor: 'red',
     flowerType: 'Rose',
-    imageURL: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
+    imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
     }),
 
    Plant.create({
     name: 'Ocean Breeze Orchids',
     flowerColor: 'blue',
     flowerType: 'Orchids',
-    imageURL: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/140953mmdsv2wc2x.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
+    imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/140953mmdsv2wc2x.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
     }),
 
    Plant.create({
     name: 'Harvest Glow™',
     flowerColor: 'yellow',
     flowerType: 'Sunflowers',
-    imageURL: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/174303lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}'
+    imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/174303lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}'
     })
   ])
 
