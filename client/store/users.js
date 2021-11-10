@@ -44,18 +44,20 @@ export const updateUser = (user, history) => {
     }
 }
 
-export const addToCart = (user, itemToAdd) => {
+export const addToCart = (id, itemToAdd) => {
     return async (dispatch)  => {
+        const user = await Axios.get(`api/users/${id}`);
         const newUser = {...user, cart: [...cart, itemToAdd]}
-        const {data: updated} = await Axios.put(`api/users/${user.id}`, newUser);
+        const {data: updated} = await Axios.put(`api/users/${id}`, newUser);
         dispatch(_updateUser(updated))
     }
 }
 
-export const removeFromCart = (user, itemToRemove) => {
+export const removeFromCart = (id, itemToRemove) => {
     return async (dispatch)  => {
+        const user = await Axios.get(`api/users/${id}`);
         const newUser = {...user, cart: [...cart.filter(item => item != itemToRemove.id)]}
-        const {data: updated} = await Axios.put(`api/users/${user.id}`, newUser);
+        const {data: updated} = await Axios.put(`api/users/${id}`, newUser);
         dispatch(_updateUser(updated))
     }
 }
