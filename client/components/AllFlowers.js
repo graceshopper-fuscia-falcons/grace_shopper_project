@@ -1,20 +1,18 @@
 import React from 'react'
 import axios from "axios"
+import {connect} from "react-redux"
+import { fetchPlants } from '../store/plants'
+import { Link } from "react-router-dom";
 
 export class AllFlowers extends React.Component{
     constructor(){
         super()
-        this.state ={
-            flowers: []
-        } 
     }
-    async componentDidMount () {
-        const flowers = await axios.get("/api/plants")
-        const data = flowers.data
-        this.setState({flowers: data})
+    componentDidMount () {
+        const {data} = this.props.fetchPlants();
     }
     render(){
-        if(this.state.flowers.length < 1){
+        if(this.props.flowers.length < 1){
             return (
                 <h1>Loading...</h1>
             )
@@ -22,13 +20,14 @@ export class AllFlowers extends React.Component{
         return (
             <div className="all-flowers-container">
                 {
-                    this.state.flowers.map(flowerObj => {
+                    this.props.flowers.map(flowerObj => {
                         return (
                             <div key ={flowerObj.id}>
                                 <div>{flowerObj.name}</div>
                                 <div>{flowerObj.flowerType}</div>
                                 <div>{flowerObj.flowerColor}</div>
                                 <img src ={flowerObj.imageUrl}></img>
+                                <Link to={`/flowers/${flowerObj.id}`}>View Flower</Link>
                             </div>
                         )
                     })
@@ -39,3 +38,16 @@ export class AllFlowers extends React.Component{
     }
 }
 
+const mapState = (state) => {
+    return {
+        flowers: state.plantsReducer
+    }
+}
+
+const mapDispatch = (dispatch) => {
+    return {
+        fetchPlants: () => dispatch(fetchPlants())
+    }
+}
+
+export default connect(mapState, mapDispatch)(AllFlowers)
