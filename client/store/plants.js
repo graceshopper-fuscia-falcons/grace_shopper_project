@@ -28,9 +28,9 @@ export const createPlant = (plant, history) => {
     }
 }
 
-export const removePlant = (userId, history) => {
+export const removePlant = (plantId, history) => {
     return async (dispatch) => {
-        const {data: removed} = await Axios.delete(`/api/plants/${id}`);
+        const {data: removed} = await Axios.delete(`/api/plants/${plantId}`);
         dispatch(_removePlant(removed));
         history.push('/');
     }
