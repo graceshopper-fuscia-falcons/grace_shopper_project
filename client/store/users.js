@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import { action } from 'commander';
 
 ////// Action Types
 const SET_USERS = 'SET_USERS';
