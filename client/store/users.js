@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import { action } from 'commander';
 
 ////// Action Types
 const SET_USERS = 'SET_USERS';
@@ -38,9 +39,25 @@ export const removeUser = (userId, history) => {
 
 export const updateUser = (user, history) => {
     return async (dispatch)  => {
-        const {data: updated} = await Axios.put(`api/users/${user.id}`);
+        const {data: updated} = await Axios.put(`api/users/${user.id}`, user);
         dispatch(_updateUser(updated))
         history.push('/')
+    }
+}
+
+export const addToCart = (user, itemToAdd) => {
+    return async (dispatch)  => {
+        const newUser = {...user, cart: [...cart, itemToAdd]}
+        const {data: updated} = await Axios.put(`api/users/${user.id}`, newUser);
+        dispatch(_updateUser(updated))
+    }
+}
+
+export const removeFromCart = (user, itemToRemove) => {
+    return async (dispatch)  => {
+        const newUser = {...user, cart: [...cart.filter(item => item != itemToRemove.id)]}
+        const {data: updated} = await Axios.put(`api/users/${user.id}`, newUser);
+        dispatch(_updateUser(updated))
     }
 }
 
