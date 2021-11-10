@@ -2,13 +2,14 @@ import React from 'react'
 import axios from "axios"
 import {connect} from "react-redux"
 import { fetchPlants } from '../store/plants'
+import { Link } from "react-router-dom";
 
 export class AllFlowers extends React.Component{
     constructor(){
         super()
     }
-    async componentDidMount () {
-        const {data} = await this.props.fetchPlants();
+    componentDidMount () {
+        const {data} = this.props.fetchPlants();
     }
     render(){
         if(this.props.flowers.length < 1){
@@ -26,6 +27,7 @@ export class AllFlowers extends React.Component{
                                 <div>{flowerObj.flowerType}</div>
                                 <div>{flowerObj.flowerColor}</div>
                                 <img src ={flowerObj.imageUrl}></img>
+                                <Link to={`/flowers/${flowerObj.id}`}>View Flower</Link>
                             </div>
                         )
                     })

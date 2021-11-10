@@ -5,6 +5,7 @@ import { Login, Signup } from './components/AuthForm';
 import AllFlowers from './components/AllFlowers';
 import Home from './components/Home';
 import {me} from './store'
+import SingleFlower from './components/SingleFlower';
 
 /**
  * COMPONENT
@@ -29,7 +30,8 @@ class Routes extends Component {
             <Route path='/' exact component={ Login } />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
-            <Route path = "/flowers" component={AllFlowers} />
+            <Route exact path = "/flowers" component={AllFlowers} />
+            <Route exact path="/flowers/:flowersId" component={SingleFlower} />
           </Switch>
         )}
       </div>

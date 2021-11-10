@@ -10,3 +10,12 @@ router.get('/', async (req, res, next) => {
         next(error)
     }
 })
+
+router.get("/:plantId", async (req,res,next)=> {
+    try{
+        const singlePlant = await Plant.findByPk(req.params.plantId)
+        res.json(singlePlant)
+    }catch (error) {
+        next(error)
+    }
+})
