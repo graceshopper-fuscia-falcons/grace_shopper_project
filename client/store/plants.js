@@ -4,7 +4,7 @@ import Axios from 'axios';
 const SET_PLANTS = 'SET_PLANTS';
 const CREATE_PLANT = 'CREATE_PLANT';
 const REMOVE_PLANT = 'REMOVE_PLANT';
-const UPDATE_PLANT = 'UPUDATE_PLANT';
+const UPDATE_PLANT = 'UPDATE_PLANT';
 
 ////// Action Creators
 export const setPlants = (plants) => ({type: SET_PLANTS, plants});
