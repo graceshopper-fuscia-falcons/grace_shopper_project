@@ -6,6 +6,8 @@ import AllFlowers from './components/AllFlowers';
 import Home from './components/Home';
 import {me} from './store'
 import SingleFlower from './components/SingleFlower';
+import SingleUser from './components/SingleUser';
+import AllUsers from './components/AllUsers';
 
 /**
  * COMPONENT
@@ -32,6 +34,8 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path = "/flowers" component={AllFlowers} />
             <Route exact path="/flowers/:flowersId" component={SingleFlower} />
+            <Route exact path='/users' component={AllUsers} />
+            <Route exact path='/users/:userId' component={SingleUser} />
           </Switch>
         )}
       </div>
