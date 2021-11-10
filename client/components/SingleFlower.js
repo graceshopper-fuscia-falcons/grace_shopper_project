@@ -2,6 +2,7 @@ import React from 'react'
 import axios from "axios"
 import {connect} from "react-redux"
 import { fetchPlant } from '../store/singlePlant'
+import { Link } from 'react-router-dom'
 
 export class SingleFlower extends React.Component {
     constructor(){
@@ -17,7 +18,6 @@ export class SingleFlower extends React.Component {
     }
 
     render(){
-        console.log(this.props)
        const  {targetFlower} = this.props
         return (
             <div className="single-plant-container">
@@ -26,6 +26,7 @@ export class SingleFlower extends React.Component {
                 <div>{targetFlower.flowerColor}</div>
                 <img src ={targetFlower.imageUrl}></img>
                 <button>Add To Cart!</button>
+                <Link to={`/flowers`}>All Flowers</Link>
             </div>
         )
     }
