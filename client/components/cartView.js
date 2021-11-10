@@ -14,7 +14,7 @@
 //     }
 
 //     async componentDidUpdate() {
-//         if(prevProps.cart.length !== this.props.cart.length) {
+//         if (prevProps.cart.length !== this.props.cart.length) {
 //             await this.props.fetchcart();
 //         }
 //     }
@@ -28,6 +28,11 @@
 //     }
 
 //     render() {
+//         if (this.props.cartItems.length < 1) {
+//             return (
+//                 <div>Loading...</div>
+//             )
+//         }
 //         return (
 //             <main>
 //                 <ul>
