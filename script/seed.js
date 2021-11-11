@@ -49,6 +49,7 @@ async function seed() {
   //Adding items to cart
   const order1 = await Order.findByPk(1)
   const association1 = await order1.addPlants(1, {through: {price: 7000}})
+  const association4 = await order1.addPlants(3, {through: {price: 2000}})
   const order2 = await Order.findByPk(2)
   const association2 = await order2.addPlants(2, {through: {price: 2500}})
   const order3 = await Order.findByPk(3)
