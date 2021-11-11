@@ -5,12 +5,12 @@ import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
 import { fetchPlant } from '../store/singlePlant';
 import { removeFromCart } from '../store/users';
+import CartItem from './cartItem';
 
-export class cartView extends React.Component {
+export class CartView extends React.Component {
     constructor() {
         super();
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
-        this.getCurrentPlantItem = this.getCurrentPlantItem.bind(this);
         this.state = {
             userType: '',
             cart: []
@@ -53,11 +53,6 @@ export class cartView extends React.Component {
         }
     }
 
-    async getCurrentPlantItem(id) {
-        await this.props.fetchPlant(id);
-        return;
-    }
-
     async handleRemoveItem(event) {
         if (this.state.userType === 'guest') {
             // Handle remove from local storage here
@@ -79,28 +74,17 @@ export class cartView extends React.Component {
                 <h1>Shopping Cart</h1>
                 <ul className='cartUL'>
                     {this.state.cart.map(item => {
-                        {this.getCurrentPlantItem(item.plantId)}
-                        {totalPrice = totalPrice + item.price}
+                        { totalPrice = totalPrice + item.price }
                         return (
                             <li key={item.plantId}>
-                                <div className='cartItemView'>
-                                    <div className="imageContainer">
-                                        <Link to={`/flowers/${item.plantId}`}><img className="ItemPic" src={this.props.currentPlant.imageUrl} /></Link>
-                                    </div>
-                                    <div className='ItemInfo'>
-                                        <h2><Link to={`/flowers/${item.plantId}`}>{this.props.currentPlant.name}</Link></h2>
-                                        <h2>${item.price / 100}</h2>
-                                        <h4>Qty: {item.quantity}</h4>
-                                        <button name={item.plantId} onClick={this.handleRemoveItem}>Remove From Cart</button>
-                                    </div>
-                                </div>
+                                <CartItem userId={this.props.userId} item={item} />
                             </li>
                         )
                     })}
                 </ul>
                 <div>
-                    <h2>Subtotal ({this.props.cart.length} items): ${totalPrice/100}</h2>
-                    <Link to='/'><button>Proceed to Checkout</button></Link>
+                    <h2>Subtotal ({this.props.cart.length} items): ${totalPrice / 100}</h2>
+                    <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
@@ -124,4 +108,4 @@ const mapDispatch = (dispatch) => {
     }
 }
 
-export default connect(mapState, mapDispatch)(cartView);
+export default connect(mapState, mapDispatch)(CartView);
