@@ -8,6 +8,7 @@ import {me} from './store'
 import SingleFlower from './components/SingleFlower';
 import SingleUser from './components/SingleUser';
 import AllUsers from './components/AllUsers';
+import CartView from './components/cartView';
 
 /**
  * COMPONENT
@@ -29,6 +30,7 @@ class Routes extends Component {
           <Route exact path="/flowers/:flowersId" component={SingleFlower} />
           <Route exact path='/users' component={AllUsers} />
           <Route exact path='/users/:userId' component={SingleUser} />
+          <Route path='/cart' component={CartView} />
             <Redirect to="/home" />
           </Switch>
         ) : (
@@ -40,6 +42,7 @@ class Routes extends Component {
             <Route exact path="/flowers/:flowersId" component={SingleFlower} />
             <Route exact path='/users' component={AllUsers} />
             <Route exact path='/users/:userId' component={SingleUser} />
+            <Route path='/cart' component={CartView} />
           </Switch>
         )}
       </div>

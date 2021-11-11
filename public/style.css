@@ -19,3 +19,49 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+/* Cart Stuff */
+.cartUL {
+  list-style-type: none;
+  border-bottom: solid 1px gray;
+}
+
+.cartItemView {
+  display: flex;
+  align-items: center;
+}
+
+.imageContainer {
+  margin-right: 20px;
+}
+
+.ItemPic {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.ItemInfo {
+  flex-grow: 1;
+}
+
+.CartQtySelect {
+  display: flex;
+  align-items: center;
+}
+
+#qty {
+  max-height: 30px;
+}
+
+.ProceedToCheckoutButton {
+  min-height: 30px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: right;
+}
+
+.RemoveFromCartButton {
+  
+}
