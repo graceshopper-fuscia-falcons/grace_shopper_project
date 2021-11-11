@@ -15,7 +15,7 @@ export class CartItem extends React.Component {
     }
 
     async componentDidMount() {
-        await this.props.fetchPlant(this.props.userId);
+        await this.props.fetchPlant(this.props.item.plantId);
         this.setState({
             plant: this.props.plant,
             QTY: this.props.item.quantity
