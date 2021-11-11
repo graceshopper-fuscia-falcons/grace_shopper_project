@@ -19,3 +19,22 @@ form div {
   margin: 1em;
   display: inline-block;
 }
+
+/* Cart Stuff */
+.cartUL {
+  list-style-type: none;
+  border-bottom: solid 1px gray;
+}
+
+.cartItemView {
+  display: flex;
+}
+
+.imageContainer {
+  margin: 20px;
+}
+
+.ItemPic {
+  max-width: 200px;
+  max-height: 200px;
+}
