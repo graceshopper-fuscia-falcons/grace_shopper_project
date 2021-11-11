@@ -3,11 +3,14 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
+import { fetchPlant } from '../store/singlePlant';
+import { removeFromCart } from '../store/users';
 import CartItem from './cartItem';
 
 export class CartView extends React.Component {
     constructor() {
         super();
+        this.handleRemoveItem = this.handleRemoveItem.bind(this);
         this.state = {
             userType: '',
             cart: []
@@ -50,8 +53,23 @@ export class CartView extends React.Component {
         }
     }
 
+    async handleRemoveItem(event) {
+        if (this.state.userType === 'guest') {
+            // Handle remove from local storage here
+        } else if (this.state.userType === 'member') {
+            await this.props.removeFromCart(this.props.user.id, event.target.name);
+        }
+    }
+
     render() {
-        if (this.state.cart.length < 1) {
+        if(this.props.cart){
+            if(this.props.cart.length <1){
+                return (
+                    <div>Empty Cart</div>
+                )
+            }
+        }
+        else if (this.state.cart.length < 1) {
             return (
                 <div>Loading...</div>
             )
@@ -83,14 +101,17 @@ export class CartView extends React.Component {
 const mapState = (state) => {
     return {
         cart: state.cartReducer,
-        userId: state.auth.id
+        userId: state.auth.id,
+        currentPlant: state.singlePlantReducer
     }
 }
 
 const mapDispatch = (dispatch) => {
     return {
         fetchCart: (id) => dispatch(fetchCart(id)),
-        fetchMe: () => dispatch(me())
+        fetchMe: () => dispatch(me()),
+        fetchPlant: (id) => dispatch(fetchPlant(id)),
+        removeFromCart: (id, item) => dispatch(removeFromCart(id, item))
     }
 }
 
