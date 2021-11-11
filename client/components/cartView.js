@@ -3,14 +3,11 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
-import { fetchPlant } from '../store/singlePlant';
-import { removeFromCart } from '../store/users';
 import CartItem from './cartItem';
 
 export class CartView extends React.Component {
     constructor() {
         super();
-        this.handleRemoveItem = this.handleRemoveItem.bind(this);
         this.state = {
             userType: '',
             cart: []
@@ -50,14 +47,6 @@ export class CartView extends React.Component {
                 userType,
                 cart
             });
-        }
-    }
-
-    async handleRemoveItem(event) {
-        if (this.state.userType === 'guest') {
-            // Handle remove from local storage here
-        } else if (this.state.userType === 'member') {
-            await this.props.removeFromCart(this.props.user.id, event.target.name);
         }
     }
 
@@ -101,17 +90,14 @@ export class CartView extends React.Component {
 const mapState = (state) => {
     return {
         cart: state.cartReducer,
-        userId: state.auth.id,
-        currentPlant: state.singlePlantReducer
+        userId: state.auth.id
     }
 }
 
 const mapDispatch = (dispatch) => {
     return {
         fetchCart: (id) => dispatch(fetchCart(id)),
-        fetchMe: () => dispatch(me()),
-        fetchPlant: (id) => dispatch(fetchPlant(id)),
-        removeFromCart: (id, item) => dispatch(removeFromCart(id, item))
+        fetchMe: () => dispatch(me())
     }
 }
 
