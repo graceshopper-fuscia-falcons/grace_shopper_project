@@ -18,7 +18,6 @@ async function seed() {
   const users = [cody, murphy, moe]
   
   //Creating Plants
-  const plants = []
   const bloomingLove = await Plant.create({
     name: 'Blooming Love™',
     flowerColor: 'red',
@@ -26,8 +25,8 @@ async function seed() {
     price: 7000,
     stock: 100,
     imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
-    })
-
+  })
+  
   const oceanBreezeOrchids = await Plant.create({
     name: 'Ocean Breeze Orchids',
     flowerColor: 'blue',
@@ -35,8 +34,8 @@ async function seed() {
     price: 5000,
     stock: 80,
     imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/140953mmdsv2wc2x.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
-    })
-
+  })
+  
   const harvestGlow = await Plant.create({
     name: 'Harvest Glow™',
     flowerColor: 'yellow',
@@ -44,10 +43,16 @@ async function seed() {
     price: 2500,
     stock: 40,
     imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/174303lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}'
-    })
-
-
-
+  })
+  const plants = [bloomingLove, oceanBreezeOrchids, harvestGlow]
+  
+  //Adding items to cart
+  const order1 = await Order.findByPk(1)
+  const association1 = await order1.addPlants(1, {through: {price: 7000}})
+  const order2 = await Order.findByPk(2)
+  const association2 = await order2.addPlants(2, {through: {price: 2500}})
+  const order3 = await Order.findByPk(3)
+  const association3 = await order3.addPlants(3, {through: {price: 2000}})
 
   console.log(`seeded ${users.length} users`)
   console.log(`seeded ${plants.length} plants`)
