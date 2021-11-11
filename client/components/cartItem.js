@@ -44,7 +44,6 @@ export class CartItem extends React.Component {
         }
 
         const item = this.props.item;
-        console.log('rendering')
         return (
             <div className='cartItemView'>
                 <div className="imageContainer">
