@@ -58,3 +58,77 @@ router.get('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (
     next(err)
   }
 } )
+
+
+router.get('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+  try{
+    const targetOrder = await Order.findOne({
+      where:{
+        userId: req.params.userId,
+        isCart: true
+      }
+    })
+    const orderedPlant = await OrderPlant.findAll({
+      where:{
+          orderId: targetOrder.id,
+          plantId: req.params.plantId
+      }
+    })
+    res.json(orderedPlant)
+  }catch(err){
+    next(err)
+  }
+} )
+
+router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+  try{
+    const targetOrder = await Order.findOne({
+      where:{
+        userId: req.params.userId,
+        isCart: true
+      }
+    })
+    await targetOrder.removePlants(req.params.plantId)
+    res.json(targetOrder)
+  }catch(err){
+    next(err)
+  }
+} )
+
+router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+  try{
+    const targetPlant = await Plant.findByPk(req.params.plantId)
+    let price = targetPlant.price
+    let quantity = req.body.qty
+    const targetOrder = await Order.findOne({
+      where:{
+        userId: req.params.userId,
+        isCart: true
+      }
+    })
+
+      await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: quantity}})
+      res.json(targetOrder)
+  }catch(err){
+    next(err)
+  }
+} )
+
+// router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+//   try{
+//     const targetPlant = await Plant.findByPk(req.params.plantId)
+//     let price = targetPlant.price
+//     let quantity = req.body.qty
+//     const targetOrder = await Order.findOne({
+//       where:{
+//         userId: req.params.userId,
+//         isCart: true
+//       }
+//     })
+//     await targetOrder.removePlants(req.params.plantId)
+//     await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: quantity}})
+//     res.json(targetOrder)
+//   }catch(err){
+//     next(err)
+//   }
+// } )
