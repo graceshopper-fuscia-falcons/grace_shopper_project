@@ -25,12 +25,9 @@ const isAdmin = (req, res, next) => {
 };
 
 const isAdminOrCurrentUser = async (req, res, next) => {
-  console.log('Req params', req.params.userId);
-  console.log('Req headers', req.headers);
   const token= req.headers.authorization;
   const {id} = await jwt.verify(token, process.env.JWT)
-  console.log('id', id);
-  if(req.params.userId === id || req.user.isAdmin){
+  if(parseInt(req.params.userId) === id || req.user.isAdmin){
     next();
   }
   else {
