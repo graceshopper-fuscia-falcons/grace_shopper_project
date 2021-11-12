@@ -3,10 +3,7 @@ const { models: { User, Order }} = require('../db')
 const OrderPlant = require('../db/models/OrderPlant')
 const { requireToken, isAdmin, isAdminOrCurrentUser }= require('./gatekeepingMiddleware');
 
-
-
 module.exports = router
-
 
 router.get('/', requireToken, isAdmin, async (req, res, next) => {
 

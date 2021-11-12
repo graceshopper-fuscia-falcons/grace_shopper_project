@@ -52,6 +52,7 @@ export const updateUser = (user, history) => {
     return async (dispatch)  => {
         const token = window.localStorage.getItem('token');
         const {data: updated} = await Axios.put(`api/users/${user.id}`, {
+            user,
             headers: {
                 authorization: token
             }

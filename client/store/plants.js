@@ -7,22 +7,28 @@ const REMOVE_PLANT = 'REMOVE_PLANT';
 const UPDATE_PLANT = 'UPDATE_PLANT';
 
 ////// Action Creators
-export const setPlants = (plants) => ({type: SET_PLANTS, plants});
-export const _createPlant = (plant) => ({type: CREATE_PLANT, plant});
-export const _removePlant = (plant) => ({type: REMOVE_PLANT, plant});
-export const _updatePlant = (plant) => ({type: UPDATE_PLANT, plant});
+export const setPlants = (plants) => ({ type: SET_PLANTS, plants });
+export const _createPlant = (plant) => ({ type: CREATE_PLANT, plant });
+export const _removePlant = (plant) => ({ type: REMOVE_PLANT, plant });
+export const _updatePlant = (plant) => ({ type: UPDATE_PLANT, plant });
 
 ////// Async Creators
 export const fetchPlants = () => {
     return async (dispatch) => {
-        const {data: plants} = await Axios.get('/api/plants');
+        const { data: plants } = await Axios.get('/api/plants');
         dispatch(setPlants(plants))
     }
 }
 
 export const createPlant = (plant, history) => {
     return async (dispatch) => {
-        const {data: created} = await Axios.post('/api/plants', plant);
+        const token = window.localStorage.getItem('token');
+        const { data: created } = await Axios.post('/api/plants', {
+            plant,
+            headers: {
+                authorization: token
+            }
+        });
         dispatch(_createPlant(created));
         history.push('/');
     }
@@ -30,15 +36,26 @@ export const createPlant = (plant, history) => {
 
 export const removePlant = (plantId, history) => {
     return async (dispatch) => {
-        const {data: removed} = await Axios.delete(`/api/plants/${plantId}`);
+        const token = window.localStorage.getItem('token');
+        const { data: removed } = await Axios.delete(`/api/plants/${plantId}`, {
+            headers: {
+                authorization: token
+            }
+        });
         dispatch(_removePlant(removed));
         history.push('/');
     }
 }
 
 export const updatePlant = (plant, history) => {
-    return async (dispatch)  => {
-        const {data: updated} = await Axios.put(`api/plants/${plant.id}`, plant);
+    return async (dispatch) => {
+        const token = window.localStorage.getItem('token');
+        const { data: updated } = await Axios.put(`api/plants/${plant.id}`, {
+            plant,
+            headers: {
+                authorization: token
+            }
+        });
         dispatch(_updatePlant(updated))
         history.push('/')
     }
@@ -46,7 +63,7 @@ export const updatePlant = (plant, history) => {
 
 ////// Reducer
 export default function (state = [], action) {
-    switch(action.type) {
+    switch (action.type) {
         case SET_PLANTS:
             return action.plants;
         case CREATE_PLANT:
@@ -55,7 +72,7 @@ export default function (state = [], action) {
             return [...state.filter(plant => plant.id !== action.plant.id)];
         case UPDATE_PLANT:
             return state.map(plant => plant.id === action.plant.id ? action.plant : plant);
-        default: 
+        default:
             return state;
     }
 }
