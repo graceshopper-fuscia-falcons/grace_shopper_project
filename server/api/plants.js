@@ -11,11 +11,37 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.get("/:plantId", async (req,res,next)=> {
+router.post('/', async (req, res, next) => {
+    try {
+        res.status(201).send(await Plant.create(req.body));
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.get("/:plantId", async (req, res, next) => {
     try{
         const singlePlant = await Plant.findByPk(req.params.plantId)
         res.json(singlePlant)
-    }catch (error) {
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.put('/:plantId', async (req, res, next) => {
+    try {
+        const plant = await Plant.findByPk(req.params.plantId);
+        res.send(await plant.update(req.body));
+    } catch (error) {
+        next(error)
+    }
+})
+
+router.delete('/:plantId', async (req, res, next) => {
+    try {
+        const plant = await Plant.findByPk(req.params.plantId);
+        res.send(await plant.destroy());
+    } catch (error) {
         next(error)
     }
 })

@@ -38,7 +38,7 @@ export const removePlant = (plantId, history) => {
 
 export const updatePlant = (plant, history) => {
     return async (dispatch)  => {
-        const {data: updated} = await Axios.put(`api/plants/${plant.id}`);
+        const {data: updated} = await Axios.put(`api/plants/${plant.id}`, plant);
         dispatch(_updatePlant(updated))
         history.push('/')
     }
