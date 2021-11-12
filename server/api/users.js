@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { models: { User, Order }} = require('../db')
 const OrderPlant = require('../db/models/OrderPlant')
-const { requireToken, isAdmin }= require('./gatekeepingMiddleware');
+const { requireToken, isAdmin, isAdminOrCurrentUser }= require('./gatekeepingMiddleware');
 
 
 
@@ -25,7 +25,7 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/:userId', requireToken, isAdmin, async (req, res, next) => {
+router.get('/:userId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
   try {
     const singleUser = await User.findOne({
       where:{
@@ -40,7 +40,7 @@ router.get('/:userId', requireToken, isAdmin, async (req, res, next) => {
     }
 })
 
-router.get('/:userId/current-order', requireToken, async (req, res, next) => {
+router.get('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{

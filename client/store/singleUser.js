@@ -9,7 +9,12 @@ export const setUser = (user) => ({type: SET_USER, user})
 ////// Async Creators
 export const fetchUser = (userId) => {
     return async (dispatch) => {
-        const {data: user} = await Axios.get(`/api/users/${userId}`);
+      const token = window.localStorage.getItem('token');
+        const {data: user} = await Axios.get(`/api/users/${userId}`, {
+          headers: {
+              authorization: token
+          }
+      });
         dispatch(setUser(user));
     }
 }
