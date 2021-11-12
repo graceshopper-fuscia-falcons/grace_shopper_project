@@ -15,7 +15,13 @@ export const _updateUser = (user) => ({type: UPDATE_USER, user});
 ////// Async Creators
 export const fetchUsers = () => {
     return async (dispatch) => {
-        const {data: users} = await Axios.get('/api/users');
+        const token = window.localStorage.getItem('token');
+
+        const {data: users} = await Axios.get('/api/users', {
+            headers: {
+                authorization: token
+            }
+        });
         dispatch(setUsers(users))
     }
 }
@@ -30,7 +36,13 @@ export const createUser = (user, history) => {
 
 export const removeUser = (userId, history) => {
     return async (dispatch) => {
-        const {data: removed} = await Axios.delete(`/api/users/${userId}`);
+        const token = window.localStorage.getItem('token');
+
+        const {data: removed} = await Axios.delete(`/api/users/${userId}`, {
+            headers: {
+                authorization: token
+            }
+        });
         dispatch(_removeUser(removed));
         history.push('/');
     }
@@ -38,7 +50,13 @@ export const removeUser = (userId, history) => {
 
 export const updateUser = (user, history) => {
     return async (dispatch)  => {
-        const {data: updated} = await Axios.put(`api/users/${user.id}`);
+        const token = window.localStorage.getItem('token');
+        const {data: updated} = await Axios.put(`api/users/${user.id}`, {
+            headers: {
+                authorization: token
+            }
+        }
+        );
         dispatch(_updateUser(updated))
         history.push('/')
     }
@@ -55,7 +73,7 @@ export default function (state = [], action) {
             return [...state.filter(user => user.id !== action.user.id)];
         case UPDATE_USER:
             return state.map(user => user.id === action.user.id ? action.user : user);
-        default: 
+        default:
             return state;
     }
 }

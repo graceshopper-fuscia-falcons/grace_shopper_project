@@ -19,6 +19,7 @@ export class SingleFlower extends React.Component {
 
     render(){
        const  {targetFlower} = this.props
+       console.log("PROPS", this.props);
         return (
             <div className="single-plant-container">
                 <div>{targetFlower.name}</div>
