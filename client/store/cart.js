@@ -34,14 +34,14 @@ export const addItem = (userId, plantId) => {
 
 export const removeItem = (userId, plantId) => {
   return async (dispatch) => {
-      const { data: removedItem } = await Axios.put(`/api/users/${userId}/current-order`, plantId)
+      const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order`, plantId)
       dispatch(_removeItem(removedItem))
   }
 }
 
 export const updateQty = (userId, plantId, newQty) => {
   return async (dispatch) => {
-      const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order`, {plantId, newQty})
+      const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, newQty)
       dispatch(_updateQty(updatedItem))
   }
 }
