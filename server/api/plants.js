@@ -1,5 +1,7 @@
 const router = require('express').Router()
 const { models: { Plant }} = require('../db')
+const { requireToken, isAdmin }= require('./gatekeepingMiddleware');
+
 module.exports = router
 
 router.get('/', async (req, res, next) => {
@@ -11,7 +13,7 @@ router.get('/', async (req, res, next) => {
     }
 })
 
-router.post('/', async (req, res, next) => {
+router.post('/', requireToken, isAdmin, async (req, res, next) => {
     try {
         res.status(201).send(await Plant.create(req.body));
     } catch (error) {
@@ -28,7 +30,7 @@ router.get("/:plantId", async (req, res, next) => {
     }
 })
 
-router.put('/:plantId', async (req, res, next) => {
+router.put('/:plantId', requireToken, isAdmin, async (req, res, next) => {
     try {
         const plant = await Plant.findByPk(req.params.plantId);
         res.send(await plant.update(req.body));
@@ -37,7 +39,7 @@ router.put('/:plantId', async (req, res, next) => {
     }
 })
 
-router.delete('/:plantId', async (req, res, next) => {
+router.delete('/:plantId', requireToken, isAdmin, async (req, res, next) => {
     try {
         const plant = await Plant.findByPk(req.params.plantId);
         res.send(await plant.destroy());

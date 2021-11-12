@@ -27,7 +27,7 @@ export const fetchCart = (userId) => {
 
 export const addItem = (userId, plantId) => {
   return async (dispatch) => {
-      const { data: addedItem } = await Axios.put(`/api/users/${userId}/current-order`, plantId)
+      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order`, {plantId, qty})
       dispatch(_addItem(addedItem))
   }
 }
