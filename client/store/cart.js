@@ -9,7 +9,13 @@ export const setCart = (cart) => ({ type: SET_CART, cart });
 ////// Async Creators
 export const fetchCart = (id) => {
   return async (dispatch) => {
-    const { data: cart } = await Axios.get(`/api/users/${id}/current-order`);
+    const token = window.localStorage.getItem('token');
+
+    const { data: cart } = await Axios.get(`/api/users/${id}/current-order`, {
+      headers: {
+          authorization: token
+      }
+  });
     dispatch(setCart(cart));
   }
 }
