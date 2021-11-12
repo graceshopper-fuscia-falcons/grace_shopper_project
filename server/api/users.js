@@ -1,14 +1,21 @@
 const router = require('express').Router()
 const { models: { User, Order }} = require('../db')
 const OrderPlant = require('../db/models/OrderPlant')
+const { requireToken, isAdmin }= require('./gatekeepingMiddleware');
+
+
+
 module.exports = router
 
-router.get('/', async (req, res, next) => {
+
+router.get('/', requireToken, isAdmin, async (req, res, next) => {
+
   try {
     const users = await User.findAll({
       // explicitly select only the id and username fields - even though
       // users' passwords are encrypted, it won't help if we just
       // send everything to anyone who asks!
+
       include: Order,
       attributes: ['id', 'username']
     })
@@ -18,13 +25,12 @@ router.get('/', async (req, res, next) => {
   }
 })
 
-
-router.get('/:userId', async (req, res, next) => {
+router.get('/:userId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const singleUser = await User.findOne({
       where:{
         id: req.params.userId
-      }, 
+      },
       include: Order
     })
     res.json(singleUser);
@@ -34,7 +40,7 @@ router.get('/:userId', async (req, res, next) => {
     }
 })
 
-router.get('/:userId/current-order', async (req, res, next) => {
+router.get('/:userId/current-order', requireToken, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{
