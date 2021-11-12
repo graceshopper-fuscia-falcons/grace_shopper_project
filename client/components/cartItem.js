@@ -10,15 +10,21 @@ export class CartItem extends React.Component {
         this.handleChange = this.handleChange.bind(this);
         this.state = {
             plant: {},
+            plantId: undefined,
+            price: undefined,
             qty: undefined
         }
     }
 
     async componentDidMount() {
-        await this.props.fetchPlant(this.props.item.plantId);
+        const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
+        const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
+        await this.props.fetchPlant(plantId);
         this.setState({
             plant: this.props.plant,
-            QTY: this.props.item.quantity
+            plantId: plantId,
+            price,
+            qty: this.props.item.quantity
         })
     }
 
@@ -47,11 +53,11 @@ export class CartItem extends React.Component {
         return (
             <div className='cartItemView'>
                 <div className="imageContainer">
-                    <Link to={`/flowers/${item.plantId}`}><img className="ItemPic" src={this.state.plant.imageUrl} /></Link>
+                    <Link to={`/flowers/${this.state.plantId}`}><img className="ItemPic" src={this.state.plant.imageUrl} /></Link>
                 </div>
                 <div className='ItemInfo'>
-                    <h2><Link to={`/flowers/${item.plantId}`}>{this.state.plant.name}</Link></h2>
-                    <h2>${item.price / 100}</h2>
+                    <h2><Link to={`/flowers/${this.state.plantId}`}>{this.state.plant.name}</Link></h2>
+                    <h2>${this.state.price / 100}</h2>
                     <div className='CartQtySelect'>
                         <div className="label">
                             <h4>Qty: </h4>
@@ -62,13 +68,12 @@ export class CartItem extends React.Component {
                             min="0"
                             max="10"                        // Will be stock
                             name="qty"
-                            value={this.state.qty}
+                            value={item.quantity}
                             onChange={this.handleChange}
                         ></input>
                     </div>
-                    <h4>Qty: {item.quantity}</h4>
                     <div className='buttonContainer'>
-                        <button className='RemoveFromCartButton' name={item.plantId} onClick={this.handleRemoveItem}>Remove From Cart</button>
+                        <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.handleRemoveItem}>Remove From Cart</button>
                     </div>
                 </div>
             </div>

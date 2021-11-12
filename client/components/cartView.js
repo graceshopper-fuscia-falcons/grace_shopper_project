@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
 import CartItem from './cartItem';
+import ls from 'local-storage';
 
 export class CartView extends React.Component {
     constructor() {
@@ -16,13 +17,15 @@ export class CartView extends React.Component {
 
     async componentDidMount() {
         const currentUser = await this.props.fetchMe();
+        console.log(currentUser)
         const userType = currentUser ? 'member' : 'guest';
         let cart = [];
         if (userType === 'guest') {
-            /* code to pull data from local storage */
+            cart = ls.get('cart');
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
             cart = this.props.cart;
+            console.log(cart)
         }
 
         this.setState({
@@ -37,7 +40,7 @@ export class CartView extends React.Component {
             const userType = currentUser ? 'member' : 'guest';
             let cart = [];
             if (userType === 'guest') {
-                /* code to pull data from local storage */
+                cart = ls.get('cart');
             } else if (userType === 'member') {
                 await this.props.fetchCart(this.props.userId);
                 cart = this.props.cart;
@@ -51,8 +54,8 @@ export class CartView extends React.Component {
     }
 
     render() {
-        if(this.props.cart){
-            if(this.props.cart.length <1){
+        if (this.state.cart < 1) {
+            if (this.state.cart.length < 1) {
                 return (
                     <div>Empty Cart</div>
                 )
@@ -65,21 +68,46 @@ export class CartView extends React.Component {
         }
 
         let totalPrice = 0;
+        let totalItems = 0;
+        if (this.state.userType === 'guest') {
+            return (
+                <main>
+                    <h1>Shopping Cart</h1>
+                    <ul className='cartUL'>
+                        {this.state.cart.map(item => {
+                            { totalPrice = totalPrice + (item.flower.price * item.quantity) }
+                            { totalItems += item.quantity }
+                            return (
+                                <li key={item.flower.plantId}>
+                                    <CartItem userId={this.props.userId} userType={'guest'} item={item} />
+                                </li>
+                            )
+                        })}
+                    </ul>
+                    <div>
+                        <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
+                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                    </div>
+                </main>
+            )
+        }
+
         return (
             <main>
                 <h1>Shopping Cart</h1>
                 <ul className='cartUL'>
                     {this.state.cart.map(item => {
-                        { totalPrice = totalPrice + item.price }
+                        { totalPrice = totalPrice + (item.price * item.quantity)}
+                        { totalItems += item.quantity }
                         return (
                             <li key={item.plantId}>
-                                <CartItem userId={this.props.userId} item={item} />
+                                <CartItem userId={this.props.userId} userType={'member'} item={item} />
                             </li>
                         )
                     })}
                 </ul>
                 <div>
-                    <h2>Subtotal ({this.props.cart.length} items): ${totalPrice / 100}</h2>
+                    <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
                     <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
