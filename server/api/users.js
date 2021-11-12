@@ -1,5 +1,5 @@
 const router = require('express').Router()
-const { models: { User, Order }} = require('../db')
+const { models: { User, Order, Plant }} = require('../db')
 const OrderPlant = require('../db/models/OrderPlant')
 const { requireToken, isAdmin, isAdminOrCurrentUser }= require('./gatekeepingMiddleware');
 
@@ -99,36 +99,30 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
   try{
     const targetPlant = await Plant.findByPk(req.params.plantId)
     let price = targetPlant.price
-    let quantity = req.body.qty
+    let addedQuantity = parseInt(req.body.qty)
     const targetOrder = await Order.findOne({
       where:{
         userId: req.params.userId,
         isCart: true
       }
     })
-
-      await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: quantity}})
-      res.json(targetOrder)
+    const orderPlantThru = await OrderPlant.findOne({
+      where: {
+        orderId: targetOrder.id,
+        plantId: req.params.plantId
+      }
+    })
+    let updatedQuantity = 0
+    if(orderPlantThru){
+      let prevQuantity = parseInt(orderPlantThru.quantity)
+      updatedQuantity = prevQuantity + addedQuantity
+      await targetOrder.removePlants(req.params.plantId)
+    }else{
+      updatedQuantity = addedQuantity
+    }
+    await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
+    res.json(targetOrder)
   }catch(err){
     next(err)
   }
 } )
-
-// router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
-//   try{
-//     const targetPlant = await Plant.findByPk(req.params.plantId)
-//     let price = targetPlant.price
-//     let quantity = req.body.qty
-//     const targetOrder = await Order.findOne({
-//       where:{
-//         userId: req.params.userId,
-//         isCart: true
-//       }
-//     })
-//     await targetOrder.removePlants(req.params.plantId)
-//     await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: quantity}})
-//     res.json(targetOrder)
-//   }catch(err){
-//     next(err)
-//   }
-// } )
