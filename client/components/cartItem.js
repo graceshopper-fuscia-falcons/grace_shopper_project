@@ -20,6 +20,7 @@ export class CartItem extends React.Component {
         const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
         const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
         await this.props.fetchPlant(plantId);
+        console.log(this.props.plant)
         this.setState({
             plant: this.props.plant,
             plantId: plantId,
@@ -28,13 +29,25 @@ export class CartItem extends React.Component {
         })
     }
 
-    // async handleRemoveItem(event) {
-    //     if (this.state.userType === 'guest') {
-    //         // Handle remove from local storage here
-    //     } else if (this.state.userType === 'member') {
-    //         await this.props.removeFromCart(this.props.user.id, event.target.name);
-    //     }
-    // }
+    async componentDidUpdate() {
+        if (this.props.userType === 'guest') {
+            if (this.props.item.flower.id != this.state.plantId) {
+                console.log('BOLLO')
+                const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
+                const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
+                await this.props.fetchPlant(plantId);
+                this.setState({
+                    plant: this.props.plant,
+                    plantId: plantId,
+                    price,
+                    qty: this.props.item.quantity
+                })
+            }
+        }
+
+
+
+    }
 
     handleChange(event) {
         this.setState({
@@ -73,7 +86,7 @@ export class CartItem extends React.Component {
                         ></input>
                     </div>
                     <div className='buttonContainer'>
-                        <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.handleRemoveItem}>Remove From Cart</button>
+                        <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
                     </div>
                 </div>
             </div>

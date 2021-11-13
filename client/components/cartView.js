@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
@@ -9,6 +9,7 @@ import ls from 'local-storage';
 export class CartView extends React.Component {
     constructor() {
         super();
+        this.handleRemoveItem = this.handleRemoveItem.bind(this);
         this.state = {
             userType: '',
             cart: []
@@ -17,7 +18,6 @@ export class CartView extends React.Component {
 
     async componentDidMount() {
         const currentUser = await this.props.fetchMe();
-        console.log(currentUser)
         const userType = currentUser ? 'member' : 'guest';
         let cart = [];
         if (userType === 'guest') {
@@ -25,7 +25,6 @@ export class CartView extends React.Component {
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
             cart = this.props.cart;
-            console.log(cart)
         }
 
         this.setState({
@@ -34,22 +33,39 @@ export class CartView extends React.Component {
         });
     }
 
-    async componentDidUpdate(prevProps) {
-        if (prevProps.cart.length !== this.props.cart.length) {
-            const currentUser = await this.props.fetchMe();
-            const userType = currentUser ? 'member' : 'guest';
-            let cart = [];
-            if (userType === 'guest') {
-                cart = ls.get('cart');
-            } else if (userType === 'member') {
-                await this.props.fetchCart(this.props.userId);
-                cart = this.props.cart;
-            }
+    // async componentDidUpdate(prevProps, prevState) {
+    //     console.log('prevState',prevState)
+    //     console.log('state',this.state.cart)
+    //     if (prevProps.cart.length !== this.props.cart.length || prevState.cart.length !== this.state.cart.length) {
+    //         const currentUser = await this.props.fetchMe();
+    //         const userType = currentUser ? 'member' : 'guest';
+    //         let cart = [];
+    //         if (userType === 'guest') {
+    //             cart = ls.get('cart');
+    //         } else if (userType === 'member') {
+    //             await this.props.fetchCart(this.props.userId);
+    //             cart = this.props.cart;
+    //         }
 
+    //         this.setState({
+    //             userType,
+    //             cart
+    //         });
+    //     }
+    // }
+
+    async handleRemoveItem(event) {
+        if (this.state.userType === 'guest') {
+            // Handle remove from local storage here
+            let cart = this.state.cart;
+            cart = [...cart.filter(item => item.flower.id != event.target.name)]
+            ls.set('cart', cart)
             this.setState({
-                userType,
+                userType: this.state.userType,
                 cart
-            });
+            })
+        } else if (this.state.userType === 'member') {
+            await this.props.removeFromCart(this.props.user.id, event.target.name);
         }
     }
 
@@ -79,7 +95,7 @@ export class CartView extends React.Component {
                             { totalItems += item.quantity }
                             return (
                                 <li key={item.flower.plantId}>
-                                    <CartItem userId={this.props.userId} userType={'guest'} item={item} />
+                                    <CartItem userId={this.props.userId} handleRemoveItem={this.handleRemoveItem} userType={'guest'} item={item} />
                                 </li>
                             )
                         })}
@@ -97,7 +113,7 @@ export class CartView extends React.Component {
                 <h1>Shopping Cart</h1>
                 <ul className='cartUL'>
                     {this.state.cart.map(item => {
-                        { totalPrice = totalPrice + (item.price * item.quantity)}
+                        { totalPrice = totalPrice + (item.price * item.quantity) }
                         { totalItems += item.quantity }
                         return (
                             <li key={item.plantId}>
