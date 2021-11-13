@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
-import { fetchCart, removeItem } from '../store/cart';
+import { fetchCart, removeItem, updateQty } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 
@@ -53,16 +53,24 @@ export class CartView extends React.Component {
         }
     }
 
-    handleChange(event) {
+    async handleChange(event) {
         const newQty = parseInt(event.target.value);
         const plantId = event.target.name;
-        const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
-        ls.set('cart', cart)
-        this.setState({
-            userType: this.state.userType,
-            cart
-        })
-
+        if(this.state.userType == 'guest'){
+            const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
+            ls.set('cart', cart)
+            this.setState({
+                userType: this.state.userType,
+                cart
+            })
+        }else{
+            await this.props.updateQty(this.props.userId, plantId, newQty)
+            await this.props.fetchCart(this.props.userId)
+            this.setState({
+                userType: this.state.userType,
+                cart: this.props.cart
+            })
+        }
     }
 
     render() {
@@ -123,7 +131,8 @@ const mapDispatch = (dispatch) => {
     return {
         fetchCart: (id) => dispatch(fetchCart(id)),
         fetchMe: () => dispatch(me()),
-        removeFromCart: (userId, plantId) => dispatch(removeItem(userId, plantId))
+        removeFromCart: (userId, plantId) => dispatch(removeItem(userId, plantId)),
+        updateQty: (userId, plantId, newQty) => dispatch(updateQty(userId, plantId, newQty))
     }
 }
 
