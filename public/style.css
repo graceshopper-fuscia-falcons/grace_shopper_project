@@ -121,6 +121,57 @@ nav > a {
   font-size: x-large;
 }
 
+/* All-Flowers Stuff */
+.AllFlowersUL {
+  list-style-type: none;
+  columns: 4;
+}
+
+.AllFlowersUL li {
+  margin-bottom: 10px;
+  border: solid 1px gray;
+  margin-right: 20px;
+  min-width: 400px;
+}
+
+.AddToCartButton {
+  background: none;
+  border: none;
+  color: rgb(46, 81, 87);
+  font-weight: bold;
+}
+
+.AddToCartButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Single Flower Stuff */
+.single-plant-container {
+  margin: 20px;
+}
+
+#SingleFlowerQty {
+  max-height: 30px;
+  max-width: 50px;
+}
+
+.SingleItemInfo {
+  flex-grow: 1;
+  min-height: 600px;
+  align-items: top;
+}
+
+.SingleFlowerName {
+  font-size: 30pt;
+}
+
+.ItemPic {
+  max-width: 1000px;
+  max-height: 1000px;
+  padding: 20px;
+}
+
 /* Cart Stuff */
 .cartUL {
   list-style-type: none;

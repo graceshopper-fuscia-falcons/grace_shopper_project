@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
+import { me } from '../store/auth';
 import ls from 'local-storage';
 
 export class SingleFlower extends React.Component {
@@ -11,12 +12,23 @@ export class SingleFlower extends React.Component {
       ls.set('cart', []);
     }
     this.handleAddToCart = this.handleAddToCart.bind(this);
-    this.state = {};
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      qty: 1
+    };
   }
 
   async componentDidMount() {
     const plantId = this.props.match.params.flowersId;
     await this.props.fetchPlant(plantId);
+  }
+
+  handleChange(event) {
+    const qty = parseInt(event.target.value);
+    this.setState({
+      qty
+    })
+
   }
 
   async handleAddToCart() {
@@ -27,7 +39,7 @@ export class SingleFlower extends React.Component {
       let itemToAdd = {
         plantId: this.props.targetFlower.id,
         price: this.props.targetFlower.price,
-        quantity: 1,
+        quantity: this.state.qty,
       };
       if (getCart.length < 1) {
         getCart = [itemToAdd, ...getCart]
@@ -36,7 +48,7 @@ export class SingleFlower extends React.Component {
         for (let i = 0; i < getCart.length; i++) {
           if (itemToAdd.plantId === getCart[i].plantId) {
             let updatedItem = getCart.splice(i, 1)
-            updatedItem[0].quantity++
+            updatedItem[0].quantity += this.state.qty;
             getCart = [updatedItem[0], ...getCart]
             count++;
           }
@@ -47,23 +59,41 @@ export class SingleFlower extends React.Component {
       }
       ls.set('cart', getCart);
     }
-
-
   }
 
   render() {
-    console.log(ls.get('cart'))
+    
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">
-        <div>{targetFlower.name}</div>
-        <div>{targetFlower.flowerType}</div>
-        <div>{targetFlower.flowerColor}</div>
-        <img src={targetFlower.imageUrl}></img>
-        <button type="button" onClick={() => this.handleAddToCart()}>
-          Add To Cart!
-        </button>
-        <Link to={`/flowers`}>All Flowers</Link>
+        <div className='cartItemView'>
+          <div className="imageContainer">
+            <img className="SingleItemPic" src={targetFlower.imageUrl} />
+          </div>
+          <div className='SingleItemInfo'>
+            <h2><Link to={`/flowers/${targetFlower.id}`}>{targetFlower.name}</Link></h2>
+            <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
+            <div className='CartQtySelect'>
+              <div className="label">
+                <h4>Qty: </h4>
+              </div>
+              <input
+                id="SingleFlowerQty"
+                type="number"
+                min="0"
+                max="100"                        // Will be stock
+                name={targetFlower.id}
+                value={this.state.qty}
+                onChange={this.handleChange}
+              ></input>
+              <div className='divider'>|</div>
+              <div className='buttonContainer'>
+                <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     );
   }

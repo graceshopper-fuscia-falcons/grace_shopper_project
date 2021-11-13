@@ -37,7 +37,6 @@ export class Navbar extends React.Component {
   }
 
   render() {
-    console.log(this.state)
     return (
       <div className='NavBarContainer'>
         <div className='Logo'></div>

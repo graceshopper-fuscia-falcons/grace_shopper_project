@@ -17,7 +17,6 @@ export class SingleUser extends React.Component {
     }
 
     render(){
-        console.log(this.props)
        const {targetUser} = this.props
         return (
           <div key ={targetUser.id}>
