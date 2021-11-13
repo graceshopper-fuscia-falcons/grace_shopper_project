@@ -14,7 +14,8 @@ export class AllFlowers extends React.Component {
     async componentDidMount() {
         await this.props.fetchPlants();
     }
-    async handleAddToCart() {
+    async handleAddToCart(event) {
+        await this.props.fetchPlant(event.target.name);
         const currentUser = await this.props.fetchMe();
         const userType = currentUser ? 'member' : 'guest';
         if (userType === 'guest') {
