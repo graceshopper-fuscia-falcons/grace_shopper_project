@@ -1,5 +1,6 @@
 body {
   font-family: sans-serif;
+  background-color: lightgrey;
 }
 
 a {
@@ -23,7 +24,13 @@ form div {
 /* Cart Stuff */
 .cartUL {
   list-style-type: none;
-  border-bottom: solid 1px gray;
+}
+
+.cartUL li {
+  margin-bottom: 10px;
+  border: solid 1px gray;
+  margin-right: 20px;
+  min-width: 700px;
 }
 
 .cartItemView {
@@ -38,6 +45,7 @@ form div {
 .ItemPic {
   max-width: 200px;
   max-height: 200px;
+  padding: 20px;
 }
 
 .ItemInfo {
@@ -54,15 +62,82 @@ form div {
   max-width: 50px;
 }
 
-.ProceedToCheckoutButton {
-  min-height: 30px;
+.divider {
+  color: rgb(46, 81, 87);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.RemoveFromCartButton {
+  background: none;
+  border: none;
+  color: rgb(46, 81, 87);
+  font-weight: bold;
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: right;
 }
 
-.RemoveFromCartButton {
-  
+.RemoveFromCartButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.CartContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+}
+
+.cartItemsContainer {
+  background-color: whitesmoke;
+  margin-top: 0px;
+}
+
+.ProceedToCheckoutContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  min-height: 200px;
+  margin: 20px;
+  padding: 30px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-height: 200px;
+}
+
+.ProceedToCheckoutButton {
+  min-height: 50px;
+  min-width: 450px;
+  background-color: gold;
+  border-radius: 10px;
+  font-size: larger;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ProceedToCheckoutButton:hover {
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+.CartTitleContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  padding-left: 20px;
+  margin-bottom: 0px;
+}
+
+.CartTitle {
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: solid 1px grey;
+  flex-grow: 1;
+}
+
+main {
+  display: flex;
 }

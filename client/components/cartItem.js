@@ -51,7 +51,7 @@ export class CartItem extends React.Component {
                 </div>
                 <div className='ItemInfo'>
                     <h2><Link to={`/flowers/${this.state.plantId}`}>{this.state.plant.name}</Link></h2>
-                    <h2>${this.state.price / 100}</h2>
+                    <h1>${this.state.price / 100}</h1>
                     <div className='CartQtySelect'>
                         <div className="label">
                             <h4>Qty: </h4>
@@ -65,10 +65,12 @@ export class CartItem extends React.Component {
                             value={item.quantity}
                             onChange={this.props.handleChange}
                         ></input>
+                        <div className='divider'>|</div>
+                        <div className='buttonContainer'>
+                            <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
+                        </div>
                     </div>
-                    <div className='buttonContainer'>
-                        <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
-                    </div>
+
                 </div>
             </div>
         )

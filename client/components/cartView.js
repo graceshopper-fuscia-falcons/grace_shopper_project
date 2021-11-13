@@ -52,13 +52,13 @@ export class CartView extends React.Component {
     handleChange(event) {
         const newQty = event.target.value;
         const plantId = event.target.name;
-        const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : {...item, quantity: newQty})]
+        const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
         ls.set('cart', cart)
         this.setState({
             userType: this.state.userType,
             cart
         })
-        
+
     }
 
     render() {
@@ -79,21 +79,29 @@ export class CartView extends React.Component {
         let totalItems = 0;
         return (
             <main>
-                <h1>Shopping Cart</h1>
-                <ul className='cartUL'>
-                    {this.state.cart.map(item => {
-                        { totalPrice = totalPrice + (item.price * item.quantity) }
-                        { totalItems += item.quantity }
-                        return (
-                            <li key={item.plantId}>
-                                <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} />
-                            </li>
-                        )
-                    })}
-                </ul>
-                <div>
-                    <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
-                    <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                <div className='CartContainer'>
+                    <div className="CartTitleContainer">
+                        <div className='CartTitle'>
+                            <h1>Shopping Cart</h1>
+                        </div>
+                    </div>
+                    <div className='cartItemsContainer'>
+                        <ul className='cartUL'>
+                            {this.state.cart.map(item => {
+                                { totalPrice = totalPrice + (item.price * item.quantity) }
+                                { totalItems += item.quantity }
+                                return (
+                                    <li key={item.plantId}>
+                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} />
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
+                <div className='ProceedToCheckoutContainer'>
+                        <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
+                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
