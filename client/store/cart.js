@@ -39,20 +39,17 @@ export const addItem = (userId, plantId) => {
 
 export const removeItem = (userId, plantId) => {
   return async (dispatch) => {
-    // const token = window.localStorage.getItem('token');
-      // const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order`, plantId, {
-      //   headers: {
-      //     authorization: token
-      //   }
-      // })
+    const token = window.localStorage.getItem('token');
       const { data: removedItem } = await Axios({
         method: 'DELETE',
-        url: `http://localhost:8080/api/users/3/current-order/${plantId}`,
+        url: `http://localhost:8080/api/users/${userId}/current-order/${plantId}`,
         data: {
           plantId,
+        },
+        headers:{
+          authorization: token
         }
       })
-
       dispatch(_removeItem(removedItem))
   }
 }
