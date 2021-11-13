@@ -4,6 +4,7 @@ import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import ls from 'local-storage';
+import { addItem } from '../store/cart';
 
 export class SingleFlower extends React.Component {
   constructor() {
@@ -58,11 +59,14 @@ export class SingleFlower extends React.Component {
         }
       }
       ls.set('cart', getCart);
+    } else {
+
+        this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId));
     }
   }
 
   render() {
-    
+
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">
@@ -109,7 +113,8 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
-    fetchMe: () => dispatch(me())
+    fetchMe: () => dispatch(me()),
+    addItemToCart: (userId, plantId) => dispatch(addItem(userId, plantId))
   };
 };
 
