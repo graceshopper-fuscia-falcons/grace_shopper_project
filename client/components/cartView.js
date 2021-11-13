@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
-import { fetchCart } from '../store/cart';
+import cart, { fetchCart } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 
@@ -10,9 +10,10 @@ export class CartView extends React.Component {
     constructor() {
         super();
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             userType: '',
-            cart: []
+            cart: undefined
         }
     }
 
@@ -33,32 +34,11 @@ export class CartView extends React.Component {
         });
     }
 
-    // async componentDidUpdate(prevProps, prevState) {
-    //     console.log('prevState',prevState)
-    //     console.log('state',this.state.cart)
-    //     if (prevProps.cart.length !== this.props.cart.length || prevState.cart.length !== this.state.cart.length) {
-    //         const currentUser = await this.props.fetchMe();
-    //         const userType = currentUser ? 'member' : 'guest';
-    //         let cart = [];
-    //         if (userType === 'guest') {
-    //             cart = ls.get('cart');
-    //         } else if (userType === 'member') {
-    //             await this.props.fetchCart(this.props.userId);
-    //             cart = this.props.cart;
-    //         }
-
-    //         this.setState({
-    //             userType,
-    //             cart
-    //         });
-    //     }
-    // }
-
     async handleRemoveItem(event) {
         if (this.state.userType === 'guest') {
             // Handle remove from local storage here
             let cart = this.state.cart;
-            cart = [...cart.filter(item => item.flower.id != event.target.name)]
+            cart = [...cart.filter(item => item.plantId != event.target.name)]
             ls.set('cart', cart)
             this.setState({
                 userType: this.state.userType,
@@ -69,15 +49,27 @@ export class CartView extends React.Component {
         }
     }
 
+    handleChange(event) {
+        const newQty = event.target.value;
+        const plantId = event.target.name;
+        const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : {...item, quantity: newQty})]
+        ls.set('cart', cart)
+        this.setState({
+            userType: this.state.userType,
+            cart
+        })
+        
+    }
+
     render() {
-        if (this.state.cart < 1) {
+        if (this.state.cart) {
             if (this.state.cart.length < 1) {
                 return (
                     <div>Empty Cart</div>
                 )
             }
         }
-        else if (this.state.cart.length < 1) {
+        else {
             return (
                 <div>Loading...</div>
             )
@@ -85,29 +77,6 @@ export class CartView extends React.Component {
 
         let totalPrice = 0;
         let totalItems = 0;
-        if (this.state.userType === 'guest') {
-            return (
-                <main>
-                    <h1>Shopping Cart</h1>
-                    <ul className='cartUL'>
-                        {this.state.cart.map(item => {
-                            { totalPrice = totalPrice + (item.flower.price * item.quantity) }
-                            { totalItems += item.quantity }
-                            return (
-                                <li key={item.flower.plantId}>
-                                    <CartItem userId={this.props.userId} handleRemoveItem={this.handleRemoveItem} userType={'guest'} item={item} />
-                                </li>
-                            )
-                        })}
-                    </ul>
-                    <div>
-                        <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
-                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
-                    </div>
-                </main>
-            )
-        }
-
         return (
             <main>
                 <h1>Shopping Cart</h1>
@@ -117,7 +86,7 @@ export class CartView extends React.Component {
                         { totalItems += item.quantity }
                         return (
                             <li key={item.plantId}>
-                                <CartItem userId={this.props.userId} userType={'member'} item={item} />
+                                <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} />
                             </li>
                         )
                     })}

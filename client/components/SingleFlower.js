@@ -1,5 +1,4 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
@@ -15,39 +14,37 @@ export class SingleFlower extends React.Component {
     this.state = {};
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const plantId = this.props.match.params.flowersId;
-    const { data } = this.props.fetchPlant(plantId);
+    await this.props.fetchPlant(plantId);
   }
 
   async handleAddToCart() {
     let getCart = ls.get('cart');
     let itemToAdd = {
-      flower: {
-        id: this.props.targetFlower.id,
-        name: this.props.targetFlower.name,
-        price: this.props.targetFlower.price,
-      },
+      plantId: this.props.targetFlower.id,
+      price: this.props.targetFlower.price,
       quantity: 1,
     };
     if (getCart.length < 1) {
-      getCart.push(itemToAdd);
+      getCart = [itemToAdd, ...getCart]
     } else {
       let count = 0;
       for (let i = 0; i < getCart.length; i++) {
-        if (itemToAdd.flower.id === getCart[i].flower.id) {
+        if (itemToAdd.plantId === getCart[i].plantId) {
           getCart[i].quantity++;
           count++;
         }
       }
       if (count === 0) {
-        getCart.push(itemToAdd);
+        getCart = [itemToAdd, ...getCart]
       }
     }
     ls.set('cart', getCart);
   }
 
   render() {
+    console.log(ls.get('cart'))
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">

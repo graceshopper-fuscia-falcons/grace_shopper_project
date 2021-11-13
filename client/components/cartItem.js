@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchPlant } from '../store/singlePlant';
 
-
 export class CartItem extends React.Component {
     constructor() {
         super();
-        this.handleChange = this.handleChange.bind(this);
         this.state = {
             plant: {},
             plantId: undefined,
@@ -17,42 +15,25 @@ export class CartItem extends React.Component {
     }
 
     async componentDidMount() {
-        const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
-        const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
-        await this.props.fetchPlant(plantId);
-        console.log(this.props.plant)
+        await this.props.fetchPlant(this.props.item.plantId);
         this.setState({
             plant: this.props.plant,
-            plantId: plantId,
-            price,
+            plantId: this.props.item.plantId,
+            price: this.props.item.price,
             qty: this.props.item.quantity
         })
     }
 
     async componentDidUpdate() {
-        if (this.props.userType === 'guest') {
-            if (this.props.item.flower.id != this.state.plantId) {
-                console.log('BOLLO')
-                const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
-                const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
-                await this.props.fetchPlant(plantId);
-                this.setState({
-                    plant: this.props.plant,
-                    plantId: plantId,
-                    price,
-                    qty: this.props.item.quantity
-                })
-            }
+        if (this.props.item.plantId != this.state.plantId) {
+            await this.props.fetchPlant(this.props.item.plantId);
+            this.setState({
+                plant: this.props.plant,
+                plantId: this.props.item.plantId,
+                price: this.props.item.price,
+                qty: this.props.item.quantity
+            })
         }
-
-
-
-    }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
     }
 
     render() {
@@ -79,10 +60,10 @@ export class CartItem extends React.Component {
                             id="qty"
                             type="number"
                             min="0"
-                            max="10"                        // Will be stock
-                            name="qty"
+                            max="100"                        // Will be stock
+                            name={this.state.plantId}
                             value={item.quantity}
-                            onChange={this.handleChange}
+                            onChange={this.props.handleChange}
                         ></input>
                     </div>
                     <div className='buttonContainer'>
