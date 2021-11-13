@@ -32,7 +32,9 @@ export class SingleFlower extends React.Component {
       let count = 0;
       for (let i = 0; i < getCart.length; i++) {
         if (itemToAdd.plantId === getCart[i].plantId) {
-          getCart[i].quantity++;
+          let updatedItem = getCart.splice(i, 1)
+          updatedItem[0].quantity++
+          getCart = [updatedItem[0], ...getCart]
           count++;
         }
       }
