@@ -77,7 +77,7 @@ router.get('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser
   }
 } )
 
-router.delete('/:userId/current-order/:plantId', async (req, res, next) => {
+router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{
