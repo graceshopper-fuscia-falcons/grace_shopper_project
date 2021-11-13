@@ -27,14 +27,32 @@ export const fetchCart = (userId) => {
 
 export const addItem = (userId, plantId) => {
   return async (dispatch) => {
-      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order`, {plantId, qty})
+    const token = window.localStorage.getItem('token');
+      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, {plantId, qty: 1}, {
+        headers: {
+          authorization: token
+        }
+      })
       dispatch(_addItem(addedItem))
   }
 }
 
 export const removeItem = (userId, plantId) => {
   return async (dispatch) => {
-      const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order`, plantId)
+    // const token = window.localStorage.getItem('token');
+      // const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order`, plantId, {
+      //   headers: {
+      //     authorization: token
+      //   }
+      // })
+      const { data: removedItem } = await Axios({
+        method: 'DELETE',
+        url: `http://localhost:8080/api/users/3/current-order/${plantId}`,
+        data: {
+          plantId,
+        }
+      })
+
       dispatch(_removeItem(removedItem))
   }
 }

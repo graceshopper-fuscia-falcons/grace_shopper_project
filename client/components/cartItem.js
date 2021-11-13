@@ -86,7 +86,7 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         fetchPlant: (id) => dispatch(fetchPlant(id)),
-        removeFromCart: (id, item) => dispatch(removeFromCart(id, item))
+        // removeFromCart: (id, item) => dispatch(removeFromCart(id, item))
     }
 }
 
