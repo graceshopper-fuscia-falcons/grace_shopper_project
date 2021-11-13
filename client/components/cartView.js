@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
-import cart, { fetchCart } from '../store/cart';
+import { fetchCart } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 
@@ -50,7 +50,7 @@ export class CartView extends React.Component {
     }
 
     handleChange(event) {
-        const newQty = event.target.value;
+        const newQty = parseInt(event.target.value);
         const plantId = event.target.name;
         const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
         ls.set('cart', cart)

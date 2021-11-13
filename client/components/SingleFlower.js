@@ -20,29 +20,35 @@ export class SingleFlower extends React.Component {
   }
 
   async handleAddToCart() {
-    let getCart = ls.get('cart');
-    let itemToAdd = {
-      plantId: this.props.targetFlower.id,
-      price: this.props.targetFlower.price,
-      quantity: 1,
-    };
-    if (getCart.length < 1) {
-      getCart = [itemToAdd, ...getCart]
-    } else {
-      let count = 0;
-      for (let i = 0; i < getCart.length; i++) {
-        if (itemToAdd.plantId === getCart[i].plantId) {
-          let updatedItem = getCart.splice(i, 1)
-          updatedItem[0].quantity++
-          getCart = [updatedItem[0], ...getCart]
-          count++;
+    const currentUser = await this.props.fetchMe();
+    const userType = currentUser ? 'member' : 'guest';
+    if (userType === 'guest') {
+      let getCart = ls.get('cart');
+      let itemToAdd = {
+        plantId: this.props.targetFlower.id,
+        price: this.props.targetFlower.price,
+        quantity: 1,
+      };
+      if (getCart.length < 1) {
+        getCart = [itemToAdd, ...getCart]
+      } else {
+        let count = 0;
+        for (let i = 0; i < getCart.length; i++) {
+          if (itemToAdd.plantId === getCart[i].plantId) {
+            let updatedItem = getCart.splice(i, 1)
+            updatedItem[0].quantity++
+            getCart = [updatedItem[0], ...getCart]
+            count++;
+          }
+        }
+        if (count === 0) {
+          getCart = [itemToAdd, ...getCart]
         }
       }
-      if (count === 0) {
-        getCart = [itemToAdd, ...getCart]
-      }
+      ls.set('cart', getCart);
     }
-    ls.set('cart', getCart);
+
+
   }
 
   render() {
@@ -66,12 +72,14 @@ export class SingleFlower extends React.Component {
 const mapState = (state) => {
   return {
     targetFlower: state.singlePlantReducer,
+    userId: state.auth.id
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
+    fetchMe: () => dispatch(me())
   };
 };
 
