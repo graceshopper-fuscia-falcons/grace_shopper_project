@@ -46,7 +46,10 @@ export class CartView extends React.Component {
             })
         } else if (this.state.userType === 'member') {
             await this.props.removeFromCart(this.props.userId, event.target.name);
-
+            await this.props.fetchCart(this.props.userId)
+            this.setState({
+                cart: this.props.cart
+            })
         }
     }
 
