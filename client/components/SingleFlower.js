@@ -1,8 +1,8 @@
 import React from 'react';
-import axios from 'axios';
 import { connect } from 'react-redux';
 import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
+import { me } from '../store/auth';
 import ls from 'local-storage';
 
 export class SingleFlower extends React.Component {
@@ -12,53 +12,88 @@ export class SingleFlower extends React.Component {
       ls.set('cart', []);
     }
     this.handleAddToCart = this.handleAddToCart.bind(this);
-    this.state = {};
+    this.handleChange = this.handleChange.bind(this);
+    this.state = {
+      qty: 1
+    };
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     const plantId = this.props.match.params.flowersId;
-    const { data } = this.props.fetchPlant(plantId);
+    await this.props.fetchPlant(plantId);
+  }
+
+  handleChange(event) {
+    const qty = parseInt(event.target.value);
+    this.setState({
+      qty
+    })
+
   }
 
   async handleAddToCart() {
-    let getCart = ls.get('cart');
-    let itemToAdd = {
-      flower: {
-        id: this.props.targetFlower.id,
-        name: this.props.targetFlower.name,
+    const currentUser = await this.props.fetchMe();
+    const userType = currentUser ? 'member' : 'guest';
+    if (userType === 'guest') {
+      let getCart = ls.get('cart');
+      let itemToAdd = {
+        plantId: this.props.targetFlower.id,
         price: this.props.targetFlower.price,
-      },
-      quantity: 1,
-    };
-    if (getCart.length < 1) {
-      getCart.push(itemToAdd);
-    } else {
-      let count = 0;
-      for (let i = 0; i < getCart.length; i++) {
-        if (itemToAdd.flower.id === getCart[i].flower.id) {
-          getCart[i].quantity++;
-          count++;
+        quantity: this.state.qty,
+      };
+      if (getCart.length < 1) {
+        getCart = [itemToAdd, ...getCart]
+      } else {
+        let count = 0;
+        for (let i = 0; i < getCart.length; i++) {
+          if (itemToAdd.plantId === getCart[i].plantId) {
+            let updatedItem = getCart.splice(i, 1)
+            updatedItem[0].quantity += this.state.qty;
+            getCart = [updatedItem[0], ...getCart]
+            count++;
+          }
+        }
+        if (count === 0) {
+          getCart = [itemToAdd, ...getCart]
         }
       }
-      if (count === 0) {
-        getCart.push(itemToAdd);
-      }
+      ls.set('cart', getCart);
     }
-    ls.set('cart', getCart);
   }
 
   render() {
+    
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">
-        <div>{targetFlower.name}</div>
-        <div>{targetFlower.flowerType}</div>
-        <div>{targetFlower.flowerColor}</div>
-        <img src={targetFlower.imageUrl}></img>
-        <button type="button" onClick={() => this.handleAddToCart()}>
-          Add To Cart!
-        </button>
-        <Link to={`/flowers`}>All Flowers</Link>
+        <div className='cartItemView'>
+          <div className="imageContainer">
+            <img className="SingleItemPic" src={targetFlower.imageUrl} />
+          </div>
+          <div className='SingleItemInfo'>
+            <h2><Link to={`/flowers/${targetFlower.id}`}>{targetFlower.name}</Link></h2>
+            <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
+            <div className='CartQtySelect'>
+              <div className="label">
+                <h4>Qty: </h4>
+              </div>
+              <input
+                id="SingleFlowerQty"
+                type="number"
+                min="0"
+                max="100"                        // Will be stock
+                name={targetFlower.id}
+                value={this.state.qty}
+                onChange={this.handleChange}
+              ></input>
+              <div className='divider'>|</div>
+              <div className='buttonContainer'>
+                <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
     );
   }
@@ -67,12 +102,14 @@ export class SingleFlower extends React.Component {
 const mapState = (state) => {
   return {
     targetFlower: state.singlePlantReducer,
+    userId: state.auth.id
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
+    fetchMe: () => dispatch(me())
   };
 };
 

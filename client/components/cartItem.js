@@ -3,11 +3,9 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { fetchPlant } from '../store/singlePlant';
 
-
 export class CartItem extends React.Component {
     constructor() {
         super();
-        this.handleChange = this.handleChange.bind(this);
         this.state = {
             plant: {},
             plantId: undefined,
@@ -17,29 +15,25 @@ export class CartItem extends React.Component {
     }
 
     async componentDidMount() {
-        const plantId = this.props.userType === 'guest' ? this.props.item.flower.id : this.props.item.plantId;
-        const price = this.props.userType === 'guest' ? this.props.item.flower.price : this.props.item.price;
-        await this.props.fetchPlant(plantId);
+        await this.props.fetchPlant(this.props.item.plantId);
         this.setState({
             plant: this.props.plant,
-            plantId: plantId,
-            price,
+            plantId: this.props.item.plantId,
+            price: this.props.item.price,
             qty: this.props.item.quantity
         })
     }
 
-    // async handleRemoveItem(event) {
-    //     if (this.state.userType === 'guest') {
-    //         // Handle remove from local storage here
-    //     } else if (this.state.userType === 'member') {
-    //         await this.props.removeFromCart(this.props.user.id, event.target.name);
-    //     }
-    // }
-
-    handleChange(event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        })
+    async componentDidUpdate() {
+        if (this.props.item.plantId != this.state.plantId) {
+            await this.props.fetchPlant(this.props.item.plantId);
+            this.setState({
+                plant: this.props.plant,
+                plantId: this.props.item.plantId,
+                price: this.props.item.price,
+                qty: this.props.item.quantity
+            })
+        }
     }
 
     render() {
@@ -57,7 +51,7 @@ export class CartItem extends React.Component {
                 </div>
                 <div className='ItemInfo'>
                     <h2><Link to={`/flowers/${this.state.plantId}`}>{this.state.plant.name}</Link></h2>
-                    <h2>${this.state.price / 100}</h2>
+                    <h1>${this.state.price / 100}</h1>
                     <div className='CartQtySelect'>
                         <div className="label">
                             <h4>Qty: </h4>
@@ -66,15 +60,17 @@ export class CartItem extends React.Component {
                             id="qty"
                             type="number"
                             min="0"
-                            max="10"                        // Will be stock
-                            name="qty"
+                            max="100"                        // Will be stock
+                            name={this.state.plantId}
                             value={item.quantity}
-                            onChange={this.handleChange}
+                            onChange={this.props.handleChange}
                         ></input>
+                        <div className='divider'>|</div>
+                        <div className='buttonContainer'>
+                            <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
+                        </div>
                     </div>
-                    <div className='buttonContainer'>
-                        <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.handleRemoveItem}>Remove From Cart</button>
-                    </div>
+
                 </div>
             </div>
         )

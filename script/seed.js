@@ -22,7 +22,7 @@ async function seed() {
     name: 'Blooming Love™',
     flowerColor: 'red',
     flowerType: 'Rose',
-    price: 7000,
+    price: 6999,
     stock: 100,
     imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
   })
@@ -31,7 +31,7 @@ async function seed() {
     name: 'Ocean Breeze Orchids',
     flowerColor: 'blue',
     flowerType: 'Orchids',
-    price: 5000,
+    price: 4999,
     stock: 80,
     imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/140953mmdsv2wc2x.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}'
   })
@@ -40,7 +40,7 @@ async function seed() {
     name: 'Harvest Glow™',
     flowerColor: 'yellow',
     flowerType: 'Sunflowers',
-    price: 2500,
+    price: 2499,
     stock: 40,
     imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/174303lx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}'
   })

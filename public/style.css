@@ -1,5 +1,13 @@
+html,
 body {
   font-family: sans-serif;
+  background-color: lightgrey;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  width: 100vw;
 }
 
 a {
@@ -20,10 +28,160 @@ form div {
   display: inline-block;
 }
 
+/* NavBar Stuff */
+.NavBarContainer {
+  display: flex;
+  background-color: rgb(46, 81, 87);
+  width: 100%;
+  max-height: 160px; 
+  margin-top: -22px;
+  align-items: center;
+  padding:0px;
+}
+
+.LogoContainer {
+  background-color: transparent;
+}
+
+.Logo {
+  background-image: url('/Media/pineappleLogo.png');
+  background-size: cover;
+  min-height: 125px;
+  min-width: 125px;
+  margin:10px;
+  margin-top: 30px;
+}
+
+.MainTitle {
+  background-color: transparent;
+  margin-top: 50px;
+  margin-right: 20px;
+}
+
+nav {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  min-height: max-content;
+  min-height: 150px;
+}
+
+nav > a {
+  margin-top: 50px;
+  color: gold;
+}
+
+.LoginOut {
+  display: flex;
+  flex-grow: 1;
+  min-height: 150px;
+  align-items: center;
+  justify-content: right;
+}
+
+.LoginOut > * {
+  margin-top: 50px;
+  color:gold;
+}
+
+.CartButtonContainer {
+  display: flex;
+  justify-content: right;
+  align-items: center;
+  min-height: 150px;
+  flex-grow: 1;
+  position: relative;
+}
+
+.CartButton {
+  background-image: url('/Media/CircleCart.png');
+  background-size: cover;
+  min-height: 125px;
+  min-width: 125px;
+  margin-top:30px;
+  margin-bottom: 0px;
+  position: absolute;
+  top:0;
+  right: 0;
+}
+
+.CartCounter {
+  display: flex;
+  z-index: 12;
+  min-height: 40px;
+  min-width: 40px;
+  margin: 20px;
+  background-color: rgb(253, 155, 7);
+  border-radius: 100%;
+  top: 80px;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  font-weight: bolder;
+  font-size: x-large;
+}
+
+/* All-Flowers Stuff */
+.AllFlowersUL {
+  list-style-type: none;
+  columns: 4;
+}
+
+.AllFlowersUL li {
+  margin-bottom: 10px;
+  border: solid 1px gray;
+  margin-right: 20px;
+  min-width: 400px;
+}
+
+.AddToCartButton {
+  background: none;
+  border: none;
+  color: rgb(46, 81, 87);
+  font-weight: bold;
+}
+
+.AddToCartButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Single Flower Stuff */
+.single-plant-container {
+  margin: 20px;
+}
+
+#SingleFlowerQty {
+  max-height: 30px;
+  max-width: 50px;
+}
+
+.SingleItemInfo {
+  flex-grow: 1;
+  min-height: 600px;
+  align-items: top;
+}
+
+.SingleFlowerName {
+  font-size: 30pt;
+}
+
+.ItemPic {
+  max-width: 1000px;
+  max-height: 1000px;
+  padding: 20px;
+}
+
 /* Cart Stuff */
 .cartUL {
   list-style-type: none;
-  border-bottom: solid 1px gray;
+}
+
+.cartUL li {
+  margin-bottom: 10px;
+  border: solid 1px gray;
+  margin-right: 20px;
+  min-width: 700px;
 }
 
 .cartItemView {
@@ -38,6 +196,7 @@ form div {
 .ItemPic {
   max-width: 200px;
   max-height: 200px;
+  padding: 20px;
 }
 
 .ItemInfo {
@@ -54,15 +213,82 @@ form div {
   max-width: 50px;
 }
 
-.ProceedToCheckoutButton {
-  min-height: 30px;
+.divider {
+  color: rgb(46, 81, 87);
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.RemoveFromCartButton {
+  background: none;
+  border: none;
+  color: rgb(46, 81, 87);
+  font-weight: bold;
 }
 
 .buttonContainer {
   display: flex;
-  justify-content: right;
 }
 
-.RemoveFromCartButton {
-  
+.RemoveFromCartButton:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.CartContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  margin: 20px;
+}
+
+.cartItemsContainer {
+  background-color: whitesmoke;
+  margin-top: 0px;
+}
+
+.ProceedToCheckoutContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  min-height: 200px;
+  margin: 20px;
+  padding: 30px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-height: 200px;
+}
+
+.ProceedToCheckoutButton {
+  min-height: 50px;
+  min-width: 450px;
+  background-color: gold;
+  border-radius: 10px;
+  font-size: larger;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.ProceedToCheckoutButton:hover {
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+.CartTitleContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  padding-left: 20px;
+  margin-bottom: 0px;
+}
+
+.CartTitle {
+  margin-left: 20px;
+  margin-right: 20px;
+  border-bottom: solid 1px grey;
+  flex-grow: 1;
+}
+
+main {
+  display: flex;
 }

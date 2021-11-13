@@ -9,15 +9,16 @@ import ls from 'local-storage';
 export class CartView extends React.Component {
     constructor() {
         super();
+        this.handleRemoveItem = this.handleRemoveItem.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.state = {
             userType: '',
-            cart: []
+            cart: undefined
         }
     }
 
     async componentDidMount() {
         const currentUser = await this.props.fetchMe();
-        console.log(currentUser)
         const userType = currentUser ? 'member' : 'guest';
         let cart = [];
         if (userType === 'guest') {
@@ -25,7 +26,6 @@ export class CartView extends React.Component {
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
             cart = this.props.cart;
-            console.log(cart)
         }
 
         this.setState({
@@ -34,34 +34,42 @@ export class CartView extends React.Component {
         });
     }
 
-    async componentDidUpdate(prevProps) {
-        if (prevProps.cart.length !== this.props.cart.length) {
-            const currentUser = await this.props.fetchMe();
-            const userType = currentUser ? 'member' : 'guest';
-            let cart = [];
-            if (userType === 'guest') {
-                cart = ls.get('cart');
-            } else if (userType === 'member') {
-                await this.props.fetchCart(this.props.userId);
-                cart = this.props.cart;
-            }
-
+    async handleRemoveItem(event) {
+        if (this.state.userType === 'guest') {
+            // Handle remove from local storage here
+            let cart = this.state.cart;
+            cart = [...cart.filter(item => item.plantId != event.target.name)]
+            ls.set('cart', cart)
             this.setState({
-                userType,
+                userType: this.state.userType,
                 cart
-            });
+            })
+        } else if (this.state.userType === 'member') {
+            await this.props.removeFromCart(this.props.user.id, event.target.name);
         }
     }
 
+    handleChange(event) {
+        const newQty = parseInt(event.target.value);
+        const plantId = event.target.name;
+        const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
+        ls.set('cart', cart)
+        this.setState({
+            userType: this.state.userType,
+            cart
+        })
+
+    }
+
     render() {
-        if (this.state.cart < 1) {
+        if (this.state.cart) {
             if (this.state.cart.length < 1) {
                 return (
                     <div>Empty Cart</div>
                 )
             }
         }
-        else if (this.state.cart.length < 1) {
+        else {
             return (
                 <div>Loading...</div>
             )
@@ -69,46 +77,31 @@ export class CartView extends React.Component {
 
         let totalPrice = 0;
         let totalItems = 0;
-        if (this.state.userType === 'guest') {
-            return (
-                <main>
-                    <h1>Shopping Cart</h1>
-                    <ul className='cartUL'>
-                        {this.state.cart.map(item => {
-                            { totalPrice = totalPrice + (item.flower.price * item.quantity) }
-                            { totalItems += item.quantity }
-                            return (
-                                <li key={item.flower.plantId}>
-                                    <CartItem userId={this.props.userId} userType={'guest'} item={item} />
-                                </li>
-                            )
-                        })}
-                    </ul>
-                    <div>
-                        <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
-                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
-                    </div>
-                </main>
-            )
-        }
-
         return (
             <main>
-                <h1>Shopping Cart</h1>
-                <ul className='cartUL'>
-                    {this.state.cart.map(item => {
-                        { totalPrice = totalPrice + (item.price * item.quantity)}
-                        { totalItems += item.quantity }
-                        return (
-                            <li key={item.plantId}>
-                                <CartItem userId={this.props.userId} userType={'member'} item={item} />
-                            </li>
-                        )
-                    })}
-                </ul>
-                <div>
-                    <h2>Subtotal ({totalItems} items): ${totalPrice / 100}</h2>
-                    <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                <div className='CartContainer'>
+                    <div className="CartTitleContainer">
+                        <div className='CartTitle'>
+                            <h1>Shopping Cart</h1>
+                        </div>
+                    </div>
+                    <div className='cartItemsContainer'>
+                        <ul className='cartUL'>
+                            {this.state.cart.map(item => {
+                                { totalPrice = totalPrice + (item.price * item.quantity) }
+                                { totalItems += item.quantity }
+                                return (
+                                    <li key={item.plantId}>
+                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} />
+                                    </li>
+                                )
+                            })}
+                        </ul>
+                    </div>
+                </div>
+                <div className='ProceedToCheckoutContainer'>
+                        <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
+                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
