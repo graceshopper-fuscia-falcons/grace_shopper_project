@@ -63,7 +63,6 @@ export class SingleFlower extends React.Component {
       }
       ls.set('cart', getCart);
     } else {
-      console.log(this.state.qty)
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
     }
   }

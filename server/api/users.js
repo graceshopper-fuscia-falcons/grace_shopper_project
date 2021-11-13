@@ -127,7 +127,7 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
 })
 
 router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
-  let updatedQuantity = parseInt(req.body.qty)
+  let updatedQuantity = req.body.newQty
   if(updatedQuantity && updatedQuantity > 0 ){
     try{
       const targetPlant = await Plant.findByPk(req.params.plantId)

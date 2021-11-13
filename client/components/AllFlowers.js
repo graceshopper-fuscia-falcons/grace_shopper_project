@@ -101,7 +101,7 @@ const mapDispatch = (dispatch) => {
         fetchPlants: () => dispatch(fetchPlants()),
         fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
         fetchMe: () => dispatch(me()),
-        addItemToCart: (userId, plantId) => dispatch(addItem(userId, plantId))
+        addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
     }
 }
 

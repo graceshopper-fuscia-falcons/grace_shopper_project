@@ -52,7 +52,12 @@ export const removeItem = (userId, plantId) => {
 
 export const updateQty = (userId, plantId, newQty) => {
   return async (dispatch) => {
-      const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, newQty)
+    const token = window.localStorage.getItem('token');
+      const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, {newQty}, {
+        headers: {
+          authorization: token
+        }
+      })
       dispatch(_updateQty(updatedItem))
   }
 }
@@ -63,7 +68,7 @@ export default function (state = [], action) {
     case SET_CART:
       return action.cart;
     case ADD_ITEM:
-      return [...state, action.item]
+      return [action.item, ...state]
     case REMOVE_ITEM:
       return [...state.filter(item => item.id !== action.item.id)]
     default:
