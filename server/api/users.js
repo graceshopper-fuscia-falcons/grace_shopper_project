@@ -93,33 +93,58 @@ router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentU
 } )
 
 router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
-  try{
-    const targetPlant = await Plant.findByPk(req.params.plantId)
-    let price = targetPlant.price
-    let addedQuantity = parseInt(req.body.qty)
-    const targetOrder = await Order.findOne({
-      where:{
-        userId: req.params.userId,
-        isCart: true
+  let addedQuantity = parseInt(req.body.qty)
+  if(addedQuantity && addedQuantity > 0){
+    try{
+      const targetPlant = await Plant.findByPk(req.params.plantId)
+      let price = targetPlant.price
+      const targetOrder = await Order.findOne({
+        where:{
+          userId: req.params.userId,
+          isCart: true
+        }
+      })
+      const orderPlantThru = await OrderPlant.findOne({
+        where: {
+          orderId: targetOrder.id,
+          plantId: req.params.plantId
+        }
+      })
+      let updatedQuantity = addedQuantity
+      if(orderPlantThru){
+        let prevQuantity = parseInt(orderPlantThru.quantity)
+        updatedQuantity += prevQuantity
+        await targetOrder.removePlants(req.params.plantId)
       }
-    })
-    const orderPlantThru = await OrderPlant.findOne({
-      where: {
-        orderId: targetOrder.id,
-        plantId: req.params.plantId
-      }
-    })
-    let updatedQuantity = 0
-    if(orderPlantThru){
-      let prevQuantity = parseInt(orderPlantThru.quantity)
-      updatedQuantity = prevQuantity + addedQuantity
-      await targetOrder.removePlants(req.params.plantId)
-    }else{
-      updatedQuantity = addedQuantity
+      await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
+      res.json(targetOrder)
+    }catch(err){
+      next(err)
     }
-    await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
-    res.json(targetOrder)
-  }catch(err){
-    next(err)
+  }else{
+    res.status(500).send("Invalid number")
+  }
+})
+
+router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+  let updatedQuantity = parseInt(req.body.qty)
+  if(updatedQuantity && updatedQuantity > 0 ){
+    try{
+      const targetPlant = await Plant.findByPk(req.params.plantId)
+      let price = targetPlant.price
+      const targetOrder = await Order.findOne({
+        where:{
+          userId: req.params.userId,
+          isCart: true
+        }
+      })
+      await targetOrder.removePlants(req.params.plantId)
+      await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
+      res.json(targetOrder)
+    }catch(err){
+      next(err)
+    }
+  }else{
+    res.status(500).send("Invalid number")
   }
 } )
