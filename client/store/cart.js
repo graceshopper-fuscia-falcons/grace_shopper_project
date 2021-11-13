@@ -25,10 +25,10 @@ export const fetchCart = (userId) => {
   }
 }
 
-export const addItem = (userId, plantId, quantity = 1) => {
+export const addItem = (userId, plantId, qty) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, {plantId, qty: quantity}, {
+      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, {plantId, qty}, {
         headers: {
           authorization: token
         }

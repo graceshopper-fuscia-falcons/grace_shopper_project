@@ -15,13 +15,16 @@ export class SingleFlower extends React.Component {
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
-      qty: 1
+      qty: undefined
     };
   }
 
   async componentDidMount() {
     const plantId = this.props.match.params.flowersId;
     await this.props.fetchPlant(plantId);
+    this.setState({
+      qty: 1
+    })
   }
 
   handleChange(event) {
@@ -60,8 +63,8 @@ export class SingleFlower extends React.Component {
       }
       ls.set('cart', getCart);
     } else {
-
-        this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId));
+      console.log(this.state.qty)
+      await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
     }
   }
 
@@ -114,7 +117,7 @@ const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
     fetchMe: () => dispatch(me()),
-    addItemToCart: (userId, plantId) => dispatch(addItem(userId, plantId))
+    addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
   };
 };
 
