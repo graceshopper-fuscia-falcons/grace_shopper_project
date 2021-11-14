@@ -97,7 +97,9 @@ export class Navbar extends React.Component {
 
           <div className='CartButtonContainer'>
             <Link to="/cart"><div className='CartButton'></div></Link>
-            <div className='CartCounter'>{this.state.qty}</div>
+            {!this.state.qty < 1 ? (
+              <div className='CartCounter'>{this.state.qty}</div>
+            ) : (<div/>)}
           </div>
         </nav>
         <hr />
