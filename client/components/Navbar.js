@@ -35,7 +35,6 @@ export class Navbar extends React.Component {
   }
 
   async componentDidUpdate() {
-    console.log('UPDATING')
     if (this.state.qty !== this.props.cart.qty) {
       const currentUser = await this.props.fetchMe();
       const userType = currentUser ? 'member' : 'guest';
