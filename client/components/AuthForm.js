@@ -1,16 +1,24 @@
 import React from 'react'
-import {connect} from 'react-redux'
-import {authenticate} from '../store'
+import { connect } from 'react-redux'
+import { authenticate } from '../store'
 
 /**
  * COMPONENT
  */
 const AuthForm = props => {
-  const {name, displayName, handleSubmit, error} = props
+  const { name, displayName, handleSubmit, error } = props
 
   return (
     <div>
       <form onSubmit={handleSubmit} name={name}>
+        {name === 'signup' ? (
+          <div>
+            <label htmlFor="email">
+              <small>Email</small>
+            </label>
+            <input name="email" type="email" />
+          </div>
+        ) : <div />}
         <div>
           <label htmlFor="username">
             <small>Username</small>
@@ -62,6 +70,11 @@ const mapDispatch = dispatch => {
       const formName = evt.target.name
       const username = evt.target.username.value
       const password = evt.target.password.value
+
+      if(formName === 'signup') {
+        const email = evt.target.email.value
+        dispatch(authenticate(username, password, formName, email))
+      }
       dispatch(authenticate(username, password, formName))
     }
   }
