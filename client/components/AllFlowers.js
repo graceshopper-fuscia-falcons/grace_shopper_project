@@ -10,6 +10,9 @@ import { addItem } from '../store/cart';
 export class AllFlowers extends React.Component {
     constructor() {
         super();
+        if (!ls.get('cart')) {
+            ls.set('cart', {cart: [], qty: 0});
+        }
         this.handleAddToCart = this.handleAddToCart.bind(this);
     }
     async componentDidMount() {
@@ -21,29 +24,30 @@ export class AllFlowers extends React.Component {
         const currentUser = await this.props.fetchMe();
         const userType = currentUser ? 'member' : 'guest';
         if (userType === 'guest') {
-            let getCart = ls.get('cart');
+            let local = ls.get('cart');
             let itemToAdd = {
                 plantId: this.props.targetFlower.id,
                 price: this.props.targetFlower.price,
                 quantity: 1,
             };
-            if (getCart.length < 1) {
-                getCart = [itemToAdd, ...getCart]
+            if (local.cart.length < 1) {
+                local.cart = [itemToAdd, ...local.cart]
             } else {
                 let count = 0;
-                for (let i = 0; i < getCart.length; i++) {
-                    if (itemToAdd.plantId === getCart[i].plantId) {
-                        let updatedItem = getCart.splice(i, 1)
+                for (let i = 0; i < local.cart.length; i++) {
+                    if (itemToAdd.plantId === local.cart[i].plantId) {
+                        let updatedItem = local.cart.splice(i, 1)
                         updatedItem[0].quantity++
-                        getCart = [updatedItem[0], ...getCart]
+                        local.cart = [updatedItem[0], ...local.cart]
                         count++;
                     }
                 }
                 if (count === 0) {
-                    getCart = [itemToAdd, ...getCart]
+                    local.cart = [itemToAdd, ...local.cart]
                 }
             }
-            ls.set('cart', getCart);
+            local.qty++
+            ls.set('cart', local);
         }
         else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);

@@ -22,7 +22,7 @@ export class CartView extends React.Component {
         const userType = currentUser ? 'member' : 'guest';
         let cart = [];
         if (userType === 'guest') {
-            cart = ls.get('cart');
+            cart = ls.get('cart').cart;
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
             cart = this.props.cart.cart;
@@ -39,7 +39,11 @@ export class CartView extends React.Component {
             // Handle remove from local storage here
             let cart = this.state.cart;
             cart = [...cart.filter(item => item.plantId != event.target.name)]
-            ls.set('cart', cart)
+            let qty = 0
+            for(let i in cart) {
+                qty += cart[i].quantity
+            }
+            ls.set('cart', {cart, qty})
             this.setState({
                 userType: this.state.userType,
                 cart
@@ -58,7 +62,11 @@ export class CartView extends React.Component {
         const plantId = event.target.name;
         if(this.state.userType == 'guest'){
             const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
-            ls.set('cart', cart)
+            let qty = 0
+            for(let i in cart) {
+                qty += cart[i].quantity
+            }
+            ls.set('cart', {cart, qty})
             this.setState({
                 userType: this.state.userType,
                 cart

@@ -63,25 +63,43 @@ export const updateQty = (userId, plantId, newQty) => {
 }
 
 //////Reducer
-export default function (state = {cart: [], qty: 0}, action) {
+export default function (state = { cart: [], qty: 0 }, action) {
   switch (action.type) {
     case SET_CART:
-      let qty = 0;
-      for (let item in action.cart) {
-        qty += action.cart[item].quantity;
+      {
+        let qty = 0;
+        for (let item in action.cart) {
+          qty += action.cart[item].quantity;
+        }
+        return { cart: action.cart, qty };
       }
-      return { cart: action.cart, qty };
-    case ADD_ITEM: 
-    {
-      let cart = [action.item, ...state.cart];
-      let qty = 0;
-      for (let item in cart) {
-        qty += cart[item].quantity;
+    case ADD_ITEM:
+      {
+        let cart = [action.item, ...state.cart];
+        let qty = 0;
+        for (let item in cart) {
+          qty += cart[item].quantity;
+        }
+        return { cart, qty }
       }
-      return {cart, qty}
-    } 
     case REMOVE_ITEM:
-      return [...state.filter(item => item.id !== action.item.id)]
+      {
+        let cart = [...state.cart.filter(item => item.id !== action.item.id)];
+        let qty = 0;
+        for (let item in cart) {
+          qty += cart[item].quantity;
+        }
+        return { cart, qty }
+      }
+    case UPDATE_QTY:
+      {
+        let cart = [...state.cart.map(item => item.id === action.item.id ? action.item : item)]
+        let qty = 0;
+        for (let item in cart) {
+          qty += cart[item].quantity;
+        }
+        return { cart, qty }
+      }
     default:
       return state;
   }

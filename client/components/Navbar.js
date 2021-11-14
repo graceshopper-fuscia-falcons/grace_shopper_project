@@ -9,63 +9,59 @@ import ls from 'local-storage';
 export class Navbar extends React.Component {
   constructor(props) {
     super(props);
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       userType: '',
-      cart: this.userType === 'member' ? this.props.cart.cart : ls.get('cart'),
-      qty: this.props.cart.qty
+      qty: this.userType === 'member' ? this.props.cart.qty : ls.get('cart').qty
     }
   }
 
   async componentDidMount() {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    // let cart = this.state.cart;
-    // if (userType === 'guest') {
-    //   cart = ls.get('cart');
-    // } else if (userType === 'member') {
-    //   // await this.props.fetchCart(this.props.userId);
-    //   cart = this.props.cart;
-    // }
+    await this.props.fetchCart(this.props.userId);
 
-    // let qty = 0;
-    // for (let item in cart) {
-    //   qty += cart[item].quantity;
-    // }
+    let qty = 0
+    if (userType === 'guest') {
+      qty = ls.get('cart').qty;
+    } else if (userType === 'member') {
+      qty = this.props.cart.qty
+    }
+
     this.setState({
       userType,
-      qty: this.props.cart.qty
+      qty
     });
   }
 
-  // async componentDidUpdate() {
-  //   const currentUser = await this.props.fetchMe();
-  //   const userType = currentUser ? 'member' : 'guest';
-  //   let cart = [];
-  //   if (userType === 'guest') {
-  //     cart = ls.get('cart');
-  //   } else if (userType === 'member') {
-  //     // await this.props.fetchCart(this.props.userId);
-  //     cart = this.props.cart;
-  //   }
+  async componentDidUpdate() {
+    console.log('UPDATING')
+    if (this.state.qty !== this.props.cart.qty) {
+      const currentUser = await this.props.fetchMe();
+      const userType = currentUser ? 'member' : 'guest';
+      await this.props.fetchCart(this.props.userId);
 
-  //   let qty = 0;
-  //   for (let item in cart) {
-  //     qty += cart[item].quantity;
-  //   }
+      let qty = 0
+      if (userType === 'guest') {
+        qty = ls.get('cart').qty
+      } else if (userType === 'member') {
+        qty = this.props.cart.qty
+      }
 
-  //   console.log('UPDATING')
-  //   if(this.state.qty !== qty) {
-  //     this.setState({
-  //       userType,
-  //       cart,
-  //       qty
-  //     });
-  //   }
-    
-  // }
+      this.setState({
+        userType,
+        qty
+      });
+    }
+  }
+
+  handleClick() {
+    const qty = ls.get('cart').qty
+    this.setState({userType: 'guest', qty})
+    this.props.logout()
+  }
 
   render() {
-    console.log(this.props.cart)
     return (
       <div className='NavBarContainer'>
         <div className='Logo'></div>
@@ -78,7 +74,7 @@ export class Navbar extends React.Component {
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
                 <Link to="/users">View Users</Link>
-                <a href="#" onClick={this.props.handleClick}>
+                <a href="#" onClick={this.handleClick}>
                   Logout
                 </a>
               </div>
@@ -86,7 +82,7 @@ export class Navbar extends React.Component {
               <div className='LoginOut'>
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
-                <a href="#" onClick={this.props.handleClick}>
+                <a href="#" onClick={this.handleClick}>
                   Logout
                 </a>
               </div>
@@ -102,7 +98,7 @@ export class Navbar extends React.Component {
 
           <div className='CartButtonContainer'>
             <Link to="/cart"><div className='CartButton'></div></Link>
-            <div className='CartCounter'>{this.props.cart.qty}</div>
+            <div className='CartCounter'>{this.state.qty}</div>
           </div>
         </nav>
         <hr />
@@ -120,15 +116,13 @@ const mapState = state => {
     isLoggedIn: !!state.auth.id,
     isAdmin: state.auth.isAdmin,
     cart: state.cartReducer,
-    userId: state.auth.id
+    userId: state.auth.id,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    },
+    logout: () => dispatch(logout()),
     fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me())
   }
