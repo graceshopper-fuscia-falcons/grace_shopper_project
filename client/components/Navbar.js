@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
@@ -7,36 +7,65 @@ import { fetchCart } from '../store/cart';
 import ls from 'local-storage';
 
 export class Navbar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       userType: '',
-      qty: 0
+      cart: this.userType === 'member' ? this.props.cart.cart : ls.get('cart'),
+      qty: this.props.cart.qty
     }
   }
 
   async componentDidMount() {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    let cart = [];
-    if (userType === 'guest') {
-      cart = ls.get('cart');
-    } else if (userType === 'member') {
-      await this.props.fetchCart(this.props.userId);
-      cart = this.props.cart;
-    }
+    // let cart = this.state.cart;
+    // if (userType === 'guest') {
+    //   cart = ls.get('cart');
+    // } else if (userType === 'member') {
+    //   // await this.props.fetchCart(this.props.userId);
+    //   cart = this.props.cart;
+    // }
 
-    let qty = 0;
-    for (let item in cart) {
-      qty += cart[item].quantity;
-    }
+    // let qty = 0;
+    // for (let item in cart) {
+    //   qty += cart[item].quantity;
+    // }
     this.setState({
       userType,
-      qty
+      qty: this.props.cart.qty
     });
   }
 
+  // async componentDidUpdate() {
+  //   const currentUser = await this.props.fetchMe();
+  //   const userType = currentUser ? 'member' : 'guest';
+  //   let cart = [];
+  //   if (userType === 'guest') {
+  //     cart = ls.get('cart');
+  //   } else if (userType === 'member') {
+  //     // await this.props.fetchCart(this.props.userId);
+  //     cart = this.props.cart;
+  //   }
+
+  //   let qty = 0;
+  //   for (let item in cart) {
+  //     qty += cart[item].quantity;
+  //   }
+
+  //   console.log('UPDATING')
+  //   if(this.state.qty !== qty) {
+  //     this.setState({
+  //       userType,
+  //       cart,
+  //       qty
+  //     });
+  //   }
+    
+  // }
+
   render() {
+    console.log(this.props.cart)
     return (
       <div className='NavBarContainer'>
         <div className='Logo'></div>
@@ -73,7 +102,7 @@ export class Navbar extends React.Component {
 
           <div className='CartButtonContainer'>
             <Link to="/cart"><div className='CartButton'></div></Link>
-            <div className='CartCounter'>{this.state.qty}</div>
+            <div className='CartCounter'>{this.props.cart.qty}</div>
           </div>
         </nav>
         <hr />

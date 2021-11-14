@@ -25,7 +25,7 @@ export class CartView extends React.Component {
             cart = ls.get('cart');
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
-            cart = this.props.cart;
+            cart = this.props.cart.cart;
         }
 
         this.setState({
@@ -48,7 +48,7 @@ export class CartView extends React.Component {
             await this.props.removeFromCart(this.props.userId, event.target.name);
             await this.props.fetchCart(this.props.userId)
             this.setState({
-                cart: this.props.cart
+                cart: this.props.cart.cart
             })
         }
     }
@@ -68,7 +68,7 @@ export class CartView extends React.Component {
             await this.props.fetchCart(this.props.userId)
             this.setState({
                 userType: this.state.userType,
-                cart: this.props.cart
+                cart: this.props.cart.cart
             })
         }
     }
