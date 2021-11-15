@@ -10,6 +10,9 @@ import EmptyCart from './EmptyCart'
 export class CartView extends React.Component {
     constructor() {
         super();
+        if (!ls.get('cart')) {
+            ls.set('cart', {cart: [], qty: 0});
+        }
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {

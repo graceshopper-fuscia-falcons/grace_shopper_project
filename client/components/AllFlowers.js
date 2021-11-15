@@ -10,9 +10,6 @@ import { addItem } from '../store/cart';
 export class AllFlowers extends React.Component {
     constructor() {
         super();
-        if (!ls.get('cart')) {
-            ls.set('cart', {cart: [], qty: 0});
-        }
         this.handleAddToCart = this.handleAddToCart.bind(this);
     }
     async componentDidMount() {
