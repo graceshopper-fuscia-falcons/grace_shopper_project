@@ -28,7 +28,7 @@ form div {
 .NavBarContainer {
   display: flex;
   background-color: rgb(46, 81, 87);
-  width: 100%;
+  min-width: auto;
   max-height: 160px; 
   margin-top: -22px;
   align-items: center;
@@ -54,6 +54,7 @@ form div {
   margin-right: 20px;
   font-size:50pt;
   color: whitesmoke;
+  min-width: 400px;
 }
 
 nav {
@@ -61,7 +62,9 @@ nav {
   flex-grow: 1;
   align-items: center;
   min-height: max-content;
-  min-height: 150px;
+  min-height: 160px;
+  background-color: rgb(46, 81, 87);
+  min-width: 1000px;
 }
 
 nav > a {
@@ -81,6 +84,7 @@ nav > a:hover {
   min-height: 150px;
   align-items: center;
   justify-content: right;
+  background-color: rgb(46, 81, 87);
 }
 
 .LoginOut > * {
@@ -100,6 +104,7 @@ nav > a:hover {
   justify-content: right;
   align-items: center;
   min-height: 150px;
+  min-width: 150px;
   flex-grow: 1;
   position: relative;
 }
@@ -168,7 +173,7 @@ nav > a:hover {
   margin-bottom: 10px;
   border: solid 1px gray;
   margin-right: 20px;
-  min-width: 400px;
+  min-width: 550px;
   background-color: whitesmoke;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
