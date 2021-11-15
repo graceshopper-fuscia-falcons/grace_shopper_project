@@ -414,3 +414,28 @@ main {
   background-color: goldenrod;
   cursor: pointer;
 }
+
+/* Order Confirmation Stuff */
+.OCContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+}
+
+.OCTitleContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-bottom: 0px;
+  max-width: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.OCTitle {
+  margin-left: 20px;
+  margin-right: 20px;
+  flex-grow: 1;
+  text-align: center;
+}
