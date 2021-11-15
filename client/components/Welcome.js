@@ -9,6 +9,8 @@ export default class Welcome extends React.Component {
                         <div className='WelcomeTitle'>
                             <h1>Welcome {this.props.username}!</h1>
                         </div>
+                        <button>Edit My Account</button>
+                        <button>View Previous Orders</button>
                     </div>
                 </div>
             </main>
