@@ -5,7 +5,7 @@ import { me } from '../store/auth';
 import { fetchCart, removeItem, updateQty } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
-import EmptyCart from './EmptyCart';
+import EmptyCart from './EmptyCart'
 
 export class CartView extends React.Component {
     constructor() {
@@ -23,10 +23,10 @@ export class CartView extends React.Component {
         const userType = currentUser ? 'member' : 'guest';
         let cart = [];
         if (userType === 'guest') {
-            cart = ls.get('cart');
+            cart = ls.get('cart').cart;
         } else if (userType === 'member') {
             await this.props.fetchCart(this.props.userId);
-            cart = this.props.cart;
+            cart = this.props.cart.cart;
         }
 
         this.setState({
@@ -40,7 +40,11 @@ export class CartView extends React.Component {
             // Handle remove from local storage here
             let cart = this.state.cart;
             cart = [...cart.filter(item => item.plantId != event.target.name)]
-            ls.set('cart', cart)
+            let qty = 0
+            for(let i in cart) {
+                qty += cart[i].quantity
+            }
+            ls.set('cart', {cart, qty})
             this.setState({
                 userType: this.state.userType,
                 cart
@@ -49,7 +53,7 @@ export class CartView extends React.Component {
             await this.props.removeFromCart(this.props.userId, event.target.name);
             await this.props.fetchCart(this.props.userId)
             this.setState({
-                cart: this.props.cart
+                cart: this.props.cart.cart
             })
         }
     }
@@ -59,7 +63,11 @@ export class CartView extends React.Component {
         const plantId = event.target.name;
         if(this.state.userType == 'guest'){
             const cart = [...this.state.cart.map(item => item.plantId != plantId ? item : { ...item, quantity: newQty })]
-            ls.set('cart', cart)
+            let qty = 0
+            for(let i in cart) {
+                qty += cart[i].quantity
+            }
+            ls.set('cart', {cart, qty})
             this.setState({
                 userType: this.state.userType,
                 cart
@@ -69,7 +77,7 @@ export class CartView extends React.Component {
             await this.props.fetchCart(this.props.userId)
             this.setState({
                 userType: this.state.userType,
-                cart: this.props.cart
+                cart: this.props.cart.cart
             })
         }
     }
@@ -105,7 +113,7 @@ export class CartView extends React.Component {
                                 { totalItems += item.quantity }
                                 return (
                                     <li key={item.plantId}>
-                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} isCart={true}/>
+                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} isCart={true} />
                                     </li>
                                 )
                             })}
@@ -114,7 +122,7 @@ export class CartView extends React.Component {
                 </div>
                 <div className='ProceedToCheckoutContainer'>
                         <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
-                        <Link to='/cart/checkout'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
