@@ -5,13 +5,17 @@ import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
+import OrderConfirmation from './OrderConfirmation';
+import EmptyCart from './EmptyCart';
 
 export class CheckoutSummary extends React.Component {
     constructor() {
         super();
+        this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
         this.state = {
             userType: '',
-            cart: undefined
+            cart: undefined,
+            orderPlaced: false
         }
     }
 
@@ -32,11 +36,23 @@ export class CheckoutSummary extends React.Component {
         });
     }
 
+    handlePlaceOrder() {
+        // Clear current cart
+        // Create new empty cart
+        this.setState({ orderPlaced: true })
+    }
+
     render() {
+        if (this.state.orderPlaced === true) {
+            return (
+                <OrderConfirmation />
+            )
+        }
+
         if (this.state.cart) {
             if (this.state.cart.length < 1) {
                 return (
-                    <div>Empty Cart</div>
+                    <EmptyCart />
                 )
             }
         }
@@ -89,15 +105,15 @@ export class CheckoutSummary extends React.Component {
                     </div>
                 </div>
                 <div className='PlaceOrderContainer'>
-                    <Link to='/'><button className='ProceedToCheckoutButton'>Place Your Order</button><hr/></Link>
+                    <div><button className='PlaceOrderButton' onClick={this.handlePlaceOrder}>Place Your Order</button><hr /></div>
                     <h1>Order Summary</h1>
                     <p>
-                        {`Items (${totalItems}): $${totalPrice / 100}`}<br/>
-                        {`Shipping & Handling: $0.00`}<hr/><br/>
+                        {`Items (${totalItems}): $${totalPrice / 100}`}<br />
+                        {`Shipping & Handling: $0.00`}<hr /><br />
                     </p>
                     <p className='tax'>
-                        {`Total before tax: $${totalPrice / 100}`}<br/>
-                        {`Estimated tax to be collected: $0.00`}<hr/><br/>
+                        {`Total before tax: $${totalPrice / 100}`}<br />
+                        {`Estimated tax to be collected: $0.00`}<hr /><br />
                     </p>
                     <h1 id='OrderTotal'>Order Total: ${totalPrice / 100}</h1>
 

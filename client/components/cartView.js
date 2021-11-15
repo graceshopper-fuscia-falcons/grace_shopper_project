@@ -5,6 +5,7 @@ import { me } from '../store/auth';
 import { fetchCart, removeItem, updateQty } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
+import EmptyCart from './EmptyCart';
 
 export class CartView extends React.Component {
     constructor() {
@@ -77,7 +78,7 @@ export class CartView extends React.Component {
         if (this.state.cart) {
             if (this.state.cart.length < 1) {
                 return (
-                    <div>Empty Cart</div>
+                    <EmptyCart />
                 )
             }
         }

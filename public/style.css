@@ -314,3 +314,18 @@ main {
   color: rgb(170, 3, 3);
   margin-top: 0px;
 }
+
+.PlaceOrderButton {
+  min-height: 50px;
+  min-width: 450px;
+  background-color: gold;
+  border-radius: 10px;
+  font-size: larger;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.PlaceOrderButton:hover {
+  background-color: goldenrod;
+  cursor: pointer;
+}
