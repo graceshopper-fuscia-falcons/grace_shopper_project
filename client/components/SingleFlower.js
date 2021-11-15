@@ -9,9 +9,6 @@ import { addItem } from '../store/cart';
 export class SingleFlower extends React.Component {
   constructor() {
     super();
-    if (!ls.get('cart')) {
-      ls.set('cart', []);
-    }
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.state = {
@@ -39,29 +36,30 @@ export class SingleFlower extends React.Component {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
     if (userType === 'guest') {
-      let getCart = ls.get('cart');
+      let local = ls.get('cart');
       let itemToAdd = {
         plantId: this.props.targetFlower.id,
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
-      if (getCart.length < 1) {
-        getCart = [itemToAdd, ...getCart]
+      if (local.cart.length < 1) {
+        local.cart = [itemToAdd, ...local.cart]
       } else {
         let count = 0;
-        for (let i = 0; i < getCart.length; i++) {
-          if (itemToAdd.plantId === getCart[i].plantId) {
-            let updatedItem = getCart.splice(i, 1)
+        for (let i = 0; i < local.cart.length; i++) {
+          if (itemToAdd.plantId === local.cart[i].plantId) {
+            let updatedItem = local.cart.splice(i, 1)
             updatedItem[0].quantity += this.state.qty;
-            getCart = [updatedItem[0], ...getCart]
+            local.cart = [updatedItem[0], ...local.cart];
+            local.qty += this.state.qty;
             count++;
           }
         }
         if (count === 0) {
-          getCart = [itemToAdd, ...getCart]
+          local.cart = [itemToAdd, ...local.cart]
         }
       }
-      ls.set('cart', getCart);
+      ls.set('cart', local);
     } else {
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
     }

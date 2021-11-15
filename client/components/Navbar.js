@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useState } from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
@@ -7,33 +7,57 @@ import { fetchCart } from '../store/cart';
 import ls from 'local-storage';
 
 export class Navbar extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       userType: '',
-      qty: 0
+      qty: this.userType === 'member' ? this.props.cart.qty : ls.get('cart').qty
     }
   }
 
   async componentDidMount() {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    let cart = [];
+    await this.props.fetchCart(this.props.userId);
+
+    let qty = 0
     if (userType === 'guest') {
-      cart = ls.get('cart');
+      qty = ls.get('cart').qty;
     } else if (userType === 'member') {
-      await this.props.fetchCart(this.props.userId);
-      cart = this.props.cart;
+      qty = this.props.cart.qty
     }
 
-    let qty = 0;
-    for (let item in cart) {
-      qty += cart[item].quantity;
-    }
     this.setState({
       userType,
       qty
     });
+  }
+
+  async componentDidUpdate() {
+    if (this.state.qty !== this.props.cart.qty) {
+      const currentUser = await this.props.fetchMe();
+      const userType = currentUser ? 'member' : 'guest';
+      await this.props.fetchCart(this.props.userId);
+
+      let qty = 0
+      if (userType === 'guest') {
+        qty = ls.get('cart').qty
+      } else if (userType === 'member') {
+        qty = this.props.cart.qty
+      }
+
+      this.setState({
+        userType,
+        qty
+      });
+    }
+  }
+
+  handleClick() {
+    const qty = ls.get('cart').qty
+    this.setState({userType: 'guest', qty})
+    this.props.logout()
   }
 
   render() {
@@ -49,7 +73,7 @@ export class Navbar extends React.Component {
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
                 <Link to="/users">View Users</Link>
-                <a href="#" onClick={this.props.handleClick}>
+                <a href="#" onClick={this.handleClick}>
                   Logout
                 </a>
               </div>
@@ -57,7 +81,7 @@ export class Navbar extends React.Component {
               <div className='LoginOut'>
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
-                <a href="#" onClick={this.props.handleClick}>
+                <a href="#" onClick={this.handleClick}>
                   Logout
                 </a>
               </div>
@@ -73,7 +97,9 @@ export class Navbar extends React.Component {
 
           <div className='CartButtonContainer'>
             <Link to="/cart"><div className='CartButton'></div></Link>
-            <div className='CartCounter'>{this.state.qty}</div>
+            {!this.state.qty < 1 ? (
+              <div className='CartCounter'>{this.state.qty}</div>
+            ) : (<div/>)}
           </div>
         </nav>
         <hr />
@@ -91,15 +117,13 @@ const mapState = state => {
     isLoggedIn: !!state.auth.id,
     isAdmin: state.auth.isAdmin,
     cart: state.cartReducer,
-    userId: state.auth.id
+    userId: state.auth.id,
   }
 }
 
 const mapDispatch = dispatch => {
   return {
-    handleClick() {
-      dispatch(logout())
-    },
+    logout: () => dispatch(logout()),
     fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me())
   }
