@@ -121,8 +121,8 @@ export class CartView extends React.Component {
                     </div>
                 </div>
                 <div className='ProceedToCheckoutContainer'>
-                        <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
-                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                        <h1>Subtotal ({totalItems} items): ${(totalPrice / 100).toFixed(2)}</h1>
+                        <Link to='/cart/checkout'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
