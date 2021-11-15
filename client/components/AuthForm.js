@@ -9,34 +9,43 @@ const AuthForm = props => {
   const { name, displayName, handleSubmit, error } = props
 
   return (
-    <div>
-      <form onSubmit={handleSubmit} name={name}>
-        {name === 'signup' ? (
-          <div>
-            <label htmlFor="email">
-              <small>Email</small>
-            </label>
-            <input name="email" type="email" />
-          </div>
-        ) : <div />}
-        <div>
-          <label htmlFor="username">
-            <small>Username</small>
-          </label>
-          <input name="username" type="text" />
+    <main>
+      <div className='AuthFormContainer'>
+        <div className='AuthFormContentContainer'>
+          <form className='AuthForm' onSubmit={handleSubmit} name={name}>
+            {name === 'signup' ? (
+              <div className='signin'>
+                <h1 className='AuthFormTitle'>Sign Up</h1>
+                <div>
+                  <label htmlFor="email">
+                    <small>Email</small>
+                  </label>
+                  <input name="email" type="email" />
+                </div>
+              </div>
+            ) : <h1 className='AuthFormTitle'>Log In</h1>}
+            <div className='username'>
+              <label htmlFor="username">
+                <small>Username</small>
+              </label>
+              <input name="username" type="text" />
+            </div>
+            <div>
+              <label htmlFor="password">
+                <small>Password</small>
+              </label>
+              <input name="password" type="password" />
+            </div>
+            <div>
+              <button type="submit">{displayName}</button>
+            </div>
+            {error && error.response && <div> {error.response.data} </div>}
+          </form>
         </div>
-        <div>
-          <label htmlFor="password">
-            <small>Password</small>
-          </label>
-          <input name="password" type="password" />
-        </div>
-        <div>
-          <button type="submit">{displayName}</button>
-        </div>
-        {error && error.response && <div> {error.response.data} </div>}
-      </form>
-    </div>
+      </div>
+    </main>
+
+
   )
 }
 
@@ -71,7 +80,7 @@ const mapDispatch = dispatch => {
       const username = evt.target.username.value
       const password = evt.target.password.value
 
-      if(formName === 'signup') {
+      if (formName === 'signup') {
         const email = evt.target.email.value
         dispatch(authenticate(username, password, formName, email))
       }

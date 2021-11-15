@@ -162,6 +162,41 @@ nav > a:hover {
   text-align: center;
 }
 
+/* Auth Form Stuff */
+.AuthFormContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+}
+
+.AuthFormContentContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-bottom: 0px;
+  min-width: 500px;
+  min-height: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.AuthFormTitle {
+  text-align: center;
+}
+
+.signin {
+  margin-bottom: 0px;
+}
+
 /* All-Flowers Stuff */
 .AllFlowersUL {
   list-style-type: none;
