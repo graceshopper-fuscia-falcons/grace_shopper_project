@@ -10,10 +10,6 @@ body {
   width: 100vw;
 }
 
-a {
-  text-decoration: none;
-}
-
 label {
   display: block;
 }
@@ -32,7 +28,7 @@ form div {
 .NavBarContainer {
   display: flex;
   background-color: rgb(46, 81, 87);
-  width: 100%;
+  min-width: auto;
   max-height: 160px; 
   margin-top: -22px;
   align-items: center;
@@ -54,8 +50,11 @@ form div {
 
 .MainTitle {
   background-color: transparent;
-  margin-top: 50px;
+  margin-top: 60px;
   margin-right: 20px;
+  font-size:50pt;
+  color: whitesmoke;
+  min-width: 400px;
 }
 
 nav {
@@ -63,25 +62,41 @@ nav {
   flex-grow: 1;
   align-items: center;
   min-height: max-content;
-  min-height: 150px;
+  min-height: 160px;
+  background-color: rgb(46, 81, 87);
+  min-width: 1000px;
 }
 
 nav > a {
   margin-top: 50px;
   color: gold;
+  font-size: x-large;
+  text-decoration: none;
+}
+
+nav > a:hover {
+  border: 1px solid gold;
 }
 
 .LoginOut {
   display: flex;
-  flex-grow: 1;
+  flex-grow: 3;
   min-height: 150px;
   align-items: center;
   justify-content: right;
+  background-color: rgb(46, 81, 87);
 }
 
 .LoginOut > * {
   margin-top: 50px;
   color:gold;
+  text-decoration: none;
+}
+
+.LoginOut > *:hover {
+  margin-top: 50px;
+  color:gold;
+  text-decoration: underline;
 }
 
 .CartButtonContainer {
@@ -89,6 +104,7 @@ nav > a {
   justify-content: right;
   align-items: center;
   min-height: 150px;
+  min-width: 150px;
   flex-grow: 1;
   position: relative;
 }
@@ -121,17 +137,85 @@ nav > a {
   font-size: x-large;
 }
 
+/* Home View Stuff */
+.WelcomeContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+}
+
+.WelcomeTitleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-bottom: 0px;
+  max-width: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.WelcomeTitleContainer button {
+  margin: 20px;
+}
+
+.WelcomeTitle {
+  margin-left: 20px;
+  margin-right: 20px;
+  flex-grow: 1;
+  text-align: center;
+}
+
+/* Auth Form Stuff */
+.AuthFormContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+}
+
+.AuthFormContentContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-bottom: 0px;
+  min-width: 500px;
+  min-height: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.AuthForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100%;
+  min-width: 100%;
+}
+
+.AuthFormTitle {
+  text-align: center;
+}
+
+.signin {
+  margin-bottom: 0px;
+}
+
 /* All-Flowers Stuff */
 .AllFlowersUL {
   list-style-type: none;
   columns: 4;
+  min-width: max-content;
 }
 
 .AllFlowersUL li {
   margin-bottom: 10px;
   border: solid 1px gray;
   margin-right: 20px;
-  min-width: 400px;
+  min-width: 550px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 .AddToCartButton {
@@ -149,6 +233,8 @@ nav > a {
 /* Single Flower Stuff */
 .single-plant-container {
   margin: 20px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 #SingleFlowerQty {
@@ -166,10 +252,14 @@ nav > a {
   font-size: 30pt;
 }
 
-.ItemPic {
+.SingleItemPic {
   max-width: 1000px;
   max-height: 1000px;
   padding: 20px;
+}
+
+.SingleFlowerDescription {
+  margin-top: 50px;
 }
 
 /* Cart Stuff */
@@ -291,4 +381,66 @@ nav > a {
 
 main {
   display: flex;
+}
+
+/* Place Order View Stuff */
+.PlaceOrderContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  min-height: 400px;
+  margin: 20px;
+  padding: 30px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-height: 200px;
+}
+
+.tax {
+  margin-top: 0px;
+}
+
+#OrderTotal {
+  color: rgb(170, 3, 3);
+  margin-top: 0px;
+}
+
+.PlaceOrderButton {
+  min-height: 50px;
+  min-width: 450px;
+  background-color: gold;
+  border-radius: 10px;
+  font-size: larger;
+  margin-bottom: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
+}
+
+.PlaceOrderButton:hover {
+  background-color: goldenrod;
+  cursor: pointer;
+}
+
+/* Order Confirmation Stuff */
+.OCContainer {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  margin: 20px;
+  align-items: center;
+}
+
+.OCTitleContainer {
+  display: flex;
+  align-items: center;
+  background-color: whitesmoke;
+  margin-bottom: 0px;
+  max-width: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.OCTitle {
+  margin-left: 20px;
+  margin-right: 20px;
+  flex-grow: 1;
+  text-align: center;
 }
