@@ -7,7 +7,7 @@ export default class OrderConfirmation extends React.Component {
                 <div className='OCContainer'>
                     <div className="OCTitleContainer">
                         <div className='OCTitle'>
-                            <h1>Your order has been placed Successfully!</h1>
+                            <h1>Your order has been placed successfully!</h1>
                         </div>
                     </div>
                 </div>
