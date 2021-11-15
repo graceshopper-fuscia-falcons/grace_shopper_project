@@ -292,3 +292,25 @@ nav > a {
 main {
   display: flex;
 }
+
+/* Place Order View Stuff */
+.PlaceOrderContainer {
+  display: flex;
+  flex-direction: column;
+  min-width: 450px;
+  min-height: 400px;
+  margin: 20px;
+  padding: 30px;
+  background-color: whitesmoke;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  max-height: 200px;
+}
+
+.tax {
+  margin-top: 0px;
+}
+
+#OrderTotal {
+  color: rgb(170, 3, 3);
+  margin-top: 0px;
+}

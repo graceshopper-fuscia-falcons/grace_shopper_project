@@ -104,7 +104,7 @@ export class CartView extends React.Component {
                                 { totalItems += item.quantity }
                                 return (
                                     <li key={item.plantId}>
-                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} />
+                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} isCart={true}/>
                                     </li>
                                 )
                             })}
@@ -113,7 +113,7 @@ export class CartView extends React.Component {
                 </div>
                 <div className='ProceedToCheckoutContainer'>
                         <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
-                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                        <Link to='/cart/checkout'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )
