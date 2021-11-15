@@ -10,11 +10,17 @@ import SingleUser from './components/SingleUser';
 import AllUsers from './components/AllUsers';
 import CartView from './components/cartView';
 import CheckoutSummary from './components/CheckoutSummary';
-
+import ls from 'local-storage';
 /**
  * COMPONENT
  */
 class Routes extends Component {
+  constructor(){
+    super();
+    if (!ls.get('cart')) {
+      ls.set('cart', {cart: [], qty: 0});
+  }
+  }
   componentDidMount() {
     this.props.loadInitialData()
   }
@@ -37,7 +43,7 @@ class Routes extends Component {
           </Switch>
         ) : (
           <Switch>
-            <Route path='/' exact component={ Login } />
+            <Route path='/' exact component={AllFlowers} />
             <Route path="/login" component={Login} />
             <Route path="/signup" component={Signup} />
             <Route exact path = "/flowers" component={AllFlowers} />

@@ -10,6 +10,9 @@ import EmptyCart from './EmptyCart'
 export class CartView extends React.Component {
     constructor() {
         super();
+        if (!ls.get('cart')) {
+            ls.set('cart', {cart: [], qty: 0});
+        }
         this.handleRemoveItem = this.handleRemoveItem.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.state = {
@@ -121,8 +124,8 @@ export class CartView extends React.Component {
                     </div>
                 </div>
                 <div className='ProceedToCheckoutContainer'>
-                        <h1>Subtotal ({totalItems} items): ${totalPrice / 100}</h1>
-                        <Link to='/'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
+                        <h1>Subtotal ({totalItems} items): ${(totalPrice / 100).toFixed(2)}</h1>
+                        <Link to='/cart/checkout'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>
                 </div>
             </main>
         )

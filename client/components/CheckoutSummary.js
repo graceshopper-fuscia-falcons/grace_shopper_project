@@ -64,8 +64,6 @@ export class CheckoutSummary extends React.Component {
 
         let totalPrice = 0;
         let totalItems = 0;
-        const out = `Hey
-                    there`
         return (
             <main>
                 <div className='CartContainer'>
@@ -92,7 +90,7 @@ export class CheckoutSummary extends React.Component {
                     </div>
                     <div className='cartItemsContainer'>
                         <ul className='cartUL'>
-                            {this.state.cart.map(item => {
+                            {this.state.cart.cart.map(item => {
                                 { totalPrice = totalPrice + (item.price * item.quantity) }
                                 { totalItems += item.quantity }
                                 return (
@@ -108,14 +106,14 @@ export class CheckoutSummary extends React.Component {
                     <div><button className='PlaceOrderButton' onClick={this.handlePlaceOrder}>Place Your Order</button><hr /></div>
                     <h1>Order Summary</h1>
                     <p>
-                        {`Items (${totalItems}): $${totalPrice / 100}`}<br />
+                        {`Items (${totalItems}): $${(totalPrice / 100).toFixed(2)}`}<br />
                         {`Shipping & Handling: $0.00`}<hr /><br />
                     </p>
                     <p className='tax'>
-                        {`Total before tax: $${totalPrice / 100}`}<br />
+                        {`Total before tax: $${(totalPrice / 100).toFixed(2)}`}<br />
                         {`Estimated tax to be collected: $0.00`}<hr /><br />
                     </p>
-                    <h1 id='OrderTotal'>Order Total: ${totalPrice / 100}</h1>
+                    <h1 id='OrderTotal'>Order Total: ${(totalPrice / 100).toFixed(2)}</h1>
 
                 </div>
             </main>

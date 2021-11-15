@@ -12,19 +12,18 @@ export class Navbar extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.state = {
       userType: '',
-      qty: this.userType === 'member' ? this.props.cart.qty : ls.get('cart').qty
+      qty: this.userType === 'member' ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
     }
   }
 
   async componentDidMount() {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    await this.props.fetchCart(this.props.userId);
-
     let qty = 0
     if (userType === 'guest') {
       qty = ls.get('cart').qty;
     } else if (userType === 'member') {
+      await this.props.fetchCart(this.props.userId);
       qty = this.props.cart.qty
     }
 
