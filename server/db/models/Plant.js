@@ -1,9 +1,6 @@
 const Sequelize = require('sequelize')
 const db = require('../db')
 
-const red = "red"
-const blue = "blue"
-const yellow = "yellow"
 const defaultDescr = "This is a nice flower."
 
 const Plant = db.define('plant', {
@@ -15,7 +12,7 @@ const Plant = db.define('plant', {
         }
     },
     flowerColor: {
-        type: Sequelize.ENUM([red, blue, yellow]),
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
             notEmpty: true
@@ -38,10 +35,17 @@ const Plant = db.define('plant', {
     },
     imageUrl: {
         type: Sequelize.TEXT,
+        allowNull: false,
+        validate: {
+            isUrl: true,
+            notEmpty: true
+        },
+    },
+    imageUrlsecondary: {
+        type: Sequelize.TEXT,
         validate: {
             isUrl: true
         },
-        defaultValue: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png',
     },
     desription: {
         type: Sequelize.TEXT,
