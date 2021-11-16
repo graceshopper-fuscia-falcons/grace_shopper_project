@@ -11,8 +11,10 @@ export class SingleFlower extends React.Component {
     super();
     this.handleAddToCart = this.handleAddToCart.bind(this);
     this.handleChange = this.handleChange.bind(this);
+    this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
-      qty: undefined
+      qty: undefined,
+      mainImage: ""
     };
   }
 
@@ -20,7 +22,8 @@ export class SingleFlower extends React.Component {
     const plantId = this.props.match.params.flowersId;
     await this.props.fetchPlant(plantId);
     this.setState({
-      qty: 1
+      qty: 1,
+      mainImage: this.props.targetFlower.imageUrl
     })
   }
 
@@ -29,7 +32,13 @@ export class SingleFlower extends React.Component {
     this.setState({
       qty
     })
+  }
 
+  pictureSwap(event){
+    const newImageUrl = event.target.src
+    this.setState({
+      mainImage: newImageUrl
+    })
   }
 
   async handleAddToCart() {
@@ -66,16 +75,20 @@ export class SingleFlower extends React.Component {
   }
 
   render() {
-
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">
         <div className='cartItemView'>
+          <div className="secondaryImageContainer">
+            <img style={{width: 150}}src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
+            <img style={{width: 150}}src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
+          </div>
           <div className="imageContainer">
-            <img className="SingleItemPic" src={targetFlower.imageUrl} />
+            <img className="SingleItemPic" src={this.state.mainImage} />
           </div>
           <div className='SingleItemInfo'>
             <h2><Link to={`/flowers/${targetFlower.id}`}>{targetFlower.name}</Link></h2>
+            <p className="description">{targetFlower.description}</p>
             <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
             <div className='CartQtySelect'>
               <div className="label">

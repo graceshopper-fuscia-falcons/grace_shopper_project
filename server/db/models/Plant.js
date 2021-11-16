@@ -47,9 +47,12 @@ const Plant = db.define('plant', {
             isUrl: true
         },
     },
-    desription: {
+    description: {
         type: Sequelize.TEXT,
-        defaultValue: defaultDescr
+        allowNull: false,
+        validate: {
+            notEmpty: true
+        }
     },
     stock: {
         type: Sequelize.INTEGER,
