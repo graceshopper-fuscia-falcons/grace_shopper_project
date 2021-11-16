@@ -13,7 +13,7 @@ export class SingleFlower extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
-      qty: undefined,
+      qty: 1,
       mainImage: ""
     };
   }
@@ -99,7 +99,7 @@ export class SingleFlower extends React.Component {
               <input
                 id="SingleFlowerQty"
                 type="number"
-                min="0"
+                min="1"
                 max="100"                        // Will be Stock value
                 name={targetFlower.id}
                 value={this.state.qty}

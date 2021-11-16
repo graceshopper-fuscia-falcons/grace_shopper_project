@@ -66,7 +66,7 @@ export class Navbar extends React.Component {
         <div className='Logo'></div>
         <h1 className='MainTitle'>Flower Shop</h1>
         <nav>
-          <Link to="/flowers"><a>View Our Flowers!</a></Link>
+          <Link to="/flowers"><span>View Our Flowers!</span></Link>
           {this.props.isLoggedIn ? (
             this.props.isAdmin ? (
               <div className='LoginOut'>

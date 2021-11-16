@@ -8,9 +8,9 @@ export class CartItem extends React.Component {
         super();
         this.state = {
             plant: {},
-            plantId: undefined,
-            price: undefined,
-            qty: undefined
+            plantId: 0,
+            price: 0,
+            qty: 0
         }
     }
 
@@ -60,7 +60,7 @@ export class CartItem extends React.Component {
                             <input
                                 id="qty"
                                 type="number"
-                                min="0"
+                                min="1"
                                 max="100"                        // Will be stock
                                 name={this.state.plantId}
                                 value={item.quantity}
