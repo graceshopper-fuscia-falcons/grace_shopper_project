@@ -51,13 +51,14 @@ export class SingleFlower extends React.Component {
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
+      let updatedItem = [itemToAdd]
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
       } else {
         let count = 0;
         for (let i = 0; i < local.cart.length; i++) {
           if (itemToAdd.plantId === local.cart[i].plantId) {
-            let updatedItem = local.cart.splice(i, 1)
+            updatedItem = local.cart.splice(i, 1)
             updatedItem[0].quantity += this.state.qty;
             local.cart = [updatedItem[0], ...local.cart];
             local.qty += this.state.qty;
@@ -69,6 +70,7 @@ export class SingleFlower extends React.Component {
         }
       }
       ls.set('cart', local);
+      await this.props.addItemToCart('guest', updatedItem[0], parseInt(this.state.qty));
     } else {
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
     }
@@ -98,7 +100,7 @@ export class SingleFlower extends React.Component {
                 id="SingleFlowerQty"
                 type="number"
                 min="0"
-                max="100"                        // Will be stock
+                max="100"                        // Will be Stock value
                 name={targetFlower.id}
                 value={this.state.qty}
                 onChange={this.handleChange}
@@ -119,7 +121,8 @@ export class SingleFlower extends React.Component {
 const mapState = (state) => {
   return {
     targetFlower: state.singlePlantReducer,
-    userId: state.auth.id
+    userId: state.auth.id,
+    cart: state.cartReducer,
   };
 };
 

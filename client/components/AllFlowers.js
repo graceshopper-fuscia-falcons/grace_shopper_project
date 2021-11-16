@@ -27,13 +27,14 @@ export class AllFlowers extends React.Component {
                 price: this.props.targetFlower.price,
                 quantity: 1,
             };
+            let updatedItem = [itemToAdd]
             if (local.cart.length < 1) {
                 local.cart = [itemToAdd, ...local.cart]
             } else {
                 let count = 0;
                 for (let i = 0; i < local.cart.length; i++) {
                     if (itemToAdd.plantId === local.cart[i].plantId) {
-                        let updatedItem = local.cart.splice(i, 1)
+                        updatedItem = local.cart.splice(i, 1)
                         updatedItem[0].quantity++
                         local.cart = [updatedItem[0], ...local.cart]
                         count++;
@@ -45,6 +46,7 @@ export class AllFlowers extends React.Component {
             }
             local.qty++
             ls.set('cart', local);
+            await this.props.addItemToCart('guest', updatedItem[0], 1);
         }
         else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);
