@@ -4,7 +4,7 @@
 ## Tier 1: MVP Shopping Experience
 
 ### As a customer/visitor, I want to be able to:
-[ ] access a deployed version of the website so I can browse and purchase products.
+[x] access a deployed version of the website so I can browse and purchase products.
 [x] view all available products so I can pick from a variety.
 [x] view a single product so I can see more details.
 [x] add a product to my cart so I can collect my desired products in one place.
@@ -19,7 +19,7 @@
 
 ### As a logged-in customer, I want to be able to:
 [x] have a persistent cart so I can revisit and pick up where I left off.
-  [ ] *Logged-in-user across multiple devices: I'm logged in on my mobile device and add some items to my cart. When I open the browser on my laptop and log in, I want to see those items in my cart.*
+  [x] *Logged-in-user across multiple devices: I'm logged in on my mobile device and add some items to my cart. When I open the browser on my laptop and log in, I want to see those items in my cart.*
   [x] *No one else should be able to edit my cart except me.*
 
 ### As an administrator, I want to be able to:
