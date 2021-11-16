@@ -122,7 +122,6 @@ export default function (state = { cart: [], qty: 0 }, action) {
           cart = [action.item, ...state.cart];
         }
         let qty = 0;
-        console.log(action.item)
         for (let item in cart) {
           qty += cart[item].quantity;
         }
