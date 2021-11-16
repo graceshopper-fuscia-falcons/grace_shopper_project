@@ -7,7 +7,7 @@ import { fetchPlant } from '../store/singlePlant';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 import EmptyCart from './EmptyCart'
-import { removeLocalItem } from '../store/LocalCart';
+import { fetchLocalCart, removeLocalItem, updateLocalQty } from '../store/LocalCart';
 
 export class CartView extends React.Component {
     constructor() {
@@ -51,8 +51,7 @@ export class CartView extends React.Component {
             }
             ls.set('cart', { cart, qty })
             await this.props.removeFromLocalCart(this.props.targetFlower);
-            console.log(ls.get('cart'))
-            // await this.props.fetchLocalCart()
+            await this.props.fetchLocalCart()
         } else if (this.state.userType === 'member') {
             await this.props.removeFromCart(this.props.userId, plantId);
             await this.props.fetchCart(this.props.userId)
@@ -64,6 +63,7 @@ export class CartView extends React.Component {
     }
 
     async handleChange(event) {
+        console.log(event.target.value)
         const newQty = parseInt(event.target.value);
         const plantId = event.target.name;
         await this.props.fetchPlant(plantId);
@@ -76,9 +76,9 @@ export class CartView extends React.Component {
             }
             ls.set('cart', { cart, qty })
             flower.quantity = newQty
-            await this.props.updateQty('guest', flower, newQty)
-            await this.props.fetchCart('guest')
-            cart = this.props.cart.cart
+            await this.props.updateLocalQty(flower)
+            await this.props.fetchLocalCart()
+            cart = this.props.localCart.cart
             this.setState({
                 userType: this.state.userType,
                 cart
@@ -143,6 +143,7 @@ export class CartView extends React.Component {
 const mapState = (state) => {
     return {
         cart: state.cartReducer,
+        localCart: state.localCartReducer,
         userId: state.auth.id,
         targetFlower: state.singlePlantReducer,
     }
@@ -151,10 +152,12 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         fetchCart: (id) => dispatch(fetchCart(id)),
+        fetchLocalCart: () => dispatch(fetchLocalCart()),
         fetchMe: () => dispatch(me()),
         fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
         removeFromCart: (userId, plantId) => dispatch(removeItem(userId, plantId)),
         removeFromLocalCart: (item) => dispatch(removeLocalItem(item)),
+        updateLocalQty: (item) => dispatch(updateLocalQty(item)),
         updateQty: (userId, plantId, newQty) => dispatch(updateQty(userId, plantId, newQty))
     }
 }

@@ -36,7 +36,7 @@ export const removeLocalItem = (plant) => {
 
 export const updateLocalQty = (plant) => {
   return async (dispatch) => {
-    dispatch(_updateQty(plantId))
+    dispatch(_updateQty(plant))
   }
 }
 
@@ -59,21 +59,14 @@ export default function (state = { cart: [], qty: 0 }, action) {
       }
     case ADD_ITEM:
       {
-        let count = 0
-        for (let item in state.cart) {
-          if (action.item.plantId === state.cart[item].plantId) {
-            state.cart[item].quantity += action.item.quantity
-            count++
-          }
-        }
-        let cart = []
-        if (count === 0) {
-          cart = [action.item, ...state.cart];
-        }
+        let cart = [...state.cart]
+        cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
+
         let qty = 0;
         for (let item in cart) {
           qty += cart[item].quantity;
         }
+        
         return { cart, qty }
       }
     case REMOVE_ITEM:

@@ -12,8 +12,9 @@ export class Navbar extends React.Component {
     super(props);
     this.handleClick = this.handleClick.bind(this)
     this.state = {
+      userId: 0,
       userType: '',
-      qty: this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
+      qty: this.props.userId ? this.props.cart.qty : this.props.localCart.qty
     }
   }
 
@@ -21,38 +22,45 @@ export class Navbar extends React.Component {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
     let qty = 0
+    let userId = 0
     if (userType === 'guest') {
-      await this.props.fetchLocalCart();
-      qty = this.props.localCart.qty
+      // await this.props.fetchLocalCart();
+      qty = ls.get('cart').qty
     } else if (userType === 'member') {
       await this.props.fetchCart(this.props.userId);
       qty = this.props.cart.qty
+      userId = this.props.userId
     }
 
     this.setState({
+      userId,
       userType,
       qty
     });
   }
 
   async componentDidUpdate() {
-    console.log('UPDATING', this.props.localCart)
-    const currentUser = await this.props.fetchMe();
-    const userType = currentUser ? 'member' : 'guest';
-    if (this.state.qty !== this.props.localCart.qty || this.state.userType !== userType) {
-      let qty = 0
-      if (userType === 'guest') {
-        await this.props.fetchLocalCart();
-        qty = this.props.localCart.qty
-      } else if (userType === 'member') {
-        await this.props.fetchCart(this.props.userId);
-        qty = this.props.cart.qty
+    
+    const userType = this.props.userId ? 'member' : 'guest';
+    let qty = 0
+    if (userType === 'guest') {
+      if (this.state.qty !== ls.get('cart').qty) {
+        qty = ls.get('cart').qty
+        this.setState({
+          userType,
+          qty
+        });
       }
-
-      this.setState({
-        userType,
-        qty
-      });
+    } else if (userType === 'member') {
+      
+      console.log('prev', this.state.qty, this.props.cart.qty)
+      if (this.state.qty !== this.props.cart.qty) {
+        qty = this.props.cart.qty
+        this.setState({
+          userType,
+          qty
+        });
+      }
     }
   }
 
