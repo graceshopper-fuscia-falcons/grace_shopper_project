@@ -13,7 +13,7 @@ export class SingleFlower extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
-      qty: undefined,
+      qty: 1,
       mainImage: ""
     };
   }
