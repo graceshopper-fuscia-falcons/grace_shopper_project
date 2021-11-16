@@ -39,6 +39,9 @@ export class CheckoutSummary extends React.Component {
     handlePlaceOrder() {
         // Clear current cart
         // Create new empty cart
+        if(this.state.userType === 'guest') {
+            ls.set('cart', {cart: [], qty: 0})
+        }
         this.setState({ orderPlaced: true })
     }
 
