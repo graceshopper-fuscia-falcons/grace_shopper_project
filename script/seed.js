@@ -26,7 +26,7 @@ async function seed() {
     stock: 100,
     imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg?width=545&height=597&quality=1&auto=webp&optimize={medium}',
     imageUrlsecondary:'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/161132alt_viewx.jpg?width=545&height=597&quality=80&auto=webp&optimize={medium}',
-    description: 'Sometimes flowers speak louder than words…and our elegant red roses speak volumes! Beautifully hand-arranged with lush greenery inside our exclusive ruby red vase, each radiant bloom will help you express your love in the most romantic way possible.'
+    description: "Sometimes flowers speak louder than words…and our elegant red roses speak volumes! Beautifully hand-arranged with lush greenery inside our exclusive ruby red vase, each radiant bloom will help you express your love in the most romantic way possible."
   })
   
   const oceanBreezeOrchids = await Plant.create({
