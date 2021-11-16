@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { me } from '../store/auth';
 import ls from 'local-storage';
 import { addItem } from '../store/cart';
+import { addLocalItem } from '../store/LocalCart';
 
 export class AllFlowers extends React.Component {
     constructor() {
@@ -22,6 +23,7 @@ export class AllFlowers extends React.Component {
         const userType = currentUser ? 'member' : 'guest';
         if (userType === 'guest') {
             let local = ls.get('cart');
+            console.log(ls.get('cart'))
             let itemToAdd = {
                 plantId: this.props.targetFlower.id,
                 price: this.props.targetFlower.price,
@@ -45,8 +47,7 @@ export class AllFlowers extends React.Component {
                 }
             }
             local.qty++
-            ls.set('cart', local);
-            await this.props.addItemToCart('guest', updatedItem[0], 1);
+            await this.props.addItemToLocalCart(updatedItem[0], local);
         }
         else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);
@@ -104,7 +105,8 @@ const mapDispatch = (dispatch) => {
         fetchPlants: () => dispatch(fetchPlants()),
         fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
         fetchMe: () => dispatch(me()),
-        addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
+        addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
+        addItemToLocalCart: (item) => dispatch(addLocalItem(item))
     }
 }
 
