@@ -19,7 +19,6 @@ export class Navbar extends React.Component {
   async componentDidMount() {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    console.log('MOUNTING', userType, this.props.cart, this.state)
     let qty = 0
     if (userType === 'guest') {
       await this.props.fetchCart('guest');
@@ -39,7 +38,6 @@ export class Navbar extends React.Component {
     
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    console.log('UPDATING', userType, this.props.cart, this.state)
     if (this.state.qty !== this.props.cart.qty || this.state.userType !== userType) {
       let qty = 0
       if (userType === 'guest') {
