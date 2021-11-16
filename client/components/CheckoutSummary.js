@@ -116,11 +116,11 @@ export class CheckoutSummary extends React.Component {
                     <h1>Order Summary</h1>
                     <p>
                         {`Items (${totalItems}): $${(totalPrice / 100).toFixed(2)}`}<br />
-                        {`Shipping & Handling: $0.00`}<hr /><br />
+                        {`Shipping & Handling: $0.00`}<br />
                     </p>
                     <p className='tax'>
                         {`Total before tax: $${(totalPrice / 100).toFixed(2)}`}<br />
-                        {`Estimated tax to be collected: $0.00`}<hr /><br />
+                        {`Estimated tax to be collected: $0.00`}<br />
                     </p>
                     <h1 id='OrderTotal'>Order Total: ${(totalPrice / 100).toFixed(2)}</h1>
 
