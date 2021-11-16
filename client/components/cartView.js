@@ -63,7 +63,6 @@ export class CartView extends React.Component {
     }
 
     async handleChange(event) {
-        console.log(event.target.value)
         const newQty = parseInt(event.target.value);
         const plantId = event.target.name;
         await this.props.fetchPlant(plantId);

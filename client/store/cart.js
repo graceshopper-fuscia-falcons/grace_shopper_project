@@ -35,7 +35,6 @@ export const addItem = (userId, plantId, qty) => {
         authorization: token
       }
     })
-    console.log('ADDED', addedItem)
     dispatch(_addItem(addedItem))
   }
 }
@@ -86,12 +85,15 @@ export default function (state = { cart: [], qty: 0 }, action) {
         for (let item in action.cart) {
           qty += action.cart[item].quantity;
         }
-        return { cart: action.cart, qty };
+        return { cart: action.cart.reverse(), qty };
       }
     case ADD_ITEM:
       {
         let cart = [...state.cart]
-        cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
+        if(action.item)  {
+          cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
+        }
+        
 
         let qty = 0;
         for (let item in cart) {

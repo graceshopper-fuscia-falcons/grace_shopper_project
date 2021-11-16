@@ -2,54 +2,54 @@ import Axios from 'axios';
 import ls from 'local-storage'
 
 ////// Action Types
-const SET_CART = 'SET_CART';
-const ADD_ITEM = "ADD_ITEM";
-const REMOVE_ITEM = 'REMOVE_ITEM';
-const UPDATE_QTY = 'UPDATE_QTY';
-const CHECKOUT = 'CHECKOUT';
+const SET_LOCAL_CART = 'SET_LOCAL_CART';
+const ADD_LOCAL_ITEM = "ADD_LOCAL_ITEM";
+const REMOVE_LOCAL_ITEM = 'REMOVE_LOCAL_ITEM';
+const UPDATE_LOCAL_QTY = 'UPDATE_LOCAL_QTY';
+const CHECKOUT_LOCAL = 'CHECKOUT_LOCAL';
 
 ////// Action Creators
-export const setCart = (cart) => ({ type: SET_CART, cart });
-export const _addItem = (item) => ({ type: ADD_ITEM, item });
-export const _removeItem = (item) => ({ type: REMOVE_ITEM, item });
-export const _updateQty = (item) => ({ type: UPDATE_QTY, item });
-export const _checkout = () => ({ type: CHECKOUT });
+export const setLocalCart = (cart) => ({ type: SET_LOCAL_CART, cart });
+export const _addLocalItem = (item) => ({ type: ADD_LOCAL_ITEM, item });
+export const _removeLocalItem = (item) => ({ type: REMOVE_LOCAL_ITEM, item });
+export const _updateLocalQty = (item) => ({ type: UPDATE_LOCAL_QTY, item });
+export const _checkoutLocal = () => ({ type: CHECKOUT_LOCAL });
 
 ////// Async Creators
 export const fetchLocalCart = () => {
   return async (dispatch) => {
-    dispatch(setCart(ls.get('cart').cart));
+    dispatch(setLocalCart(ls.get('cart').cart));
   }
 }
 
 export const addLocalItem = (plant) => {
   return async (dispatch) => {
-    dispatch(_addItem(plant))
+    dispatch(_addLocalItem(plant))
   }
 }
 
 export const removeLocalItem = (plant) => {
   return async (dispatch) => {
-    dispatch(_removeItem(plant))
+    dispatch(_removeLocalItem(plant))
   }
 }
 
 export const updateLocalQty = (plant) => {
   return async (dispatch) => {
-    dispatch(_updateQty(plant))
+    dispatch(_updateLocalQty(plant))
   }
 }
 
 export const checkoutLocal = () => {
   return async (dispatch) => {
-    dispatch(_checkout())
+    dispatch(_checkoutLocal())
   }
 }
 
 //////Reducer
 export default function (state = { cart: [], qty: 0 }, action) {
   switch (action.type) {
-    case SET_CART:
+    case SET_LOCAL_CART:
       {
         let qty = 0;
         for (let item in action.cart) {
@@ -57,7 +57,7 @@ export default function (state = { cart: [], qty: 0 }, action) {
         }
         return { cart: action.cart, qty };
       }
-    case ADD_ITEM:
+    case ADD_LOCAL_ITEM:
       {
         let cart = [...state.cart]
         cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
@@ -69,7 +69,7 @@ export default function (state = { cart: [], qty: 0 }, action) {
         
         return { cart, qty }
       }
-    case REMOVE_ITEM:
+    case REMOVE_LOCAL_ITEM:
       {
         let cart = [...state.cart.filter(item => item.id !== action.item.id)];
         let qty = 0;
@@ -78,7 +78,7 @@ export default function (state = { cart: [], qty: 0 }, action) {
         }
         return { cart, qty }
       }
-    case UPDATE_QTY:
+    case UPDATE_LOCAL_QTY:
       {
         let cart = [...state.cart.map(item => item.id === action.item.id ? action.item : item)]
         let qty = 0;
@@ -87,7 +87,7 @@ export default function (state = { cart: [], qty: 0 }, action) {
         }
         return { cart, qty }
       }
-    case CHECKOUT:
+    case CHECKOUT_LOCAL:
       {
         return { cart: [], qty: 0 }
       }

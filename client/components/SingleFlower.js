@@ -4,7 +4,7 @@ import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import ls from 'local-storage';
-import { addItem } from '../store/cart';
+import { addItem, fetchCart } from '../store/cart';
 import { addLocalItem } from '../store/LocalCart';
 
 export class SingleFlower extends React.Component {
@@ -74,6 +74,7 @@ export class SingleFlower extends React.Component {
       await this.props.addItemToLocalCart(itemToAdd);
     } else {
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
+      await this.props.fetchCart(this.props.userId)
     }
   }
 
@@ -124,12 +125,14 @@ const mapState = (state) => {
     targetFlower: state.singlePlantReducer,
     userId: state.auth.id,
     cart: state.cartReducer,
+    cart: state.cartReducer,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
+    fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me()),
     addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
     addItemToLocalCart: (item) => dispatch(addLocalItem(item))

@@ -14,7 +14,7 @@ export class Navbar extends React.Component {
     this.state = {
       userId: 0,
       userType: '',
-      qty: this.props.userId ? this.props.cart.qty : this.props.localCart.qty
+      qty: this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
     }
   }
 
@@ -52,8 +52,6 @@ export class Navbar extends React.Component {
         });
       }
     } else if (userType === 'member') {
-      
-      console.log('prev', this.state.qty, this.props.cart.qty)
       if (this.state.qty !== this.props.cart.qty) {
         qty = this.props.cart.qty
         this.setState({

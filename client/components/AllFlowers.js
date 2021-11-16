@@ -17,6 +17,7 @@ export class AllFlowers extends React.Component {
         await this.props.fetchPlants();
     }
     async handleAddToCart(event) {
+        
         const targetId = event.target.name
         await this.props.fetchPlant(event.target.name);
         const currentUser = await this.props.fetchMe();
@@ -47,10 +48,11 @@ export class AllFlowers extends React.Component {
             local.qty++
             ls.set('cart', local)
             await this.props.addItemToLocalCart(itemToAdd);
-        }
-        else {
+            return
+        } else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);
             await this.props.fetchCart(this.props.userId)
+            return
         }
     }
     render() {
