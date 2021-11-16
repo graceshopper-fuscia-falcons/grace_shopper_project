@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
@@ -12,7 +12,7 @@ export class Navbar extends React.Component {
     this.handleClick = this.handleClick.bind(this)
     this.state = {
       userType: '',
-      qty: this.userType === 'member' ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
+      qty: this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
     }
   }
 
@@ -21,7 +21,8 @@ export class Navbar extends React.Component {
     const userType = currentUser ? 'member' : 'guest';
     let qty = 0
     if (userType === 'guest') {
-      qty = ls.get('cart').qty;
+      await this.props.fetchCart('guest');
+      qty = this.props.cart.qty
     } else if (userType === 'member') {
       await this.props.fetchCart(this.props.userId);
       qty = this.props.cart.qty
@@ -34,15 +35,16 @@ export class Navbar extends React.Component {
   }
 
   async componentDidUpdate() {
-    if (this.state.qty !== this.props.cart.qty) {
-      const currentUser = await this.props.fetchMe();
-      const userType = currentUser ? 'member' : 'guest';
-      await this.props.fetchCart(this.props.userId);
-
+    
+    const currentUser = await this.props.fetchMe();
+    const userType = currentUser ? 'member' : 'guest';
+    if (this.state.qty !== this.props.cart.qty || this.state.userType !== userType) {
       let qty = 0
       if (userType === 'guest') {
-        qty = ls.get('cart').qty
+        await this.props.fetchCart('guest');
+        qty = this.props.cart.qty
       } else if (userType === 'member') {
+        await this.props.fetchCart(this.props.userId);
         qty = this.props.cart.qty
       }
 
@@ -53,10 +55,9 @@ export class Navbar extends React.Component {
     }
   }
 
-  handleClick() {
-    const qty = ls.get('cart').qty
-    this.setState({userType: 'guest', qty})
+  async handleClick() {
     this.props.logout()
+    await this.props.fetchCart('guest')
   }
 
   render() {
@@ -98,7 +99,7 @@ export class Navbar extends React.Component {
             <Link to="/cart"><div className='CartButton'></div></Link>
             {!this.state.qty < 1 ? (
               <div className='CartCounter'>{this.state.qty}</div>
-            ) : (<div/>)}
+            ) : (<div />)}
           </div>
         </nav>
         <hr />
