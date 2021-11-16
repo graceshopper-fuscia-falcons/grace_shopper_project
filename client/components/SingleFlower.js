@@ -4,7 +4,8 @@ import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import ls from 'local-storage';
-import { addItem } from '../store/cart';
+import { addItem, fetchCart } from '../store/cart';
+import { addLocalItem } from '../store/LocalCart';
 
 export class SingleFlower extends React.Component {
   constructor() {
@@ -51,14 +52,14 @@ export class SingleFlower extends React.Component {
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
-      let updatedItem = [itemToAdd]
+      
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
       } else {
         let count = 0;
         for (let i = 0; i < local.cart.length; i++) {
           if (itemToAdd.plantId === local.cart[i].plantId) {
-            updatedItem = local.cart.splice(i, 1)
+            let updatedItem = local.cart.splice(i, 1)
             updatedItem[0].quantity += this.state.qty;
             local.cart = [updatedItem[0], ...local.cart];
             local.qty += this.state.qty;
@@ -70,9 +71,10 @@ export class SingleFlower extends React.Component {
         }
       }
       ls.set('cart', local);
-      await this.props.addItemToCart('guest', updatedItem[0], parseInt(this.state.qty));
+      await this.props.addItemToLocalCart(itemToAdd);
     } else {
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
+      await this.props.fetchCart(this.props.userId)
     }
   }
 
@@ -123,14 +125,17 @@ const mapState = (state) => {
     targetFlower: state.singlePlantReducer,
     userId: state.auth.id,
     cart: state.cartReducer,
+    cart: state.cartReducer,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
+    fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me()),
-    addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
+    addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
+    addItemToLocalCart: (item) => dispatch(addLocalItem(item))
   };
 };
 

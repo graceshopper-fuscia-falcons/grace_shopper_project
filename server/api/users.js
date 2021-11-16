@@ -127,7 +127,7 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
       else {
       await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
       }
-      res.json(targetOrder)
+      res.json(orderPlantThru)
     }catch(err){
       next(err)
     }
