@@ -47,7 +47,8 @@ export class AllFlowers extends React.Component {
                 }
             }
             local.qty++
-            await this.props.addItemToLocalCart(updatedItem[0], local);
+            ls.set('cart', local)
+            await this.props.addItemToLocalCart(updatedItem[0]);
         }
         else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);

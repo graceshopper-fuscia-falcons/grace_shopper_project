@@ -1,5 +1,4 @@
 import Axios from 'axios';
-import ls from 'local-storage'
 
 ////// Action Types
 const SET_CART = 'SET_CART';
@@ -18,82 +17,62 @@ export const _checkout = () => ({ type: CHECKOUT });
 ////// Async Creators
 export const fetchCart = (userId) => {
   return async (dispatch) => {
-    if (userId === 'guest') {
-      dispatch(setCart(ls.get('cart').cart));
-    } else {
-      const token = window.localStorage.getItem('token');
-      const { data: cart } = await Axios.get(`/api/users/${userId}/current-order`, {
-        headers: {
-          authorization: token
-        }
-      });
-      dispatch(setCart(cart));
-    }
+    const token = window.localStorage.getItem('token');
+    const { data: cart } = await Axios.get(`/api/users/${userId}/current-order`, {
+      headers: {
+        authorization: token
+      }
+    });
+    dispatch(setCart(cart));
   }
 }
 
 export const addItem = (userId, plantId, qty) => {
   return async (dispatch) => {
-    if (userId === 'guest') {
-      dispatch(_addItem(plantId))
-    } else {
-      const token = window.localStorage.getItem('token');
-      const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, { plantId, qty }, {
-        headers: {
-          authorization: token
-        }
-      })
-      dispatch(_addItem(addedItem))
-    }
+    const token = window.localStorage.getItem('token');
+    const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, { plantId, qty }, {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(_addItem(addedItem))
   }
 }
 
 export const removeItem = (userId, plantId) => {
   return async (dispatch) => {
-    if (userId === 'guest') {
-      dispatch(_removeItem(plantId))
-    } else {
-      const token = window.localStorage.getItem('token');
-      const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order/${plantId}`, {
-        plantId,
-        headers: {
-          authorization: token
-        }
-      })
-      dispatch(_removeItem(removedItem))
-    }
+    const token = window.localStorage.getItem('token');
+    const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order/${plantId}`, {
+      plantId,
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(_removeItem(removedItem))
   }
 }
 
 export const updateQty = (userId, plantId, newQty) => {
   return async (dispatch) => {
-    if (userId === 'guest') {
-      dispatch(_updateQty(plantId))
-    } else {
-      const token = window.localStorage.getItem('token');
-      const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, { newQty }, {
-        headers: {
-          authorization: token
-        }
-      })
-      dispatch(_updateQty(updatedItem))
-    }
+    const token = window.localStorage.getItem('token');
+    const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, { newQty }, {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(_updateQty(updatedItem))
   }
 }
 
 export const checkout = (userId) => {
   return async (dispatch) => {
-    if (userId === 'guest') {
-      dispatch(_checkout())
-    } else {
-      const token = window.localStorage.getItem('token');
-      await Axios.put(`/api/users/${userId}/current-order`, {
-        headers: {
-          authorization: token
-        }
-      })
-      dispatch(_checkout())
-    }
+    const token = window.localStorage.getItem('token');
+    await Axios.put(`/api/users/${userId}/current-order`, { userId }, {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(_checkout())
   }
 }
 

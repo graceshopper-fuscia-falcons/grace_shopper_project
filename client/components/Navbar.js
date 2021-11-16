@@ -4,7 +4,8 @@ import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
-import ls from 'local-storage';
+import { fetchLocalCart } from '../store/LocalCart';
+import ls from 'local-storage'
 
 export class Navbar extends React.Component {
   constructor(props) {
@@ -21,8 +22,8 @@ export class Navbar extends React.Component {
     const userType = currentUser ? 'member' : 'guest';
     let qty = 0
     if (userType === 'guest') {
-      await this.props.fetchCart('guest');
-      qty = this.props.cart.qty
+      await this.props.fetchLocalCart();
+      qty = this.props.localCart.qty
     } else if (userType === 'member') {
       await this.props.fetchCart(this.props.userId);
       qty = this.props.cart.qty
@@ -35,14 +36,14 @@ export class Navbar extends React.Component {
   }
 
   async componentDidUpdate() {
-    
+    console.log('UPDATING', this.props.localCart)
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
-    if (this.state.qty !== this.props.cart.qty || this.state.userType !== userType) {
+    if (this.state.qty !== this.props.localCart.qty || this.state.userType !== userType) {
       let qty = 0
       if (userType === 'guest') {
-        await this.props.fetchCart('guest');
-        qty = this.props.cart.qty
+        await this.props.fetchLocalCart();
+        qty = this.props.localCart.qty
       } else if (userType === 'member') {
         await this.props.fetchCart(this.props.userId);
         qty = this.props.cart.qty
@@ -57,7 +58,7 @@ export class Navbar extends React.Component {
 
   async handleClick() {
     this.props.logout()
-    await this.props.fetchCart('guest')
+    await this.props.fetchLocalCart()
   }
 
   render() {
@@ -117,6 +118,7 @@ const mapState = state => {
     isLoggedIn: !!state.auth.id,
     isAdmin: state.auth.isAdmin,
     cart: state.cartReducer,
+    localCart: state.localCartReducer,
     userId: state.auth.id,
   }
 }
@@ -125,6 +127,7 @@ const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout()),
     fetchCart: (id) => dispatch(fetchCart(id)),
+    fetchLocalCart: () => dispatch(fetchLocalCart()),
     fetchMe: () => dispatch(me())
   }
 }

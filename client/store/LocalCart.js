@@ -22,9 +22,8 @@ export const fetchLocalCart = () => {
   }
 }
 
-export const addLocalItem = (plant, updatedLocalStrorage) => {
+export const addLocalItem = (plant) => {
   return async (dispatch) => {
-    ls.set('cart', updatedLocalStrorage)
     dispatch(_addItem(plant))
   }
 }

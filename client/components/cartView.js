@@ -7,6 +7,7 @@ import { fetchPlant } from '../store/singlePlant';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 import EmptyCart from './EmptyCart'
+import { removeLocalItem } from '../store/LocalCart';
 
 export class CartView extends React.Component {
     constructor() {
@@ -41,27 +42,25 @@ export class CartView extends React.Component {
     async handleRemoveItem(event) {
         const plantId = event.target.name;
         await this.props.fetchPlant(plantId);
+        let cart = []
         if (this.state.userType === 'guest') {
-            let cart = [...this.state.cart.filter(item => item.plantId != plantId)]
+            cart = [...this.state.cart.filter(item => item.plantId != plantId)]
             let qty = 0
             for (let i in cart) {
                 qty += cart[i].quantity
             }
             ls.set('cart', { cart, qty })
-            await this.props.removeFromCart('guest', this.props.targetFlower);
-            await this.props.fetchCart('guest')
-            cart = this.props.cart.cart
-            this.setState({
-                userType: this.state.userType,
-                cart
-            })
+            await this.props.removeFromLocalCart(this.props.targetFlower);
+            console.log(ls.get('cart'))
+            // await this.props.fetchLocalCart()
         } else if (this.state.userType === 'member') {
             await this.props.removeFromCart(this.props.userId, plantId);
             await this.props.fetchCart(this.props.userId)
-            this.setState({
-                cart: this.props.cart.cart
-            })
+            cart = this.props.cart.cart
         }
+        this.setState({
+            cart
+        })
     }
 
     async handleChange(event) {
@@ -155,6 +154,7 @@ const mapDispatch = (dispatch) => {
         fetchMe: () => dispatch(me()),
         fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
         removeFromCart: (userId, plantId) => dispatch(removeItem(userId, plantId)),
+        removeFromLocalCart: (item) => dispatch(removeLocalItem(item)),
         updateQty: (userId, plantId, newQty) => dispatch(updateQty(userId, plantId, newQty))
     }
 }
