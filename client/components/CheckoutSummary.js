@@ -48,6 +48,7 @@ export class CheckoutSummary extends React.Component {
             await this.props.checkout(this.props.userId)
             await this.props.fetchCart(this.props.userId)
         }
+        this.setState({ orderPlaced: true })
     }
 
     render() {
