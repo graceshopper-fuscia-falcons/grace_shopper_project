@@ -249,7 +249,7 @@ margin-top: 3%;
 .AddToCartButton {
   background: none;
   border: none;
-  color: rgb(46, 81, 87);
+  color: #374112;
   font-weight: bold;
 }
 
@@ -261,9 +261,8 @@ margin-top: 3%;
 /* Single Flower Stuff */
 .single-plant-container {
   margin: 20px;
-  background-color: whitesmoke;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  padding: 0 5%;
+  display: flex;
+  padding: 4%;
 }
 
 #SingleFlowerQty {
@@ -271,28 +270,132 @@ margin-top: 3%;
   max-width: 50px;
 }
 
-.secondaryImageContainer img{
-  width: 200px;
+.secondary-image-container{
+  display: flex;
+  width: 16%;
+  flex-direction: column;
+  justify-content: flex-start;
 }
 
-.SingleItemInfo {
-  flex-grow: 1;
-  min-height: 600px;
-  align-items: top;
+.secondary-image-container img{
+  margin-bottom: 20px;
+  border: 2px solid gray;
+  opacity: 0.5;
 }
 
-.SingleFlowerName {
-  font-size: 30pt;
+.secondary-image-container img:hover{
+  margin-bottom: 20px;
+  border: 2px solid gray;
+  opacity: 1;
+  }
+
+.main-image-container{
+  width:55%;
 }
 
-.SingleItemPic {
-  max-width: 1000px;
-  max-height: 1000px;
-  padding: 20px;
+.main-image-container img {
+  width: 100%;
 }
 
-.SingleFlowerDescription {
-  margin-top: 50px;
+.single-flower-info {
+  width: 35%;
+  line-height: 1.6;
+}
+
+.single-flower-info h2 {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 45px;
+  font-weight: 400;
+  color: #1F4112;
+}
+
+
+.single-flower-info h1 {
+  font-family: 'Nanum Myeongjo', serif;
+  font-size: 25px;
+  font-weight: 800;
+  color: #1F4112;
+}
+
+.single-flower-info p {
+  font-family: 'Work Sans', sans-serif ;
+  font-weight: 400;
+  font-size: 20px;
+  color: #6b3144;
+  line-height: 1.9;
+  padding:5% 0;
+}
+
+.single-flower-info h4 {
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b330f;
+}
+
+.single-flower-info h1,h2,p{
+  display: block;
+}
+
+.single-flower-info button {
+  display: block;
+  padding: 0.5em 3em;
+  border:0.16em solid #788a3a;
+  margin:0 0.3em 0.3em 0;
+  box-sizing: border-box;
+  text-decoration:none;
+  /* text-transform:uppercase; */
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight:400;
+  color: #1F4112;
+  text-align:center;
+  transition: all 0.15s;
+}
+.single-flower-info button:hover{
+  color:#1F4112;
+  border-color:#1F4112;
+  text-decoration: none;
+  font-weight: bold;
+}
+.single-flower-info button:active{
+  color:#2b330f;
+  border-color:#2b330f;
+}
+
+.CartQtySelect {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.CartQtySelect h4{
+  display:inline-block;
+  margin-right: 5%;
+}
+
+.input-form-container{
+  width: 100%;
+}
+
+input[type="number"]{
+  font-family: 'Hind Siliguri', sans-serif;
+  font-size: 20px;
+  font-weight: bold;
+  color: #2b330f;
+  background-color: #f2f2f2;
+  outline:none;
+  border:0px;
+  text-shadow: 0 0 0 #2b330f;
+}
+
+input[type="number"]::-webkit-inner-spin-button{
+  opacity: 1
+}
+
+input[type="number"]:focus{
+  border:0px;
+  outline: none;
+  color: transparent;
 }
 
 /* Cart Stuff */
@@ -324,11 +427,6 @@ margin-top: 3%;
 
 .ItemInfo {
   flex-grow: 1;
-}
-
-.CartQtySelect {
-  display: flex;
-  align-items: center;
 }
 
 #qty {

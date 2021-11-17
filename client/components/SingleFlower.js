@@ -82,39 +82,34 @@ export class SingleFlower extends React.Component {
     const { targetFlower } = this.props;
     return (
       <div className="single-plant-container">
-        <div className='cartItemView'>
-          <div className="secondaryImageContainer">
+          <div className="secondary-image-container">
             <img src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
             <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
           </div>
-          <div className="imageContainer">
+          <div className="main-image-container">
             <img className="SingleItemPic" src={this.state.mainImage} />
           </div>
-          <div className='SingleItemInfo'>
+          <div className='single-flower-info'>
             <h2>{targetFlower.name}</h2>
-            <p className="description">{targetFlower.description}</p>
-            <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
+            <h1>${targetFlower.price / 100}</h1>
+            <p>{targetFlower.description}</p>
             <div className='CartQtySelect'>
-              <div className="label">
-                <h4>Qty: </h4>
+              <div className="input-form-container">
+                <h4>Quantity:</h4>
+                <input
+                  id="SingleFlowerQty"
+                  type="number"
+                  min="1"
+                  max="100"                        // Will be Stock value
+                  name={targetFlower.id}
+                  value={this.state.qty}
+                  onChange={this.handleChange}
+                />
               </div>
-              <input
-                id="SingleFlowerQty"
-                type="number"
-                min="1"
-                max="100"                        // Will be Stock value
-                name={targetFlower.id}
-                value={this.state.qty}
-                onChange={this.handleChange}
-              ></input>
-              <div className='divider'>|</div>
-              <div className='buttonContainer'>
-                <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
-              </div>
+              <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Bag</button>
             </div>
 
           </div>
-        </div>
       </div>
     );
   }
