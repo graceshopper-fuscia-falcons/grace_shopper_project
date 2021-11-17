@@ -90,19 +90,36 @@ export class SingleFlower extends React.Component {
   render() {
     
     const { targetFlower } = this.props;
-    console.log(targetFlower)
     if ( !this.props.targetFlower.name) {
       return (<div/>)
     } else {
-      return (
-        <div className="single-plant-container">
-          <div className='cartItemView'>
-            <div className="secondaryImageContainer">
-              <img src={targetFlower.imageUrl} onClick={this.pictureSwap} />
-              <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap} />
-            </div>
-            <div className="imageContainer">
-              <img className="SingleItemPic" src={this.state.mainImage} />
+    return (
+      <div className="single-plant-container">
+          <div className="secondary-image-container">
+            <img src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
+            <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
+          </div>
+          <div className="main-image-container">
+            <img className="SingleItemPic" src={this.state.mainImage} />
+          </div>
+          <div className='single-flower-info'>
+            <h2>{targetFlower.name}</h2>
+            <h1>${targetFlower.price / 100}</h1>
+            <p>{targetFlower.description}</p>
+            <div className='CartQtySelect'>
+              <div className="input-form-container">
+                <h4>Quantity:</h4>
+                <input
+                  id="SingleFlowerQty"
+                  type="number"
+                  min="1"
+                  max="100"                        // Will be Stock value
+                  name={targetFlower.id}
+                  value={this.state.qty}
+                  onChange={this.handleChange}
+                />
+              </div>
+              <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Bag</button>
             </div>
             <div className='SingleItemInfo'>
               <h2>{targetFlower.name}</h2>
@@ -132,7 +149,6 @@ export class SingleFlower extends React.Component {
         </div>
       );
     }
-
   }
 }
 
