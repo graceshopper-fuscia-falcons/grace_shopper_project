@@ -23,6 +23,7 @@ export const fetchCart = (userId) => {
         authorization: token
       }
     });
+    console.log('REDUX', cart)
     dispatch(setCart(cart));
   }
 }
@@ -30,7 +31,7 @@ export const fetchCart = (userId) => {
 export const addItem = (userId, plantId, qty) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/${plantId}`, { plantId, qty }, {
+    const { data: addedItem } = await Axios.post(`/api/users/${userId}/current-order/plants/${plantId}`, { plantId, qty }, {
       headers: {
         authorization: token
       }
@@ -42,7 +43,7 @@ export const addItem = (userId, plantId, qty) => {
 export const removeItem = (userId, plantId) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order/${plantId}`, {
+    const { data: removedItem } = await Axios.delete(`/api/users/${userId}/current-order/plants/${plantId}`, {
       plantId,
       headers: {
         authorization: token
@@ -55,7 +56,7 @@ export const removeItem = (userId, plantId) => {
 export const updateQty = (userId, plantId, newQty) => {
   return async (dispatch) => {
     const token = window.localStorage.getItem('token');
-    const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/${plantId}`, { newQty }, {
+    const { data: updatedItem } = await Axios.put(`/api/users/${userId}/current-order/plants/${plantId}`, { newQty }, {
       headers: {
         authorization: token
       }
@@ -93,13 +94,13 @@ export default function (state = { cart: [], qty: 0 }, action) {
         if(action.item)  {
           cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
         }
-        
+
 
         let qty = 0;
         for (let item in cart) {
           qty += cart[item].quantity;
         }
-        
+
         return { cart, qty }
       }
     case REMOVE_ITEM:

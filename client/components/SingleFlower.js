@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPlant } from '../store/singlePlant';
-import { Link } from 'react-router-dom';
+import { clearPlant, fetchPlant } from '../store/singlePlant';
 import { me } from '../store/auth';
 import ls from 'local-storage';
 import { addItem, fetchCart } from '../store/cart';
@@ -15,7 +14,8 @@ export class SingleFlower extends React.Component {
     this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
       qty: 1,
-      mainImage: ""
+      mainImage: "",
+      flower: {}
     };
   }
 
@@ -24,7 +24,16 @@ export class SingleFlower extends React.Component {
     await this.props.fetchPlant(plantId);
     this.setState({
       qty: 1,
-      mainImage: this.props.targetFlower.imageUrl
+      mainImage: this.props.targetFlower.imageUrl,
+      flower: this.props.targetFlower
+    })
+  }
+
+  async componentWillUnmount() {
+    await this.props.clearPlant()
+    this.setState({
+      qty: 1,
+      mainImage: ""
     })
   }
 
@@ -35,7 +44,7 @@ export class SingleFlower extends React.Component {
     })
   }
 
-  pictureSwap(event){
+  pictureSwap(event) {
     const newImageUrl = event.target.src
     this.setState({
       mainImage: newImageUrl
@@ -52,7 +61,7 @@ export class SingleFlower extends React.Component {
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
-      
+
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
       } else {
@@ -79,7 +88,11 @@ export class SingleFlower extends React.Component {
   }
 
   render() {
+    
     const { targetFlower } = this.props;
+    if ( !this.props.targetFlower.name) {
+      return (<div/>)
+    } else {
     return (
       <div className="single-plant-container">
           <div className="secondary-image-container">
@@ -108,10 +121,34 @@ export class SingleFlower extends React.Component {
               </div>
               <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Bag</button>
             </div>
+            <div className='SingleItemInfo'>
+              <h2>{targetFlower.name}</h2>
+              <p className="description">{targetFlower.description}</p>
+              <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
+              <div className='CartQtySelect'>
+                <div className="label">
+                  <h4>Qty: </h4>
+                </div>
+                <input
+                  id="SingleFlowerQty"
+                  type="number"
+                  min="1"
+                  max="100"                        // Will be Stock value
+                  name={targetFlower.id}
+                  value={this.state.qty}
+                  onChange={this.handleChange}
+                ></input>
+                <div className='divider'>|</div>
+                <div className='buttonContainer'>
+                  <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
+                </div>
+              </div>
 
+            </div>
           </div>
-      </div>
-    );
+        </div>
+      );
+    }
   }
 }
 
@@ -130,7 +167,8 @@ const mapDispatch = (dispatch) => {
     fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me()),
     addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
-    addItemToLocalCart: (item) => dispatch(addLocalItem(item))
+    addItemToLocalCart: (item) => dispatch(addLocalItem(item)),
+    clearPlant: () => dispatch(clearPlant())
   };
 };
 
