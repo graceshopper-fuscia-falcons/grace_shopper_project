@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchPlant } from '../store/singlePlant';
-import { Link } from 'react-router-dom';
+import { clearPlant, fetchPlant } from '../store/singlePlant';
 import { me } from '../store/auth';
 import ls from 'local-storage';
 import { addItem, fetchCart } from '../store/cart';
@@ -25,6 +24,14 @@ export class SingleFlower extends React.Component {
     this.setState({
       qty: 1,
       mainImage: this.props.targetFlower.imageUrl
+    })
+  }
+
+  async componentWillUnmount() {
+    await this.props.clearPlant()
+    this.setState({
+      qty: 1,
+      mainImage: ""
     })
   }
 
@@ -135,7 +142,8 @@ const mapDispatch = (dispatch) => {
     fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me()),
     addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
-    addItemToLocalCart: (item) => dispatch(addLocalItem(item))
+    addItemToLocalCart: (item) => dispatch(addLocalItem(item)),
+    clearPlant: () => dispatch(clearPlant())
   };
 };
 
