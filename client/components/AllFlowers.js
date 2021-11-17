@@ -62,35 +62,27 @@ export class AllFlowers extends React.Component {
             )
         }
         return (
-            <div className="all-flowers-container">
-                <ul className='AllFlowersUL'>
+            <div className="mt-6 grid gap-6 lg:grid-cols-2 xl:grid-cols-5">
                     {
                         this.props.flowers.map(flowerObj => {
                             return (
-                                <li key={flowerObj.id}>
-                                    <div className='cartItemView'>
+                                <div className='all-flower-item'key={flowerObj.id}>
                                         <div className="imageContainer">
-                                            <Link to={`/flowers/${flowerObj.id}`}><img className="ItemPic" src={flowerObj.imageUrl} /></Link>
+                                            <Link to={`/flowers/${flowerObj.id}`}><img className="all-flower-pic w-60" src={flowerObj.imageUrl} /></Link>
                                         </div>
                                         <div className='ItemInfo'>
-                                            <h2><Link to={`/flowers/${flowerObj.id}`}>{flowerObj.name}</Link></h2>
-                                            <h1>${flowerObj.price / 100}</h1>
+                                            <h2 className="text-3xl font-semibold text-gray-800 uppercase"><Link to={`/flowers/${flowerObj.id}`}>{flowerObj.name}</Link></h2>
+                                            <h1 className="text-yellow-700">${flowerObj.price / 100}</h1>
+                                            <button className='px-4 py-1 rounded-lg bg-green-800 hover:bg-green-400 hover:-translate-y-0.5 transform transition text-white mt-1 uppercase tracking-wider font-semibold text-sm' name={flowerObj.id} onClick={this.handleAddToCart}>Add To Cart</button>
                                             <div className='CartQtySelect'>
-                                                <div className='buttonContainer'>
-                                                    <button className='AddToCartButton' name={flowerObj.id} onClick={this.handleAddToCart}>Add To Cart</button>
-                                                </div>
                                             </div>
-
-                                        </div>
                                     </div>
-                                </li>
+                                </div>
                             )
                         })
                     }
-                </ul>
             </div>
         )
-
     }
 }
 
