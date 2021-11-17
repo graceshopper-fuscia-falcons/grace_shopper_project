@@ -22,7 +22,7 @@ export class Navbar extends React.Component {
     return (
       <div className='navbar-outer'>
         <div className='NavBarContainer'>
-          <img src='Media/logo.png' />
+          <img src='/Media/logo.png' />
           <nav>
             {this.props.isLoggedIn ? (
               this.props.isAdmin ? (
@@ -39,6 +39,7 @@ export class Navbar extends React.Component {
                 <div className='LoginOut'>
                   {/* The navbar will show these links after you log in */}
                   <Link to="/home">Home</Link>
+                  <Link to="/flowers"><span>Flowers</span></Link>
                   <a href="#" onClick={this.handleClick}>
                     Logout
                   </a>
@@ -56,7 +57,7 @@ export class Navbar extends React.Component {
 
             <div className='CartButtonContainer'>
               <Link to="/cart" style={{textDecoration:"none"}}>
-                  <img src= 'Media/bag.png' />
+                  <img src= '/Media/bag.png' />
                 <div className='CartCounter'><p>{qty}</p></div>
                 </Link>
             </div>
