@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { models: { User, Order, Plant }} = require('../db')
 const OrderPlant = require('../db/models/OrderPlant')
-const { requireToken, isAdmin, isAdminOrCurrentUser }= require('./gatekeepingMiddleware');
+const { requireToken, isAdmin, isCurrentUser, isAdminOrCurrentUser }= require('./gatekeepingMiddleware');
 
 module.exports = router
 
@@ -22,7 +22,7 @@ router.get('/', requireToken, isAdmin, async (req, res, next) => {
   }
 })
 
-router.get('/:userId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.get('/:userId', requireToken, isAdmin, async (req, res, next) => {
   try {
     const singleUser = await User.findOne({
       where:{
@@ -37,7 +37,7 @@ router.get('/:userId', requireToken, isAdminOrCurrentUser, async (req, res, next
     }
 })
 
-router.get('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.get('/:userId/current-order', requireToken, isCurrentUser, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{
@@ -57,7 +57,7 @@ router.get('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (
 } )
 
 
-router.get('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.get('/:userId/current-order/plants/:plantId', requireToken, isCurrentUser, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{
@@ -77,7 +77,7 @@ router.get('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser
   }
 } )
 
-router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.delete('/:userId/current-order/plants/:plantId', requireToken, isCurrentUser, async (req, res, next) => {
   try{
     const targetOrder = await Order.findOne({
       where:{
@@ -93,7 +93,7 @@ router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentU
 } )
 
 
-router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.post('/:userId/current-order/plants/:plantId', requireToken, isCurrentUser, async (req, res, next) => {
   let addedQuantity = parseInt(req.body.qty)
   if(addedQuantity && addedQuantity > 0){
     try{
@@ -137,7 +137,7 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
 })
 
 
-router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.put('/:userId/current-order/plants/:plantId', requireToken, isCurrentUser, async (req, res, next) => {
   let updatedQuantity = req.body.newQty
   if(updatedQuantity && updatedQuantity > 0 ){
     try{
@@ -164,7 +164,7 @@ router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser
   }
 } )
 
-router.put('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+router.put('/:userId/current-order', requireToken, isCurrentUser, async (req, res, next) => {
   try {
     const targetOrder = await Order.update(
       {isCart: false},

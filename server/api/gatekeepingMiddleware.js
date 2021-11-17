@@ -24,6 +24,17 @@ const isAdmin = (req, res, next) => {
   }
 };
 
+const isCurrentUser = async (req, res, next) => {
+  const token= req.headers.authorization;
+  const {id} = await jwt.verify(token, process.env.JWT)
+  if(parseInt(req.params.userId) === id){
+    next();
+  }
+  else {
+    return res.status(403).send('No. You are a bad pineapple and not an admin.'); //user is allowed to move forward
+  }
+};
+
 const isAdminOrCurrentUser = async (req, res, next) => {
   const token= req.headers.authorization;
   const {id} = await jwt.verify(token, process.env.JWT)
@@ -36,5 +47,5 @@ const isAdminOrCurrentUser = async (req, res, next) => {
 };
 
 module.exports = {
-  requireToken, isAdmin, isAdminOrCurrentUser
+  requireToken, isAdmin, isCurrentUser, isAdminOrCurrentUser
 }

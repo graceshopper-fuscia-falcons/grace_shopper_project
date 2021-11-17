@@ -43,7 +43,7 @@ export class Navbar extends React.Component {
                   </a>
                 </div>
               )
-              
+
               ) : (
                 <div className='LoginOut'>
                 {/* The navbar will show these links before you log in */}
