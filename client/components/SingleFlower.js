@@ -84,14 +84,14 @@ export class SingleFlower extends React.Component {
       <div className="single-plant-container">
         <div className='cartItemView'>
           <div className="secondaryImageContainer">
-            <img style={{width: 150}}src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
-            <img style={{width: 150}}src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
+            <img src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
+            <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
           </div>
           <div className="imageContainer">
             <img className="SingleItemPic" src={this.state.mainImage} />
           </div>
           <div className='SingleItemInfo'>
-            <h2><Link to={`/flowers/${targetFlower.id}`}>{targetFlower.name}</Link></h2>
+            <h2>{targetFlower.name}</h2>
             <p className="description">{targetFlower.description}</p>
             <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
             <div className='CartQtySelect'>

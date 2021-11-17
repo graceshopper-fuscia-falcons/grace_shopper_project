@@ -23,8 +23,7 @@ export const fetchPlants = () => {
 export const createPlant = (plant, history) => {
     return async (dispatch) => {
         const token = window.localStorage.getItem('token');
-        const { data: created } = await Axios.post('/api/plants', {
-            plant,
+        const { data: created } = await Axios.post('/api/plants', {plant}, {
             headers: {
                 authorization: token
             }
@@ -50,8 +49,7 @@ export const removePlant = (plantId, history) => {
 export const updatePlant = (plant, history) => {
     return async (dispatch) => {
         const token = window.localStorage.getItem('token');
-        const { data: updated } = await Axios.put(`api/plants/${plant.id}`, {
-            plant,
+        const { data: updated } = await Axios.put(`api/plants/${plant.id}`, {plant}, {
             headers: {
                 authorization: token
             }

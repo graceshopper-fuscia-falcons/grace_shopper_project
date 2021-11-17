@@ -17,47 +17,53 @@ export class Navbar extends React.Component {
 
   render() {
     const qty = this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
-    console.log(qty)
     return (
-      <div className='NavBarContainer text-gray-700 font-bold text-2xl'>
-        <div className='Logo mx-auto'>
-          <img className="mx-auto" src='./Media/Falcon Flowers (1).png'></img>
-        </div>
-        <nav className="flex space-x-5">
-          <div><Link to="/flowers">View Our Flowers!</Link></div>
-          {this.props.isLoggedIn ? (
-            this.props.isAdmin ? (
-              <div className='LoginOut space-x-4'>
-                {/* The navbar will show these links after you log in */}
-                <Link to="/home">Home</Link>
-                <Link to="/users">View Users</Link>
-                <a href="#" onClick={this.handleClick}>
-                  Logout
-                </a>
+      <div className='navbar-outer'>
+        <div className='NavBarContainer'>
+          <img src='/Media/logo.png' />
+          <nav>
+            {this.props.isLoggedIn ? (
+              this.props.isAdmin ? (
+                <div className='LoginOut'>
+                  {/* The navbar will show these links after you log in */}
+                  <Link to="/home">Home</Link>
+                  <Link to="/flowers"><span>Flowers</span></Link>
+                  <Link to="/users">Users</Link>
+                  <a href="#" onClick={this.handleClick}>
+                    Logout
+                  </a>
+                </div>
+              ) : (
+                <div className='LoginOut'>
+                  {/* The navbar will show these links after you log in */}
+                  <Link to="/home">Home</Link>
+                  <Link to="/flowers"><span>Flowers</span></Link>
+                  <a href="#" onClick={this.handleClick}>
+                    Logout
+                  </a>
+                </div>
+              )
+              
+              ) : (
+                <div className='LoginOut'>
+                {/* The navbar will show these links before you log in */}
+                <Link to="/flowers"><span>Flowers</span></Link>
+                <Link to="/login">Login</Link>
+                <Link to="/signup">Sign Up</Link>
               </div>
-            ) : (
-              <div className='LoginOut space-x-4'>
-                {/* The navbar will show these links after you log in */}
-                <Link to="/home">Home</Link>
-                <a href="#" onClick={this.handleClick}>
-                  Logout
-                </a>
-              </div>
-            )
-          ) : (
-            <div className='LoginOut space-x-4'>
-              {/* The navbar will show these links before you log in */}
-              <Link to="/login">Login</Link>
-              <Link to="/signup">Sign Up</Link>
+            )}
+
+            <div className='CartButtonContainer'>
+              <Link to="/cart" style={{textDecoration:"none"}}>
+                  <img src= '/Media/bag.png' />
+                <div className='CartCounter'><p>{qty}</p></div>
+                </Link>
             </div>
-          )}
-          <div className='CartButtonContainer space-x-4'>
-            <Link to="/cart"><div className='CartButton'></div></Link>
-            {qty > 0 ? (
-              <div className='CartCounter'>{qty}</div>
-            ) : (<div />)}
-          </div>
-        </nav>
+          </nav>
+        </div>
+        <div className='nav-line'>
+          <hr></hr>
+        </div>
       </div>
     )
   }
