@@ -178,6 +178,7 @@ nav  a {
 
 .AuthFormTitle {
   text-align: center;
+  display: block;
 }
 
 .signin {
@@ -262,11 +263,16 @@ margin-top: 3%;
   margin: 20px;
   background-color: whitesmoke;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  padding: 0 5%;
 }
 
 #SingleFlowerQty {
   max-height: 30px;
   max-width: 50px;
+}
+
+.secondaryImageContainer img{
+  width: 200px;
 }
 
 .SingleItemInfo {
@@ -363,6 +369,7 @@ margin-top: 3%;
 .cartItemsContainer {
   background-color: whitesmoke;
   margin-top: 0px;
+  padding:4%;
 }
 
 .ProceedToCheckoutContainer {

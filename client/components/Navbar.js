@@ -106,9 +106,7 @@ export class Navbar extends React.Component {
             <div className='CartButtonContainer'>
               <Link to="/cart" style={{textDecoration:"none"}}>
                   <img src= 'Media/bag.png' />
-              {!this.state.qty < 1 ? (
                 <div className='CartCounter'><p>{this.state.qty}</p></div>
-                ) : (<div />)}
                 </Link>
             </div>
           </nav>
