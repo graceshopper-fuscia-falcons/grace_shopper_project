@@ -14,7 +14,7 @@ export class AllUsers extends React.Component{
     render(){
         if(this.props.users.length < 1){
             return (
-                <h1>Loading users for you the admin...</h1>
+                <h1>Loading...</h1>
             )
         }
         return (

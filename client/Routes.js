@@ -61,10 +61,9 @@ class Routes extends Component {
             <Route path="/signup" component={Signup} />
             <Route exact path = "/flowers" component={AllFlowers} />
             <Route exact path="/flowers/:flowersId" component={SingleFlower} />
-            <Route exact path='/users' component={AllUsers} />
-            <Route exact path='/users/:userId' component={SingleUser} />
             <Route exact path='/cart' component={CartView} />
             <Route exact path='/cart/checkout' component={CheckoutSummary} />
+              <Redirect to='/flowers' />
           </Switch>
         )}
       </div>
