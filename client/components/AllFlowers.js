@@ -67,18 +67,18 @@ export class AllFlowers extends React.Component {
                         this.props.flowers.map(flowerObj => {
                             return (
                                 <div className='all-flower-item'key={flowerObj.id}>
-                                    <Link to={`/flowers/${flowerObj.id}`} style={{textDecoration: "none"}}>
                                         <div className="imageContainer">
+                                            <Link to={`/flowers/${flowerObj.id}`} style={{textDecoration: "none"}}>
                                             <img className="all-flower-pic" src={flowerObj.imageUrl} />
+                                            <h2>{flowerObj.name}</h2>
+                                            </Link>
                                         </div>
                                         <div className='ItemInfo'>
-                                            <h2>{flowerObj.name}</h2>
                                             <div className="priceInfo">
                                             <h1>${flowerObj.price / 100}</h1>
                                             <button className='AddToCartButton' name={flowerObj.id} onClick={this.handleAddToCart}>Add To Cart</button>
                                             </div>
                                         </div>
-                                    </Link>
                                 </div>
                             )
                         })

@@ -24,7 +24,7 @@ async function seed() {
     flowerType: 'romance',
     price: 6499,
     stock: 100,
-    imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/161132lx.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Summer21/Jardin/Jardin_Carousel.jpg',
     imageUrlsecondary:'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/161132alt_viewx.jpg',
     description: "Sometimes flowers speak louder than words…and our elegant red roses speak volumes! Beautifully hand-arranged with lush greenery inside our exclusive ruby red vase, each radiant bloom will help you express your love in the most romantic way possible."
   })
@@ -35,7 +35,7 @@ async function seed() {
     flowerType: 'romance',
     price: 6699,
     stock: 80,
-    imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/140953mmdsv2wc2x.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Morello/New/Morello_Carousel_New.jpg',
     imageUrlsecondary: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/140953alt_view1x.jpg',
     description: 'Like a cool ocean breeze, our tropical Dendrobium orchids deliver a piece of paradise. Each stem is specially color-enhanced in an eye-catching shade of blue, so that each bouquet is truly unique. '
   })
@@ -46,7 +46,7 @@ async function seed() {
     flowerType: 'get-well',
     price: 4999,
     stock: 40,
-    imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/174303lx.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/the-lola/Lola_Carousel.jpg',
     imageUrlsecondary: 'https://cdn2.1800flowers.com/wcsstore/Flowers/images/catalog/174303alt_viewx.jpg',
     description: 'The color and charm of an autumn country harvest inspired our farmhouse-style bouquet. A loose, natural gathering of blooms in vibrant shades of red, orange and yellow creates the perfect complement to our rustic, grey-washed wooden cube. With its soft tones and natural textures, it’s an ideal container for flowers and plants, adding warm and coziness to any fall décor.'
   })
@@ -57,7 +57,7 @@ async function seed() {
     flowerType: 'romance',
     price: 4999,
     stock: 40,
-    imageUrl: 'https://cdn2.1800flowers.com/wcsstore/Flowers/images/catalog/179418xlx.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Summer21/Catalina/Catalina_Carousel.jpg',
     imageUrlsecondary: 'https://cdn2.1800flowers.com/wcsstore/Flowers/images/catalog/179418alt_viewx.jpg',
     description: 'Just like a daydream. Our delightful lavender bouquet is gathered with pops of pink and lush greenery inside our striking, new fluted violet gathering vase. Designed in vintage pressed glass with ribbed detailing, it captures the rich beauty of the blooms, along with the thoughtfulness of your sentiment.'  
   })
@@ -68,7 +68,7 @@ async function seed() {
     flowerType: 'romance',
     price: 5999,
     stock: 40,
-    imageUrl: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/90926mrdv4ch31x.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/the-unicorn/Unicorn_Carousel%20(1).jpg',
     imageUrlsecondary: 'https://cdn3.1800flowers.com/wcsstore/Flowers/images/catalog/91739alt_view1x.jpg',
     description: 'Radiant. Timeless. Romantic. There’s something so special about our red roses, especially how loved they’ll feel when a farm-fresh gathering of blooms arrives at their door.'
   })
@@ -79,7 +79,7 @@ async function seed() {
     flowerType: 'romance',
     price: 8499,
     stock: 40,
-    imageUrl: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/167398xlx.jpg',
+    imageUrl: 'https://media.urbanstems.com/image/upload/f_auto/w_900,c_fit,q_80/Catalogs/urbanstems-master/Sonny/DoubleSonny_Carousel.jpg',
     imageUrlsecondary: 'https://cdn1.1800flowers.com/wcsstore/Flowers/images/catalog/167398alt_viewx.jpg',
     description: 'When it comes to letting her know she’s always on your mind, think pink and lavender. We’ve hand-gathered a romantic mix of pink and purple blooms to create a gorgeous, garden-inspired bouquet. Designed by expert florist Breanna Cartwright of Modesto, CA, this beautiful bunch will remain a fond memory for a long time.'
   })

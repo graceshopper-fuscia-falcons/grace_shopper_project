@@ -1,13 +1,9 @@
 html,
 body {
   font-family: sans-serif;
-  background-color: #f8f8ff;
+  background-color: #f2f2f2;
   padding: 0;
   margin: 0;
-}
-
-body {
-  width: 100vw;
 }
 
 label {
@@ -15,7 +11,6 @@ label {
 }
 
 nav a {
-  display: inline-block;
   margin: 1em;
 }
 
@@ -37,25 +32,22 @@ button{
 /* NavBar Stuff */
 .NavBarContainer {
   display: flex;
-  background-color: rgb(46, 81, 87);
-  min-width: auto;
-  max-height: 160px; 
-  margin-top: -22px;
-  align-items: center;
-  padding:0px;
+  margin-top: 10px;
 }
 
-.LogoContainer {
-  background-color: transparent;
+.NavBarContainer img {
+width: 40%;
 }
 
-.Logo {
-  background-image: url('/Media/pineappleLogo.png');
-  background-size: cover;
-  min-height: 125px;
-  min-width: 125px;
-  margin:10px;
-  margin-top: 30px;
+.nav-line{
+  margin:auto;
+  width: 97%;
+}
+
+.nav-line hr {
+  border: 0;
+  height: 2px;
+  background-image: linear-gradient(to right, rgba(240, 235, 235, 0), rgba(73, 129, 78, 1), rgba(0, 0, 0, 0));
 }
 
 .MainTitle {
@@ -71,80 +63,60 @@ nav {
   display: flex;
   flex-grow: 1;
   align-items: center;
-  min-height: max-content;
-  min-height: 160px;
-  background-color: rgb(46, 81, 87);
-  min-width: 1000px;
+
 }
 
-nav > a {
-  margin-top: 50px;
-  color: gold;
-  font-size: x-large;
-  text-decoration: none;
+nav  a {
+  color: #2e581e;
+  font-family: 'Work Sans', sans-serif ;
+  font-size: 20px;
+  font-weight: 400;
 }
 
-nav > a:hover {
+/* nav > a:hover {
   border: 1px solid gold;
-}
+} */
 
 .LoginOut {
   display: flex;
   flex-grow: 3;
-  min-height: 150px;
   align-items: center;
   justify-content: right;
-  background-color: rgb(46, 81, 87);
+  margin-bottom: 4%;
 }
 
 .LoginOut > * {
   margin-top: 50px;
-  color:gold;
+  color:#446b31;
   text-decoration: none;
+  padding: 1%;
 }
 
 .LoginOut > *:hover {
   margin-top: 50px;
-  color:gold;
+  color:#446b31;
   text-decoration: underline;
 }
 
 .CartButtonContainer {
-  display: flex;
-  justify-content: right;
-  align-items: center;
-  min-height: 150px;
-  min-width: 150px;
-  flex-grow: 1;
-  position: relative;
-}
-
-.CartButton {
-  background-image: url('/Media/CircleCart.png');
-  background-size: cover;
-  min-height: 125px;
-  min-width: 125px;
-  margin-top:30px;
-  margin-bottom: 0px;
-  position: absolute;
-  top:0;
-  right: 0;
+  display: inline-block;
+  position:relative;
+  top: 35px;
+  width: 150px;
 }
 
 .CartCounter {
   display: flex;
-  z-index: 12;
-  min-height: 40px;
-  min-width: 40px;
-  margin: 20px;
-  background-color: rgb(253, 155, 7);
-  border-radius: 100%;
-  top: 80px;
-  position: absolute;
-  align-items: center;
-  justify-content: center;
-  font-weight: bolder;
-  font-size: x-large;
+    z-index: 12;
+  bottom: 60px;
+  left: 42px;
+  position: relative;
+}
+
+.CartCounter p {
+  font-family: 'Work Sans', sans-serif ;
+  font-weight: 600;
+  color: #2e581e
 }
 
 /* Home View Stuff */
@@ -217,7 +189,6 @@ nav > a:hover {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  height: 3300px;
   padding: 5%;
   justify-content: space-between;
 }
@@ -231,7 +202,7 @@ nav > a:hover {
 }
 
 .all-flower-pic{
-  width: 105%;
+  width: 100%;
   box-shadow: 5px 5px 4px #cccc;
 }
 
