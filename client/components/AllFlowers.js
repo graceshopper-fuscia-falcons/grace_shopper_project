@@ -63,31 +63,26 @@ export class AllFlowers extends React.Component {
         }
         return (
             <div className="all-flowers-container">
-                <ul className='AllFlowersUL'>
                     {
                         this.props.flowers.map(flowerObj => {
                             return (
-                                <li key={flowerObj.id}>
-                                    <div className='cartItemView'>
+                                <div className='all-flower-item'key={flowerObj.id}>
+                                    <Link to={`/flowers/${flowerObj.id}`} style={{textDecoration: "none"}}>
                                         <div className="imageContainer">
-                                            <Link to={`/flowers/${flowerObj.id}`}><img className="ItemPic" src={flowerObj.imageUrl} /></Link>
+                                            <img className="all-flower-pic" src={flowerObj.imageUrl} />
                                         </div>
                                         <div className='ItemInfo'>
-                                            <h2><Link to={`/flowers/${flowerObj.id}`}>{flowerObj.name}</Link></h2>
+                                            <h2>{flowerObj.name}</h2>
+                                            <div className="priceInfo">
                                             <h1>${flowerObj.price / 100}</h1>
-                                            <div className='CartQtySelect'>
-                                                <div className='buttonContainer'>
-                                                    <button className='AddToCartButton' name={flowerObj.id} onClick={this.handleAddToCart}>Add To Cart</button>
-                                                </div>
+                                            <button className='AddToCartButton' name={flowerObj.id} onClick={this.handleAddToCart}>Add To Cart</button>
                                             </div>
-
                                         </div>
-                                    </div>
-                                </li>
+                                    </Link>
+                                </div>
                             )
                         })
                     }
-                </ul>
             </div>
         )
 

@@ -1,7 +1,7 @@
 html,
 body {
   font-family: sans-serif;
-  background-color: lightgrey;
+  background-color: #f8f8ff;
   padding: 0;
   margin: 0;
 }
@@ -22,6 +22,16 @@ nav a {
 form div {
   margin: 1em;
   display: inline-block;
+}
+
+h1{
+font-family: 'Hind Siliguri', sans-serif;
+font-weight: 600;
+}
+
+button{
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 400;
 }
 
 /* NavBar Stuff */
@@ -203,6 +213,52 @@ nav > a:hover {
 }
 
 /* All-Flowers Stuff */
+.all-flowers-container{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  height: 3300px;
+  padding: 5%;
+  justify-content: space-between;
+}
+
+.all-flower-item{
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 28%;
+  text-align: left;
+  padding-bottom: 5%;
+}
+
+.all-flower-pic{
+  width: 105%;
+  box-shadow: 5px 5px 4px #cccc;
+}
+
+.priceInfo{
+  display: flex;
+  justify-content: space-between;
+}
+
+.ItemInfo a, h2, h1, button {
+text-decoration: none;
+color: black;
+font-family: 'Hind Siliguri', sans-serif;
+font-weight: 400;
+font-size: 20px;
+display: inline-block;
+margin: 0;
+padding: 0;
+}
+
+.ItemInfo h2{
+margin-top: 3%;
+}
+
+.ItemInfo h1 {
+  font-weight: 600;
+}
+
 .AllFlowersUL {
   list-style-type: none;
   columns: 4;
