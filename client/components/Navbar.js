@@ -3,8 +3,6 @@ import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { me } from '../store/auth';
-import { fetchCart } from '../store/cart';
-import { fetchLocalCart } from '../store/LocalCart';
 import ls from 'local-storage'
 
 export class Navbar extends React.Component {
@@ -88,8 +86,6 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout()),
-    fetchCart: (id) => dispatch(fetchCart(id)),
-    fetchLocalCart: () => dispatch(fetchLocalCart()),
     fetchMe: () => dispatch(me())
   }
 }

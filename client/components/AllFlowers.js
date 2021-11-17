@@ -85,7 +85,6 @@ export class AllFlowers extends React.Component {
                     }
             </div>
         )
-
     }
 }
 
