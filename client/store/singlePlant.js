@@ -10,6 +10,7 @@ export const _clearPlant = () => ({type: CLEAR})
 
 ////// Async Creators
 export const fetchPlant = (plantId) => {
+  
     return async (dispatch) => {
         const {data: plant} = await Axios.get(`/api/plants/${plantId}`);
         dispatch(setPlant(plant));
