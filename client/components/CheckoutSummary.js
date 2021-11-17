@@ -1,12 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
-import { fetchCart } from '../store/cart';
+import { checkout, fetchCart } from '../store/cart';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 import OrderConfirmation from './OrderConfirmation';
 import EmptyCart from './EmptyCart';
+import { checkoutLocal } from '../store/LocalCart';
 
 export class CheckoutSummary extends React.Component {
     constructor() {
@@ -36,11 +36,15 @@ export class CheckoutSummary extends React.Component {
         });
     }
 
-    handlePlaceOrder() {
+    async handlePlaceOrder() {
         // Clear current cart
         // Create new empty cart
-        if(this.state.userType === 'guest') {
-            ls.set('cart', {cart: [], qty: 0})
+        if (this.state.userType === 'guest') {
+            ls.set('cart', { cart: [], qty: 0 })
+            await this.props.checkoutLocal()
+            this.setState({ orderPlaced: true })
+        } else if (this.state.userType === 'member') {
+            await this.props.checkout(this.props.userId)
         }
         this.setState({ orderPlaced: true })
     }
@@ -110,11 +114,11 @@ export class CheckoutSummary extends React.Component {
                     <h1>Order Summary</h1>
                     <p>
                         {`Items (${totalItems}): $${(totalPrice / 100).toFixed(2)}`}<br />
-                        {`Shipping & Handling: $0.00`}<hr /><br />
+                        {`Shipping & Handling: $0.00`}<br />
                     </p>
                     <p className='tax'>
                         {`Total before tax: $${(totalPrice / 100).toFixed(2)}`}<br />
-                        {`Estimated tax to be collected: $0.00`}<hr /><br />
+                        {`Estimated tax to be collected: $0.00`}<br />
                     </p>
                     <h1 id='OrderTotal'>Order Total: ${(totalPrice / 100).toFixed(2)}</h1>
 
@@ -134,7 +138,9 @@ const mapState = (state) => {
 const mapDispatch = (dispatch) => {
     return {
         fetchCart: (id) => dispatch(fetchCart(id)),
-        fetchMe: () => dispatch(me())
+        fetchMe: () => dispatch(me()),
+        checkout: (id) => dispatch(checkout(id)),
+        checkoutLocal: () => dispatch(checkoutLocal())
     }
 }
 

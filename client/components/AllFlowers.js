@@ -5,7 +5,8 @@ import { fetchPlant } from '../store/singlePlant';
 import { Link } from "react-router-dom";
 import { me } from '../store/auth';
 import ls from 'local-storage';
-import { addItem } from '../store/cart';
+import { addItem, fetchCart } from '../store/cart';
+import { addLocalItem } from '../store/LocalCart';
 
 export class AllFlowers extends React.Component {
     constructor() {
@@ -16,6 +17,7 @@ export class AllFlowers extends React.Component {
         await this.props.fetchPlants();
     }
     async handleAddToCart(event) {
+        
         const targetId = event.target.name
         await this.props.fetchPlant(event.target.name);
         const currentUser = await this.props.fetchMe();
@@ -44,10 +46,13 @@ export class AllFlowers extends React.Component {
                 }
             }
             local.qty++
-            ls.set('cart', local);
-        }
-        else {
+            ls.set('cart', local)
+            await this.props.addItemToLocalCart(itemToAdd);
+            return
+        } else {
             await this.props.addItemToCart(this.props.userId, targetId, 1);
+            await this.props.fetchCart(this.props.userId)
+            return
         }
     }
     render() {
@@ -85,16 +90,19 @@ const mapState = (state) => {
     return {
         flowers: state.plantsReducer,
         targetFlower: state.singlePlantReducer,
-        userId: state.auth.id
+        userId: state.auth.id,
+        cart: state.cartReducer,
     }
 }
 
 const mapDispatch = (dispatch) => {
     return {
         fetchPlants: () => dispatch(fetchPlants()),
+        fetchCart: (id) => dispatch(fetchCart(id)),
         fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
         fetchMe: () => dispatch(me()),
-        addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
+        addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
+        addItemToLocalCart: (item) => dispatch(addLocalItem(item))
     }
 }
 

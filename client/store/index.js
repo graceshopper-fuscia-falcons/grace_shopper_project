@@ -8,6 +8,7 @@ import usersReducer from './users'
 import singlePlantReducer from './singlePlant'
 import singleUserReducer from './singleUser'
 import cartReducer from './cart'
+import localCartReducer from './LocalCart'
 
 const reducer = combineReducers({ 
   auth,
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   usersReducer,
   singlePlantReducer,
   singleUserReducer,
-  cartReducer
+  cartReducer,
+  localCartReducer
  })
 const middleware = composeWithDevTools(
   applyMiddleware(thunkMiddleware, createLogger({collapsed: true}))

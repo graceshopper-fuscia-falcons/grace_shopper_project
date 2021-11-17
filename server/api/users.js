@@ -92,6 +92,7 @@ router.delete('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentU
   }
 } )
 
+
 router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
   let addedQuantity = parseInt(req.body.qty)
   if(addedQuantity && addedQuantity > 0){
@@ -114,10 +115,19 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
       if(orderPlantThru){
         let prevQuantity = parseInt(orderPlantThru.quantity)
         updatedQuantity += prevQuantity
-        await targetOrder.removePlants(req.params.plantId)
+        await OrderPlant.update(
+          {quantity: updatedQuantity},
+          {
+          where: {
+            orderId: targetOrder.id,
+            plantId: req.params.plantId
+          }
+        })
       }
+      else {
       await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
-      res.json(targetOrder)
+      }
+      res.json(orderPlantThru)
     }catch(err){
       next(err)
     }
@@ -126,20 +136,25 @@ router.post('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUse
   }
 })
 
+
 router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
   let updatedQuantity = req.body.newQty
   if(updatedQuantity && updatedQuantity > 0 ){
     try{
-      const targetPlant = await Plant.findByPk(req.params.plantId)
-      let price = targetPlant.price
       const targetOrder = await Order.findOne({
         where:{
           userId: req.params.userId,
           isCart: true
         }
       })
-      await targetOrder.removePlants(req.params.plantId)
-      await targetOrder.addPlants(req.params.plantId, {through: {price: price, quantity: updatedQuantity}})
+      await OrderPlant.update(
+        {quantity: updatedQuantity},
+        {
+        where: {
+          orderId: targetOrder.id,
+          plantId: req.params.plantId
+        }
+      })
       res.json(targetOrder)
     }catch(err){
       next(err)
@@ -148,3 +163,23 @@ router.put('/:userId/current-order/:plantId', requireToken, isAdminOrCurrentUser
     res.status(500).send("Invalid number")
   }
 } )
+
+router.put('/:userId/current-order', requireToken, isAdminOrCurrentUser, async (req, res, next) => {
+  try {
+    const targetOrder = await Order.update(
+      {isCart: false},
+      {
+      where: {
+        userId: req.params.userId,
+        isCart: true
+      }
+    }
+    );
+    const newOrder = await Order.create();
+    newOrder.setUser(req.params.userId);
+    res.json(targetOrder);
+  }catch(err){
+    next(err)
+  }
+
+})

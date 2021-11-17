@@ -4,7 +4,8 @@ import { fetchPlant } from '../store/singlePlant';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import ls from 'local-storage';
-import { addItem } from '../store/cart';
+import { addItem, fetchCart } from '../store/cart';
+import { addLocalItem } from '../store/LocalCart';
 
 export class SingleFlower extends React.Component {
   constructor() {
@@ -13,7 +14,7 @@ export class SingleFlower extends React.Component {
     this.handleChange = this.handleChange.bind(this);
     this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
-      qty: undefined,
+      qty: 1,
       mainImage: ""
     };
   }
@@ -51,6 +52,7 @@ export class SingleFlower extends React.Component {
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
+      
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
       } else {
@@ -69,8 +71,10 @@ export class SingleFlower extends React.Component {
         }
       }
       ls.set('cart', local);
+      await this.props.addItemToLocalCart(itemToAdd);
     } else {
       await this.props.addItemToCart(this.props.userId, parseInt(this.props.match.params.flowersId), parseInt(this.state.qty));
+      await this.props.fetchCart(this.props.userId)
     }
   }
 
@@ -97,8 +101,8 @@ export class SingleFlower extends React.Component {
               <input
                 id="SingleFlowerQty"
                 type="number"
-                min="0"
-                max="100"                        // Will be stock
+                min="1"
+                max="100"                        // Will be Stock value
                 name={targetFlower.id}
                 value={this.state.qty}
                 onChange={this.handleChange}
@@ -119,15 +123,19 @@ export class SingleFlower extends React.Component {
 const mapState = (state) => {
   return {
     targetFlower: state.singlePlantReducer,
-    userId: state.auth.id
+    userId: state.auth.id,
+    cart: state.cartReducer,
+    cart: state.cartReducer,
   };
 };
 
 const mapDispatch = (dispatch) => {
   return {
     fetchPlant: (plantId) => dispatch(fetchPlant(plantId)),
+    fetchCart: (id) => dispatch(fetchCart(id)),
     fetchMe: () => dispatch(me()),
-    addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty))
+    addItemToCart: (userId, plantId, qty) => dispatch(addItem(userId, plantId, qty)),
+    addItemToLocalCart: (item) => dispatch(addLocalItem(item))
   };
 };
 

@@ -1,18 +1,20 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { me } from '../store/auth';
 import { fetchCart } from '../store/cart';
-import ls from 'local-storage';
+import { fetchLocalCart } from '../store/LocalCart';
+import ls from 'local-storage'
 
 export class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this)
     this.state = {
+      userId: 0,
       userType: '',
-      qty: this.userType === 'member' ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
+      qty: this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
     }
   }
 
@@ -20,43 +22,49 @@ export class Navbar extends React.Component {
     const currentUser = await this.props.fetchMe();
     const userType = currentUser ? 'member' : 'guest';
     let qty = 0
+    let userId = 0
     if (userType === 'guest') {
-      qty = ls.get('cart').qty;
+      // await this.props.fetchLocalCart();
+      qty = ls.get('cart').qty
     } else if (userType === 'member') {
       await this.props.fetchCart(this.props.userId);
       qty = this.props.cart.qty
+      userId = this.props.userId
     }
 
     this.setState({
+      userId,
       userType,
       qty
     });
   }
 
   async componentDidUpdate() {
-    if (this.state.qty !== this.props.cart.qty) {
-      const currentUser = await this.props.fetchMe();
-      const userType = currentUser ? 'member' : 'guest';
-      await this.props.fetchCart(this.props.userId);
-
-      let qty = 0
-      if (userType === 'guest') {
+    
+    const userType = this.props.userId ? 'member' : 'guest';
+    let qty = 0
+    if (userType === 'guest') {
+      if (this.state.qty !== ls.get('cart').qty) {
         qty = ls.get('cart').qty
-      } else if (userType === 'member') {
-        qty = this.props.cart.qty
+        this.setState({
+          userType,
+          qty
+        });
       }
-
-      this.setState({
-        userType,
-        qty
-      });
+    } else if (userType === 'member') {
+      if (this.state.qty !== this.props.cart.qty) {
+        qty = this.props.cart.qty
+        this.setState({
+          userType,
+          qty
+        });
+      }
     }
   }
 
-  handleClick() {
-    const qty = ls.get('cart').qty
-    this.setState({userType: 'guest', qty})
+  async handleClick() {
     this.props.logout()
+    await this.props.fetchLocalCart()
   }
 
   render() {
@@ -99,7 +107,7 @@ export class Navbar extends React.Component {
             <Link to="/cart"><div className='CartButton'></div></Link>
             {!this.state.qty < 1 ? (
               <div className='CartCounter'>{this.state.qty}</div>
-            ) : (<div/>)}
+            ) : (<div />)}
           </div>
         </nav>
       </div>
@@ -116,6 +124,7 @@ const mapState = state => {
     isLoggedIn: !!state.auth.id,
     isAdmin: state.auth.isAdmin,
     cart: state.cartReducer,
+    localCart: state.localCartReducer,
     userId: state.auth.id,
   }
 }
@@ -124,6 +133,7 @@ const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout()),
     fetchCart: (id) => dispatch(fetchCart(id)),
+    fetchLocalCart: () => dispatch(fetchLocalCart()),
     fetchMe: () => dispatch(me())
   }
 }

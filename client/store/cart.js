@@ -5,12 +5,14 @@ const SET_CART = 'SET_CART';
 const ADD_ITEM = "ADD_ITEM";
 const REMOVE_ITEM = 'REMOVE_ITEM';
 const UPDATE_QTY = 'UPDATE_QTY';
+const CHECKOUT = 'CHECKOUT';
 
 ////// Action Creators
 export const setCart = (cart) => ({ type: SET_CART, cart });
 export const _addItem = (item) => ({ type: ADD_ITEM, item });
 export const _removeItem = (item) => ({ type: REMOVE_ITEM, item });
 export const _updateQty = (item) => ({ type: UPDATE_QTY, item });
+export const _checkout = () => ({ type: CHECKOUT });
 
 ////// Async Creators
 export const fetchCart = (userId) => {
@@ -62,6 +64,18 @@ export const updateQty = (userId, plantId, newQty) => {
   }
 }
 
+export const checkout = (userId) => {
+  return async (dispatch) => {
+    const token = window.localStorage.getItem('token');
+    await Axios.put(`/api/users/${userId}/current-order`, { userId }, {
+      headers: {
+        authorization: token
+      }
+    })
+    dispatch(_checkout())
+  }
+}
+
 //////Reducer
 export default function (state = { cart: [], qty: 0 }, action) {
   switch (action.type) {
@@ -71,15 +85,21 @@ export default function (state = { cart: [], qty: 0 }, action) {
         for (let item in action.cart) {
           qty += action.cart[item].quantity;
         }
-        return { cart: action.cart, qty };
+        return { cart: action.cart.reverse(), qty };
       }
     case ADD_ITEM:
       {
-        let cart = [action.item, ...state.cart];
+        let cart = [...state.cart]
+        if(action.item)  {
+          cart = [...cart.map(item => item.plantId !== action.item.id ? item : {...item, quantity: this.quantity += action.item.quantity})]
+        }
+        
+
         let qty = 0;
         for (let item in cart) {
           qty += cart[item].quantity;
         }
+        
         return { cart, qty }
       }
     case REMOVE_ITEM:
@@ -99,6 +119,10 @@ export default function (state = { cart: [], qty: 0 }, action) {
           qty += cart[item].quantity;
         }
         return { cart, qty }
+      }
+    case CHECKOUT:
+      {
+        return { cart: [], qty: 0 }
       }
     default:
       return state;
