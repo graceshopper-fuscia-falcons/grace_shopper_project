@@ -14,7 +14,8 @@ export class SingleFlower extends React.Component {
     this.pictureSwap = this.pictureSwap.bind(this)
     this.state = {
       qty: 1,
-      mainImage: ""
+      mainImage: "",
+      flower: {}
     };
   }
 
@@ -23,7 +24,8 @@ export class SingleFlower extends React.Component {
     await this.props.fetchPlant(plantId);
     this.setState({
       qty: 1,
-      mainImage: this.props.targetFlower.imageUrl
+      mainImage: this.props.targetFlower.imageUrl,
+      flower: this.props.targetFlower
     })
   }
 
@@ -42,7 +44,7 @@ export class SingleFlower extends React.Component {
     })
   }
 
-  pictureSwap(event){
+  pictureSwap(event) {
     const newImageUrl = event.target.src
     this.setState({
       mainImage: newImageUrl
@@ -59,7 +61,7 @@ export class SingleFlower extends React.Component {
         price: this.props.targetFlower.price,
         quantity: this.state.qty,
       };
-      
+
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
       } else {
@@ -86,44 +88,51 @@ export class SingleFlower extends React.Component {
   }
 
   render() {
+    
     const { targetFlower } = this.props;
-    return (
-      <div className="single-plant-container">
-        <div className='cartItemView'>
-          <div className="secondaryImageContainer">
-            <img src={targetFlower.imageUrl} onClick={this.pictureSwap}/>
-            <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap}/>
-          </div>
-          <div className="imageContainer">
-            <img className="SingleItemPic" src={this.state.mainImage} />
-          </div>
-          <div className='SingleItemInfo'>
-            <h2>{targetFlower.name}</h2>
-            <p className="description">{targetFlower.description}</p>
-            <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
-            <div className='CartQtySelect'>
-              <div className="label">
-                <h4>Qty: </h4>
-              </div>
-              <input
-                id="SingleFlowerQty"
-                type="number"
-                min="1"
-                max="100"                        // Will be Stock value
-                name={targetFlower.id}
-                value={this.state.qty}
-                onChange={this.handleChange}
-              ></input>
-              <div className='divider'>|</div>
-              <div className='buttonContainer'>
-                <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
-              </div>
+    console.log(targetFlower)
+    if ( !this.props.targetFlower.name) {
+      return (<div/>)
+    } else {
+      return (
+        <div className="single-plant-container">
+          <div className='cartItemView'>
+            <div className="secondaryImageContainer">
+              <img src={targetFlower.imageUrl} onClick={this.pictureSwap} />
+              <img src={targetFlower.imageUrlsecondary} onClick={this.pictureSwap} />
             </div>
+            <div className="imageContainer">
+              <img className="SingleItemPic" src={this.state.mainImage} />
+            </div>
+            <div className='SingleItemInfo'>
+              <h2>{targetFlower.name}</h2>
+              <p className="description">{targetFlower.description}</p>
+              <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
+              <div className='CartQtySelect'>
+                <div className="label">
+                  <h4>Qty: </h4>
+                </div>
+                <input
+                  id="SingleFlowerQty"
+                  type="number"
+                  min="1"
+                  max="100"                        // Will be Stock value
+                  name={targetFlower.id}
+                  value={this.state.qty}
+                  onChange={this.handleChange}
+                ></input>
+                <div className='divider'>|</div>
+                <div className='buttonContainer'>
+                  <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
+                </div>
+              </div>
 
+            </div>
           </div>
         </div>
-      </div>
-    );
+      );
+    }
+
   }
 }
 

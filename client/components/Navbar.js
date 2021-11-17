@@ -4,11 +4,19 @@ import { Link } from 'react-router-dom'
 import { logout } from '../store'
 import { me } from '../store/auth';
 import ls from 'local-storage'
+import { fetchCart } from '../store/cart';
 
 export class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this)
+  }
+
+  async componentDidMount() {
+    await this.props.fetchMe()
+    if(this.props.userId) {
+      await this.props.fetchCart(this.props.userId)
+    }
   }
 
   async handleClick() {
@@ -43,7 +51,6 @@ export class Navbar extends React.Component {
                   </a>
                 </div>
               )
-
               ) : (
                 <div className='LoginOut'>
                 {/* The navbar will show these links before you log in */}
@@ -86,7 +93,8 @@ const mapState = state => {
 const mapDispatch = dispatch => {
   return {
     logout: () => dispatch(logout()),
-    fetchMe: () => dispatch(me())
+    fetchMe: () => dispatch(me()),
+    fetchCart: (id) => dispatch(fetchCart(id))
   }
 }
 
