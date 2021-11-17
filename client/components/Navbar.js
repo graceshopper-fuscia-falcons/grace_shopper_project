@@ -18,6 +18,7 @@ export class Navbar extends React.Component {
   }
 
   render() {
+    const qty = this.props.userId ? this.props.cart.qty : (ls.get('cart') ? ls.get('cart').qty : 0)
     return (
       <div className='navbar-outer'>
         <div className='NavBarContainer'>
@@ -56,7 +57,7 @@ export class Navbar extends React.Component {
             <div className='CartButtonContainer'>
               <Link to="/cart" style={{textDecoration:"none"}}>
                   <img src= 'Media/bag.png' />
-                <div className='CartCounter'><p>{this.state.qty}</p></div>
+                <div className='CartCounter'><p>{qty}</p></div>
                 </Link>
             </div>
           </nav>
