@@ -121,30 +121,6 @@ export class SingleFlower extends React.Component {
               </div>
               <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Bag</button>
             </div>
-            <div className='SingleItemInfo'>
-              <h2>{targetFlower.name}</h2>
-              <p className="description">{targetFlower.description}</p>
-              <h1 className='SingleFlowerName'>${targetFlower.price / 100}</h1>
-              <div className='CartQtySelect'>
-                <div className="label">
-                  <h4>Qty: </h4>
-                </div>
-                <input
-                  id="SingleFlowerQty"
-                  type="number"
-                  min="1"
-                  max="100"                        // Will be Stock value
-                  name={targetFlower.id}
-                  value={this.state.qty}
-                  onChange={this.handleChange}
-                ></input>
-                <div className='divider'>|</div>
-                <div className='buttonContainer'>
-                  <button className='AddToCartButton' name={targetFlower.plantId} onClick={this.handleAddToCart}>Add To Cart</button>
-                </div>
-              </div>
-
-            </div>
           </div>
         </div>
       );
