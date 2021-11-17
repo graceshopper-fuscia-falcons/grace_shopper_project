@@ -61,14 +61,15 @@ export class Navbar extends React.Component {
 
   render() {
     return (
-      <div className='NavBarContainer'>
-        <div className='Logo'></div>
-        <h1 className='MainTitle'>Flower Shop</h1>
-        <nav>
-          <Link to="/flowers"><a>View Our Flowers!</a></Link>
+      <div className='NavBarContainer text-gray-700 font-bold text-2xl'>
+        <div className='Logo mx-auto'>
+          <img className="mx-auto" src='./Media/Falcon Flowers (1).png'></img>
+        </div>
+        <nav className="flex space-x-5">
+          <div><Link to="/flowers">View Our Flowers!</Link></div>
           {this.props.isLoggedIn ? (
             this.props.isAdmin ? (
-              <div className='LoginOut'>
+              <div className='LoginOut space-x-4'>
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
                 <Link to="/users">View Users</Link>
@@ -77,7 +78,7 @@ export class Navbar extends React.Component {
                 </a>
               </div>
             ) : (
-              <div className='LoginOut'>
+              <div className='LoginOut space-x-4'>
                 {/* The navbar will show these links after you log in */}
                 <Link to="/home">Home</Link>
                 <a href="#" onClick={this.handleClick}>
@@ -87,21 +88,20 @@ export class Navbar extends React.Component {
             )
 
           ) : (
-            <div className='LoginOut'>
+            <div className='LoginOut space-x-4'>
               {/* The navbar will show these links before you log in */}
               <Link to="/login">Login</Link>
               <Link to="/signup">Sign Up</Link>
             </div>
           )}
 
-          <div className='CartButtonContainer'>
+          <div className='CartButtonContainer space-x-4'>
             <Link to="/cart"><div className='CartButton'></div></Link>
             {!this.state.qty < 1 ? (
               <div className='CartCounter'>{this.state.qty}</div>
             ) : (<div/>)}
           </div>
         </nav>
-        <hr />
       </div>
     )
   }
