@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { me } from '../store/auth';
 import { fetchCart, removeItem, updateQty } from '../store/cart';
-import { fetchPlant } from '../store/singlePlant'; 
+import { fetchPlant } from '../store/singlePlant';
 import CartItem from './cartItem';
 import ls from 'local-storage';
 import EmptyCart from './EmptyCart'
