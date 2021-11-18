@@ -110,26 +110,18 @@ export class CartView extends React.Component {
         let totalItems = 0;
         return (
             <main>
-                <div className='CartContainer'>
-                    <div className="CartTitleContainer">
-                        <div className='CartTitle'>
-                            <h1>Shopping Cart</h1>
-                        </div>
+                <div className='cart-container'>
+                    <div className="cart-header">
+                            <h1>Products</h1>
                     </div>
-                    <div className='cartItemsContainer'>
-                        <ul className='cartUL'>
                             {this.state.cart.map(item => {
                                 { totalPrice = totalPrice + (item.price * item.quantity) }
                                 { totalItems += item.quantity }
                                 return (
-                                    <li key={item.plantId}>
-                                        <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} isCart={true} />
-                                    </li>
+                                    <CartItem handleRemoveItem={this.handleRemoveItem} handleChange={this.handleChange} item={item} key={item.plantId} isCart={true} />
                                 )
                             })}
-                        </ul>
                     </div>
-                </div>
                 <div className='ProceedToCheckoutContainer'>
                     <h1>Subtotal ({totalItems} items): ${(totalPrice / 100).toFixed(2)}</h1>
                     <Link to='/cart/checkout'><button className='ProceedToCheckoutButton'>Proceed to Checkout</button></Link>

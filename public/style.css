@@ -399,25 +399,26 @@ input[type="number"]:focus{
 }
 
 /* Cart Stuff */
-.cartUL {
-  list-style-type: none;
-}
-
-.cartUL li {
-  margin-bottom: 10px;
-  border: solid 1px gray;
-  margin-right: 20px;
-  min-width: 700px;
-}
-
-.cartItemView {
+.cart-item {
   display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-item button{
+  padding: 5%;
+}
+
+.cart-header{
+display: flex;
+justify-content: space-between;
+}
+
+.cart-prod-name{
+  display:flex;
   align-items: center;
 }
 
-.imageContainer {
-  margin-right: 20px;
-}
 
 .ItemPic {
   max-width: 200px;
@@ -456,7 +457,7 @@ input[type="number"]:focus{
   cursor: pointer;
 }
 
-.CartContainer {
+.cart-container {
   display: flex;
   flex-grow: 1;
   flex-direction: column;
@@ -496,10 +497,9 @@ input[type="number"]:focus{
   cursor: pointer;
 }
 
-.CartTitleContainer {
+.cart-header{
   display: flex;
   align-items: center;
-  background-color: whitesmoke;
   padding-left: 20px;
   margin-bottom: 0px;
 }

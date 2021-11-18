@@ -45,38 +45,23 @@ export class CartItem extends React.Component {
 
         const item = this.props.item;
         return (
-            <div className='cartItemView'>
-                <div className="imageContainer">
+            <div className='cart-item'>
+                <div className="cart-prod-name">
                     <Link to={`/flowers/${this.state.plantId}`}><img className="ItemPic" src={this.state.plant.imageUrl} /></Link>
-                </div>
-                <div className='ItemInfo'>
                     <h2><Link to={`/flowers/${this.state.plantId}`}>{this.state.plant.name}</Link></h2>
-                    <h1>${this.state.price / 100}</h1>
-                    {this.props.isCart === true ? (
-                        <div className='CartQtySelect'>
-                            <div className="label">
-                                <h4>Qty: </h4>
-                            </div>
-                            <input
-                                id="qty"
-                                type="number"
-                                min="1"
-                                max="100"                        // Will be stock
-                                name={this.state.plantId}
-                                value={item.quantity}
-                                onChange={this.props.handleChange}
-                            ></input>
-                            <div className='divider'>|</div>
-                            <div className='buttonContainer'>
-                                <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
-                            </div>
-                        </div>
-                    ) : (
-                        <h4>Qty: {item.quantity}</h4>
-                    )}
-
-
                 </div>
+                <h4>Quantity:</h4>
+                <input
+                    id="qty"
+                    type="number"
+                    min="1"
+                    max="100"                        // Will be stock
+                    name={this.state.plantId}
+                    value={item.quantity}
+                    onChange={this.props.handleChange}
+                    />
+                <h1>${(this.state.price / 100)}</h1>
+                <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>X</button>
             </div>
         )
     }
