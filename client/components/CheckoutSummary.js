@@ -79,7 +79,7 @@ export class CheckoutSummary extends React.Component {
                             <h1>Shipping Information</h1>
                         </div>
                     </div>
-                    <div className='cartItemsContainer'>
+                    <div className='ShippingInfoContainer'>
                         {/* Shipping Information Form Here */}
                     </div>
                     <div className="CartTitleContainer">
@@ -87,7 +87,7 @@ export class CheckoutSummary extends React.Component {
                             <h1>Payment Information</h1>
                         </div>
                     </div>
-                    <div className='cartItemsContainer'>
+                    <div className='PaymentInfoContainer'>
                         {/* Payment Information Form Here */}
                     </div>
                     <div className="CartTitleContainer">

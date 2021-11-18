@@ -49,15 +49,14 @@ export class CartItem extends React.Component {
                 <div className="imageContainer">
                     <Link to={`/flowers/${this.state.plantId}`}><img className="ItemPic" src={this.state.plant.imageUrl} /></Link>
                 </div>
-                <div className='ItemInfo'>
+                <div className='CartItemInfo'>
                     <h2><Link to={`/flowers/${this.state.plantId}`}>{this.state.plant.name}</Link></h2>
                     <h1>${this.state.price / 100}</h1>
                     {this.props.isCart === true ? (
                         <div className='CartQtySelect'>
-                            <div className="label">
-                                <h4>Qty: </h4>
-                            </div>
-                            <input
+                            <div className="input-form-container">
+                                <input
+                                id="CartQty"
                                 id="qty"
                                 type="number"
                                 min="1"
@@ -66,16 +65,12 @@ export class CartItem extends React.Component {
                                 value={item.quantity}
                                 onChange={this.props.handleChange}
                             ></input>
-                            <div className='divider'>|</div>
-                            <div className='buttonContainer'>
-                                <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
                             </div>
+                            <button className='RemoveFromCartButton' name={this.state.plantId} onClick={this.props.handleRemoveItem}>Remove From Cart</button>
                         </div>
                     ) : (
                         <h4>Qty: {item.quantity}</h4>
                     )}
-
-
                 </div>
             </div>
         )

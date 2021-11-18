@@ -23,7 +23,6 @@ export const fetchCart = (userId) => {
         authorization: token
       }
     });
-    console.log('REDUX', cart)
     dispatch(setCart(cart));
   }
 }
