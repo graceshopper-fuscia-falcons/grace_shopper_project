@@ -64,6 +64,7 @@ export class SingleFlower extends React.Component {
 
       if (local.cart.length < 1) {
         local.cart = [itemToAdd, ...local.cart]
+        local.qty += this.state.qty;
       } else {
         let count = 0;
         for (let i = 0; i < local.cart.length; i++) {
@@ -77,6 +78,7 @@ export class SingleFlower extends React.Component {
         }
         if (count === 0) {
           local.cart = [itemToAdd, ...local.cart]
+          local.qty += this.state.qty;
         }
       }
       ls.set('cart', local);

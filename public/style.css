@@ -223,10 +223,6 @@ margin: 0;
 padding: 0;
 }
 
-.ItemInfo h2{
-margin-top: 3%;
-}
-
 .ItemInfo h1 {
   font-weight: 600;
 }
@@ -399,6 +395,8 @@ input[type="number"]:focus{
 }
 
 /* Cart Stuff */
+
+
 .cartUL {
   list-style-type: none;
 }
@@ -425,7 +423,7 @@ input[type="number"]:focus{
   padding: 20px;
 }
 
-.ItemInfo {
+.CartItemInfo {
   flex-grow: 1;
 }
 
@@ -468,6 +466,7 @@ input[type="number"]:focus{
   background-color: whitesmoke;
   margin-top: 0px;
   padding:4%;
+  padding-top: 0%;
 }
 
 .ProceedToCheckoutContainer {
@@ -482,12 +481,21 @@ input[type="number"]:focus{
   max-height: 200px;
 }
 
+.ProceedToCheckoutContainer h1 {
+  font-size: x-large;
+}
+
+.ProceedToCheckoutContainer span {
+  font-weight: bold;
+}
+
 .ProceedToCheckoutButton {
   min-height: 50px;
   min-width: 450px;
   background-color: gold;
   border-radius: 10px;
   font-size: larger;
+  margin-top: 1%;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.19);
 }
 
@@ -502,6 +510,7 @@ input[type="number"]:focus{
   background-color: whitesmoke;
   padding-left: 20px;
   margin-bottom: 0px;
+  margin-top: 1%;
 }
 
 .CartTitle {
@@ -515,12 +524,40 @@ main {
   display: flex;
 }
 
-/* Place Order View Stuff */
+.CartItemInfo a, h2, h1 {
+  text-decoration: none;
+  color: black;
+  font-family: 'Hind Siliguri', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.CartItemInfo button{
+  margin-top: 1%;
+  font-size: 15px;
+}
+
+.CartItemInfo h1{
+  margin-bottom: 1%;
+  font-weight: bold;
+}
+
+.CartQty {
+  max-height: 30px;
+  max-width: 50px;
+}
+
+
+/* Checkout Summary Stuff */
 .PlaceOrderContainer {
   display: flex;
   flex-direction: column;
   min-width: 450px;
-  min-height: 400px;
+  min-height: 300px;
   margin: 20px;
   padding: 30px;
   background-color: whitesmoke;
@@ -532,9 +569,14 @@ main {
   margin-top: 0px;
 }
 
+.PlaceOrderContainer h1 {
+  font-size: x-large;
+}
+
 #OrderTotal {
   color: rgb(170, 3, 3);
   margin-top: 0px;
+  font-size: xx-large;
 }
 
 .PlaceOrderButton {
